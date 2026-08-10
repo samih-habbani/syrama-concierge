@@ -31,12 +31,9 @@ export function Navbar() {
       >
         <div style={{ maxWidth: 1300, margin: '0 auto', padding: '28px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Logo */}
-        <div className="flex flex-col gap-0.5" style={{ cursor: 'none' }}>
-          <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, letterSpacing: '0.25em', color: 'var(--champagne)', textTransform: 'uppercase' }}>
+        <div style={{ cursor: 'none' }}>
+          <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, letterSpacing: '0.3em', color: 'var(--champagne)', textTransform: 'uppercase' }}>
             SYRAMA
-          </span>
-          <span style={{ fontSize: 9, letterSpacing: '0.4em', color: 'var(--or)', textTransform: 'uppercase', fontFamily: 'var(--font-tenor)' }}>
-            Dubai · Concierge
           </span>
         </div>
 
