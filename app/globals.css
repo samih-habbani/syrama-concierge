@@ -1,26 +1,93 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --noir: #06090f;
+  --or: #b8974a;
+  --or-clair: #d4b472;
+  --champagne: #f5eedd;
+  --gris: #6a6a5e;
+  --bleu-nuit: #080c16;
+  --background: #06090f;
+  --foreground: #f5eedd;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--noir);
+  color: var(--champagne);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--noir);
+  color: var(--champagne);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--noir); }
+::-webkit-scrollbar-thumb { background: rgba(184, 151, 74, 0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--or); }
+
+/* Typography helpers */
+.gold-text {
+  background: linear-gradient(135deg, var(--or) 0%, var(--or-clair) 50%, var(--or) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-label {
+  font-family: var(--font-tenor);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--or);
+}
+
+/* Navbar link gold underline */
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--or), transparent);
+  transition: width 0.3s ease;
+}
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+/* Gold gradient button */
+.btn-gold {
+  background: linear-gradient(135deg, var(--or), var(--or-clair));
+  box-shadow: 0 4px 20px rgba(184, 151, 74, 0.4);
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-gold:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(184, 151, 74, 0.6);
+}
+
+/* Selection */
+::selection {
+  background: rgba(184, 151, 74, 0.2);
+  color: var(--champagne);
+}
+
+/* Input date dark */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(2) hue-rotate(10deg);
+  opacity: 0.6;
 }
