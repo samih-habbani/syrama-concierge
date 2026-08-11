@@ -61,7 +61,7 @@ export default function YachtingPage() {
         <div style={{ flex: 1, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
           <ComposableMap
             projection="geoMercator"
-            projectionConfig={{ scale: 140, center: [20, 22] }}
+            projectionConfig={{ scale: 118, center: [20, 18] }}
             style={{ width: '100%', height: '100%' }}
           >
             <Geographies geography={GEO_URL}>
