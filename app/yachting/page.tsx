@@ -1,9 +1,10 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
 import Link from 'next/link'
+import { LuxuryCursor } from '@/components/sections/LuxuryCursor'
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -21,6 +22,7 @@ export default function YachtingPage() {
 
   return (
     <main style={{ background: '#080c16', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <LuxuryCursor />
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 48px', background: 'rgba(8,12,22,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(184,151,74,0.12)' }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
           <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, letterSpacing: '0.3em', color: '#f5eedd' }}>SYRAMA</div>
@@ -38,9 +40,10 @@ export default function YachtingPage() {
               key={dest.id}
               onMouseEnter={() => setActive(dest.id)}
               onMouseLeave={() => setActive(null)}
+              onClick={() => router.push('/yachting/fleet')}
               whileHover={{ x: 6 }}
               transition={{ duration: 0.2 }}
-              style={{ padding: '14px 16px', borderLeft: `2px solid ${active === dest.id ? '#b8974a' : 'transparent'}`, transition: 'border-color 0.25s ease', background: active === dest.id ? 'rgba(184,151,74,0.04)' : 'transparent', cursor: 'default' }}
+              style={{ padding: '14px 16px', borderLeft: `2px solid ${active === dest.id ? '#b8974a' : 'transparent'}`, transition: 'border-color 0.25s ease', background: active === dest.id ? 'rgba(184,151,74,0.04)' : 'transparent', cursor: 'pointer' }}
             >
               <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 18, fontWeight: 300, color: active === dest.id ? '#f5eedd' : 'rgba(245,238,221,0.6)', transition: 'color 0.25s ease' }}>{dest.label}</div>
               <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6a6a5e', marginTop: 4 }}>{dest.sub}</div>
@@ -55,7 +58,7 @@ export default function YachtingPage() {
         </div>
 
         {/* Map */}
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        <div style={{ flex: 1, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{ scale: 140, center: [20, 35] }}
@@ -76,15 +79,23 @@ export default function YachtingPage() {
               }
             </Geographies>
             {destinations.map(dest => (
-              <Marker key={dest.id} coordinates={dest.coords} onClick={() => router.push('/yachting/fleet')} style={{ cursor: 'pointer' }}>
+              <Marker key={dest.id} coordinates={dest.coords}>
+                {/* Invisible large hit area */}
+                <circle
+                  r={20}
+                  fill="transparent"
+                  style={{ cursor: 'pointer', pointerEvents: 'all' }}
+                  onMouseEnter={() => setActive(dest.id)}
+                  onMouseLeave={() => setActive(null)}
+                  onClick={() => router.push('/yachting/fleet')}
+                />
+                {/* Visible dot */}
                 <circle
                   r={active === dest.id ? 7 : 5}
                   fill={active === dest.id ? '#b8974a' : 'rgba(184,151,74,0.4)'}
                   stroke="#b8974a"
                   strokeWidth={1}
-                  style={{ transition: 'all 0.3s ease' }}
-                  onMouseEnter={() => setActive(dest.id)}
-                  onMouseLeave={() => setActive(null)}
+                  style={{ transition: 'all 0.3s ease', pointerEvents: 'none' }}
                 />
                 {active === dest.id && (
                   <text y={-14} textAnchor="middle" style={{ fontFamily: 'var(--font-tenor)', fontSize: '10px', fill: '#f5eedd', letterSpacing: '0.1em', pointerEvents: 'none' }}>

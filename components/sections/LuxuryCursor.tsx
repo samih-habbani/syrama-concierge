@@ -9,6 +9,8 @@ export function LuxuryCursor() {
     let rx = 0, ry = 0, mx = 0, my = 0
     let raf: number
 
+    // capture: true ensures we receive the event even over SVG elements
+    // that call stopPropagation in the bubble phase
     const move = (e: MouseEvent) => { mx = e.clientX; my = e.clientY }
 
     const animate = () => {
@@ -28,7 +30,7 @@ export function LuxuryCursor() {
     const onEnter = () => ring.current?.classList.add('hover')
     const onLeave = () => ring.current?.classList.remove('hover')
 
-    document.addEventListener('mousemove', move)
+    document.addEventListener('mousemove', move, { capture: true, passive: true })
     document.querySelectorAll('a, button, [data-cursor]').forEach(el => {
       el.addEventListener('mouseenter', onEnter)
       el.addEventListener('mouseleave', onLeave)
@@ -36,7 +38,7 @@ export function LuxuryCursor() {
 
     raf = requestAnimationFrame(animate)
     return () => {
-      document.removeEventListener('mousemove', move)
+      document.removeEventListener('mousemove', move, { capture: true } as any)
       cancelAnimationFrame(raf)
     }
   }, [])

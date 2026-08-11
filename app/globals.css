@@ -31,6 +31,7 @@ body {
   cursor: none;
 }
 
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--noir); }
@@ -52,6 +53,7 @@ body {
   text-transform: uppercase;
   color: var(--or);
 }
+
 
 /* Navbar link gold underline */
 .navbar-link::after {
@@ -78,6 +80,37 @@ body {
   opacity: 0.88;
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(184, 151, 74, 0.6);
+}
+
+/* Custom luxury cursor */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--or);
+  z-index: 9999;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(184, 151, 74, 0.6);
+  z-index: 9998;
+  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+}
+
+.cursor-ring.hover {
+  width: 48px;
+  height: 48px;
+  border-color: var(--or);
 }
 
 /* Selection */
