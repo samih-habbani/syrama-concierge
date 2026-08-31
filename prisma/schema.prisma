@@ -1,0 +1,226 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Yacht {
+  id                    Int      @id @default(autoincrement())
+  builder               String?
+  model                 String
+  engines               String?
+  engineHours           Int?     @map("engine_hours")
+  length                Float
+  beam                  Float?
+  beamOpenPlatform      Float?   @map("beam_open_platform")
+  draft                 Float?
+  cruiseSpeed           Float?   @map("cruise_speed")
+  maxSpeed              Float?   @map("max_speed")
+  cabins                Int
+  bathrooms             Int?
+  maxGuests             Int?     @map("max_guests")
+  maxSleeping           Int?     @map("max_sleeping")
+  consumption           String?
+  autonomy              String?
+  fuelCapacity          Int?     @map("fuel_capacity")
+  waterCapacity         Int?     @map("water_capacity")
+  navigationClass       String?  @map("navigation_class")
+  dryWeight             Float?   @map("dry_weight")
+  hull                  String?
+  status                String?
+  available             Boolean
+  rating                Float?
+  reviewsCount          Int?     @map("reviews_count")
+  city                  String?
+  providerId            Int?     @map("provider_id")
+  priceDay              Float?   @map("price_day")
+  priceSale             Float?   @map("price_sale")
+  year                  Int?
+  region                String?
+  currency              String
+  lengthUnit            String   @map("length_unit")
+  mapIframeSrc          String?  @map("map_iframe_src")
+  priceHour             Float?   @map("price_hour")
+  priceWeek             Float?   @map("price_week")
+  createdAt             DateTime @default(now()) @map("created_at")
+  media                 Media[]
+  reservations          Reservation[]
+
+  @@index([status])
+  @@index([length])
+  @@index([region])
+  @@map("yacht")
+}
+
+model Media {
+  id             Int       @id @default(autoincrement())
+  propertyId     Int?      @map("property_id")
+  yachtId        Int?      @map("yacht_id")
+  url            String?
+  alt            String?
+  updatedAt      DateTime? @map("updated_at")
+  luxuryWatchId  Int?      @map("luxury_watch_id")
+  leadingYachtId Int?      @map("leading_yacht_id")
+  yacht          Yacht?    @relation(fields: [yachtId], references: [id])
+
+  @@index([yachtId])
+  @@map("media")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("user")
+}
+
+model Client {
+  id        Int       @id @default(autoincrement())
+  fullName  String    @map("full_name")
+  // email/phone made optional to accommodate imported legacy leads that are
+  // missing one or the other (or share a placeholder email) — still required
+  // at the application layer when creating a client through a booking.
+  email     String?   @unique
+  phone     String?
+  address   String?
+  city      String?
+  country   String?
+  region    String?
+  notes     String?
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+  reservations Reservation[]
+
+  @@map("client")
+}
+
+model Reservation {
+  id        Int      @id @default(autoincrement())
+  clientId  Int      @map("client_id")
+  yachtId   Int      @map("yacht_id")
+  date      DateTime
+  numberOfPeople Int @map("number_of_people")
+  location  String
+  region    String?
+  price     Float?
+  status    String   @default("pending")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  yacht     Yacht    @relation(fields: [yachtId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+  @@index([yachtId])
+  @@index([region])
+  @@map("reservation")
+}
+
+model Provider {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  company      String?
+  email        String?
+  phone        String?
+  city         String?
+  country      String?
+  type         String?
+  services     String[]  @default([])
+  description  String?
+  isActive     Boolean?  @map("is_active")
+  website      String?
+  instagram    String?
+  notes        String?
+  position     String?
+  firstContact String?   @map("first_contact")
+  firstName    String?   @map("first_name")
+  region       String?
+  updatedAt    DateTime? @map("updated_at")
+  manager      String?
+  address      String?
+  postalCode   String?   @map("postal_code")
+
+  @@index([type])
+  @@index([region])
+  @@index([city])
+  @@index([country])
+  @@index([services], type: Gin)
+  @@map("provider")
+}
+
+model Property {
+  id              Int      @id @default(autoincrement())
+  title           String?
+  description     String?
+  city            String?
+  zipCode         String?  @map("zip_code")
+  type            String?
+  surface         Float?
+  rooms           Int?
+  bedrooms        Int?
+  bathrooms       Int?
+  price           Float?
+  reference       String?
+  year            Int?
+  forSale         Boolean? @map("for_sale")
+  isOffMarket     Boolean? @map("is_off_market")
+  region          String?
+  available       Boolean?
+  status          String?
+  rating          Float?
+  reviewsCount    Int?     @map("reviews_count")
+  surfaceUnit     String?  @map("surface_unit")
+  currency        String?
+  mapIframeSrc    String?  @map("map_iframe_src")
+  // Loose reference, same convention as Yacht.providerId — no formal
+  // Prisma @relation to keep this table independent of the Provider model.
+  providerId      Int?     @map("provider_id")
+  priceDay        Float?   @map("price_day")
+  maxGuests       Int?     @map("max_guests")
+  beds            Int?
+  terraceSurface  Float?   @map("terrace_surface")
+  hasTerrace      Boolean? @map("has_terrace")
+  hasBalcony      Boolean? @map("has_balcony")
+  petsAllowed     Boolean? @map("pets_allowed")
+  partiesAllowed  Boolean? @map("parties_allowed")
+  checkInFrom     String?  @map("check_in_from")
+  checkOutBefore  String?  @map("check_out_before")
+  amenities       Json?
+  bedDistribution Json?    @map("bed_distribution")
+  priceWeek       Float?   @map("price_week")
+  priceMonth      Float?   @map("price_month")
+
+  @@map("property")
+}
+
+model Message {
+  id              Int      @id @default(autoincrement())
+  name            String?
+  firstName       String?  @map("first_name")
+  lastName        String?  @map("last_name")
+  email           String
+  phone           String?
+  subject         String
+  message         String
+  destination     String?
+  preferredDate   String?  @map("preferred_date")
+  numberOfGuests  Int?     @map("number_of_guests")
+  status          String   @default("unread")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([email])
+  @@index([status])
+  @@map("message")
+}
