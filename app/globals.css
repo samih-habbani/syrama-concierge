@@ -11,11 +11,10 @@
   --foreground: #f5eedd;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Tailwind v4 Preflight already resets box-sizing / margin / padding in
+   @layer base. Re-declaring it here UNLAYERED made it beat every Tailwind
+   spacing utility (p-*, -ml-[…], gap is fine) on pages that use them —
+   which broke the ported yachting components. Left to Preflight. */
 
 html {
   background: var(--noir);
