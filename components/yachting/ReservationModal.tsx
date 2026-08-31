@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useModalA11y } from '@/lib/useModalA11y'
 
 interface ReservationModalProps {
@@ -10,6 +10,31 @@ interface ReservationModalProps {
   onClose: () => void
 }
 
+const todayISO = () => new Date().toISOString().split('T')[0]
+
+const labelStyle: React.CSSProperties = {
+  display: 'block',
+  fontFamily: 'var(--font-tenor)',
+  fontSize: 9,
+  letterSpacing: '0.25em',
+  textTransform: 'uppercase',
+  color: '#8f8f7f',
+  marginBottom: 10,
+}
+
+const fieldStyle: React.CSSProperties = {
+  width: '100%',
+  background: 'rgba(255,255,255,0.03)',
+  border: '1px solid rgba(184,151,74,0.25)',
+  borderRadius: 4,
+  padding: '12px 14px',
+  fontFamily: 'var(--font-tenor)',
+  fontSize: 13,
+  color: '#f5eedd',
+  outline: 'none',
+  transition: 'border-color 0.2s ease',
+}
+
 export default function ReservationModal({ yachtId, yachtModel, isOpen, onClose }: ReservationModalProps) {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -17,7 +42,7 @@ export default function ReservationModal({ yachtId, yachtModel, isOpen, onClose 
     phone: '',
     date: '',
     numberOfPeople: '',
-    location: ''
+    location: '',
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -26,49 +51,58 @@ export default function ReservationModal({ yachtId, yachtModel, isOpen, onClose 
 
   useModalA11y(isOpen, onClose, modalRef)
 
+  // Lock page scroll while open (root scroller is <html> here).
+  useEffect(() => {
+    if (!isOpen) return
+    const scrollY = window.scrollY
+    document.documentElement.style.overflow = 'hidden'
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.width = '100%'
+    return () => {
+      document.documentElement.style.overflow = ''
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      window.scrollTo({ top: scrollY, behavior: 'instant' })
+    }
+  }, [isOpen])
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
+    setFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.currentTarget.style.borderColor = '#d4b472'
+  }
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.currentTarget.style.borderColor = 'rgba(184,151,74,0.25)'
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setIsLoading(true)
-
     try {
       const response = await fetch('/api/reservations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          yachtId
-        })
+        body: JSON.stringify({ ...formData, yachtId }),
       })
-
       if (!response.ok) {
         const data = await response.json()
         setError(data.error || 'Failed to create reservation')
         return
       }
-
       setSuccess(true)
-      setFormData({
-        fullName: '',
-        email: '',
-        phone: '',
-        date: '',
-        numberOfPeople: '',
-        location: ''
-      })
-
+      setFormData({ fullName: '', email: '', phone: '', date: '', numberOfPeople: '', location: '' })
       setTimeout(() => {
         onClose()
         setSuccess(false)
-      }, 2000)
+      }, 2200)
     } catch (err) {
       setError('An error occurred. Please try again.')
       console.error(err)
@@ -81,33 +115,27 @@ export default function ReservationModal({ yachtId, yachtModel, isOpen, onClose 
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center z-50 p-4 transition-opacity duration-300"
-      style={{
-        background: 'rgba(6, 9, 15, 0.3)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        animation: 'fadeIn 0.3s ease-out'
-      }}
       onClick={onClose}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 100,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 16,
+        background: 'rgba(6, 9, 15, 0.55)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        animation: 'resvFadeIn 0.25s ease-out',
+      }}
     >
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .modal-content {
-          animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+        @keyframes resvFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes resvSlideUp { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: translateY(0) } }
+        .resv-modal { animation: resvSlideUp 0.35s cubic-bezier(0.25, 0.1, 0, 1) }
+        .resv-modal input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7) sepia(1) saturate(3) hue-rotate(10deg); opacity: 0.7; cursor: pointer }
+        .resv-modal input::placeholder { color: #5a5a50 }
       `}</style>
 
       <div
@@ -115,134 +143,120 @@ export default function ReservationModal({ yachtId, yachtModel, isOpen, onClose 
         role="dialog"
         aria-modal="true"
         aria-labelledby="reservation-modal-title"
-        className="modal-content bg-gradient-to-b from-[#0f1419] to-[#06090f] max-w-md w-full max-h-[90vh] overflow-y-auto rounded-lg border border-[#b8974a] border-opacity-20 p-6 sm:p-12 shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        className="resv-modal"
+        onClick={e => e.stopPropagation()}
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: 460,
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          background: 'linear-gradient(to bottom, #0f1419, #06090f)',
+          border: '1px solid rgba(184,151,74,0.25)',
+          padding: 'clamp(28px, 5vw, 44px)',
+          boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
+        }}
       >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          style={{
+            position: 'absolute', top: 16, right: 16,
+            width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'rgba(6,9,15,0.6)', border: '1px solid rgba(184,151,74,0.2)', borderRadius: '50%',
+            color: '#8f8f7f', cursor: 'pointer',
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+            <line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" strokeWidth="1.4" />
+            <line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" strokeWidth="1.4" />
+          </svg>
+        </button>
+
         {success ? (
-          <div className="text-center py-12" role="status">
-            <div className="text-[#b8974a] mb-4 text-4xl" aria-hidden="true">✓</div>
-            <h3 id="reservation-modal-title" className="text-xl text-white mb-2" style={{ fontFamily: 'var(--font-tenor)' }}>
-              Request Received
+          <div style={{ textAlign: 'center', padding: '48px 8px' }} role="status">
+            <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 24, color: '#d4b472', marginBottom: 16 }}>◈</div>
+            <h3 id="reservation-modal-title" style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 28, color: '#f5eedd', marginBottom: 12 }}>
+              Request received.
             </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Thank you for your interest. Our team will contact you shortly to discuss your charter.
+            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 1.8, color: '#8f8f7f' }}>
+              Our team will contact you shortly to plan your charter.
             </p>
           </div>
         ) : (
           <>
-            <div className="mb-8">
-              <h2 id="reservation-modal-title" className="text-[#b8974a] text-sm tracking-widest uppercase mb-2">Charter Request</h2>
-              <h3 className="text-2xl text-white" style={{ fontFamily: 'var(--font-tenor)' }}>
+            <div style={{ marginBottom: 28, paddingRight: 32 }}>
+              <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#b8974a', marginBottom: 8 }}>
+                Charter Request
+              </div>
+              <div id="reservation-modal-title" style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 28, color: '#f5eedd', lineHeight: 1.15 }}>
                 {yachtModel}
-              </h3>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {error && (
-                <div className="bg-red-500 bg-opacity-10 border border-red-500 border-opacity-50 text-red-300 px-4 py-3 text-sm rounded-lg">
+                <div style={{ background: 'rgba(220,80,80,0.1)', border: '1px solid rgba(220,80,80,0.4)', color: '#e5a3a3', padding: '10px 14px', fontFamily: 'var(--font-tenor)', fontSize: 12, borderRadius: 4 }}>
                   {error}
                 </div>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div>
-                  <label htmlFor="reservation-fullName" className="text-gray-500 text-xs tracking-widest uppercase block mb-3">Full Name *</label>
-                  <input
-                    id="reservation-fullName"
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    className="w-full bg-[#06090f] bg-opacity-80 border border-[#b8974a] border-opacity-20 hover:border-opacity-40 focus:border-opacity-100 rounded-lg px-4 py-3 text-[#f5eedd] focus:outline-none transition text-sm placeholder-gray-500"
-                    placeholder="Your name"
-                    required
-                  />
+                  <label htmlFor="reservation-fullName" style={labelStyle}>Full Name *</label>
+                  <input id="reservation-fullName" type="text" name="fullName" value={formData.fullName} onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} style={fieldStyle} placeholder="Your name" required />
                 </div>
-
                 <div>
-                  <label htmlFor="reservation-phone" className="text-gray-500 text-xs tracking-widest uppercase block mb-3">Phone *</label>
-                  <input
-                    id="reservation-phone"
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full bg-[#06090f] bg-opacity-80 border border-[#b8974a] border-opacity-20 hover:border-opacity-40 focus:border-opacity-100 rounded-lg px-4 py-3 text-[#f5eedd] focus:outline-none transition text-sm placeholder-gray-500"
-                    placeholder="+33..."
-                    required
-                  />
+                  <label htmlFor="reservation-phone" style={labelStyle}>Phone *</label>
+                  <input id="reservation-phone" type="tel" name="phone" value={formData.phone} onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} style={fieldStyle} placeholder="+971..." required />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="reservation-email" className="text-gray-500 text-xs tracking-widest uppercase block mb-3">Email *</label>
-                <input
-                  id="reservation-email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full bg-[#06090f] bg-opacity-80 border border-[#b8974a] border-opacity-20 hover:border-opacity-40 focus:border-opacity-100 rounded-lg px-4 py-3 text-[#f5eedd] focus:outline-none transition text-sm placeholder-gray-500"
-                  placeholder="your@email.com"
-                  required
-                />
+                <label htmlFor="reservation-email" style={labelStyle}>Email *</label>
+                <input id="reservation-email" type="email" name="email" value={formData.email} onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} style={fieldStyle} placeholder="your@email.com" required />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div>
-                  <label htmlFor="reservation-date" className="text-gray-500 text-xs tracking-widest uppercase block mb-3">Date *</label>
-                  <input
-                    id="reservation-date"
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    className="w-full bg-white bg-opacity-5 border border-[#b8974a] border-opacity-20 hover:border-opacity-40 focus:border-opacity-100 rounded-lg px-4 py-3 text-white focus:outline-none transition text-sm"
-                    required
-                  />
+                  <label htmlFor="reservation-date" style={labelStyle}>Date *</label>
+                  <input id="reservation-date" type="date" name="date" value={formData.date} min={todayISO()} onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} style={{ ...fieldStyle, colorScheme: 'dark' }} required />
                 </div>
-
                 <div>
-                  <label htmlFor="reservation-guests" className="text-gray-500 text-xs tracking-widest uppercase block mb-3">Guests *</label>
-                  <input
-                    id="reservation-guests"
-                    type="number"
-                    name="numberOfPeople"
-                    value={formData.numberOfPeople}
-                    onChange={handleChange}
-                    className="w-full bg-white bg-opacity-5 border border-[#b8974a] border-opacity-20 hover:border-opacity-40 focus:border-opacity-100 rounded-lg px-4 py-3 text-white focus:outline-none transition text-sm"
-                    min="1"
-                    required
-                  />
+                  <label htmlFor="reservation-guests" style={labelStyle}>Guests *</label>
+                  <input id="reservation-guests" type="number" name="numberOfPeople" value={formData.numberOfPeople} min="1" onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} style={fieldStyle} placeholder="8" required />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="reservation-location" className="text-gray-500 text-xs tracking-widest uppercase block mb-3">Location *</label>
-                <input
-                  id="reservation-location"
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  placeholder="e.g., Monaco, French Riviera"
-                  className="w-full bg-[#06090f] bg-opacity-80 border border-[#b8974a] border-opacity-20 hover:border-opacity-40 focus:border-opacity-100 rounded-lg px-4 py-3 text-[#f5eedd] focus:outline-none transition text-sm placeholder-gray-500"
-                  required
-                />
+                <label htmlFor="reservation-location" style={labelStyle}>Location *</label>
+                <input id="reservation-location" type="text" name="location" value={formData.location} onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} style={fieldStyle} placeholder="e.g. Dubai Marina, French Riviera" required />
               </div>
 
-              <div className="flex gap-3 pt-6 border-t border-[#b8974a] border-opacity-10">
+              <div style={{ display: 'flex', gap: 12, paddingTop: 12, borderTop: '1px solid rgba(184,151,74,0.12)' }}>
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="flex-1 bg-[#b8974a] text-[#06090f] rounded-lg px-6 py-3 transition font-medium text-sm tracking-wider uppercase hover:bg-[#d4af7a] disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    flex: 1,
+                    fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase',
+                    color: '#06090f', background: '#b8974a', border: 'none', padding: '14px 16px', cursor: isLoading ? 'wait' : 'pointer',
+                    opacity: isLoading ? 0.6 : 1, transition: 'background 0.3s ease',
+                  }}
+                  onMouseEnter={e => { if (!isLoading) e.currentTarget.style.background = '#d4b472' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = '#b8974a' }}
                 >
-                  {isLoading ? 'Sending...' : 'Request Charter'}
+                  {isLoading ? 'Sending…' : 'Request Charter'}
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 text-gray-400 hover:text-gray-300 border border-gray-600 hover:border-gray-500 rounded-lg px-6 py-3 transition text-sm tracking-wider uppercase"
+                  style={{
+                    flex: 1,
+                    fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase',
+                    color: '#8f8f7f', background: 'transparent', border: '1px solid rgba(143,143,127,0.4)', padding: '14px 16px', cursor: 'pointer',
+                  }}
                 >
                   Cancel
                 </button>
