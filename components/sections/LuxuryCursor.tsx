@@ -14,6 +14,11 @@ export function LuxuryCursor() {
     if (!fine || reduced) return
     setEnabled(true)
 
+    // Only hide the native cursor while this component is actually mounted
+    // (the homepage). Other routes don't render LuxuryCursor, so gating the
+    // `cursor: none` rule on this attribute keeps their cursor visible.
+    document.documentElement.setAttribute('data-lux-cursor', '')
+
     let rx = 0, ry = 0, mx = 0, my = 0
     let raf = 0
     let running = false
@@ -59,6 +64,7 @@ export function LuxuryCursor() {
       document.removeEventListener('mousemove', move)
       document.removeEventListener('mouseover', onOver)
       document.removeEventListener('mouseout', onOut)
+      document.documentElement.removeAttribute('data-lux-cursor')
     }
   }, [])
 

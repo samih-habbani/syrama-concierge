@@ -29,9 +29,14 @@ body {
   overflow-x: hidden;
 }
 
-/* Only hide the native cursor where the custom one actually renders. */
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  body { cursor: none; }
+/* Only hide the native cursor while <LuxuryCursor /> is mounted — it sets
+   data-lux-cursor on <html>, and only on a fine pointer without reduced
+   motion. Other routes (and reduced-motion users) keep their normal cursor.
+   `* !important` so it also wins over inputs' text cursor and links'
+   pointer, since the custom cursor is meant to be the only one visible. */
+html[data-lux-cursor],
+html[data-lux-cursor] * {
+  cursor: none !important;
 }
 
 
