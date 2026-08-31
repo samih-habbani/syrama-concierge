@@ -19,7 +19,7 @@ export default function DestinationCards() {
   const buildHref = (id: string) => `/yachting/fleet?region=${encodeURIComponent(id)}`
 
   return (
-    <div style={{ flex: 1, padding: '64px clamp(24px, 6vw, 96px) 100px' }}>
+    <div style={{ flex: 1, maxWidth: 1400, marginLeft: 'auto', marginRight: 'auto', width: '100%', padding: '64px clamp(24px, 6vw, 96px) 100px' }}>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
