@@ -8,15 +8,12 @@ export default function YachtingNav({ back }: { back?: { href: string; label: st
     <nav
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '20px clamp(24px, 6vw, 48px)',
         background: 'rgba(6,9,15,0.92)', backdropFilter: 'blur(12px)',
         borderBottom: '1px solid rgba(184,151,74,0.12)',
       }}
     >
-      <div style={{
-        maxWidth: 1400, marginLeft: 'auto', marginRight: 'auto',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '20px clamp(24px, 6vw, 96px)',
-      }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
           <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, letterSpacing: '0.3em', color: '#f5eedd' }}>SYRAMA</div>
@@ -38,7 +35,6 @@ export default function YachtingNav({ back }: { back?: { href: string; label: st
       >
         Contact Us
       </Link>
-      </div>
     </nav>
   )
 }

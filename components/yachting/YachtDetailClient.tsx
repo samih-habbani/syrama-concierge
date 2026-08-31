@@ -103,31 +103,19 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
     imageUrl: images[0]?.url ? `/uploads/yachts/${images[0].url}` : null,
   }
 
-  // Keeps every content block on the same centred column so nothing hugs
-  // the screen edges on wide monitors (the hero image stays full-bleed).
-  const container: React.CSSProperties = {
-    maxWidth: 1400,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingLeft: 'clamp(24px, 6vw, 96px)',
-    paddingRight: 'clamp(24px, 6vw, 96px)',
-  }
-
   return (
     <main id="main-content" style={{ background: '#06090f', minHeight: '100vh' }}>
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(6,9,15,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(184,151,74,0.12)' }}>
-        <div style={{ ...container, display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 20, paddingBottom: 20 }}>
-          <Link href={fleetHref} style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8f8f7f', textDecoration: 'none' }}>← Our fleet</Link>
-          <Link href="/#contact" className="hidden lg:inline-block" style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#06090f', background: '#b8974a', padding: '12px 24px', textDecoration: 'none' }}>Contact Us</Link>
-          <button
-            type="button"
-            onClick={() => setIsReservationOpen(true)}
-            className="lg:hidden"
-            style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#06090f', background: '#b8974a', padding: '12px 24px', border: 'none', cursor: 'pointer' }}
-          >
-            Request Charter
-          </button>
-        </div>
+      <nav className="px-5 md:px-12" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 20, paddingBottom: 20, background: 'rgba(6,9,15,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(184,151,74,0.12)' }}>
+        <Link href={fleetHref} style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8f8f7f', textDecoration: 'none' }}>← Our fleet</Link>
+        <Link href="/#contact" className="hidden lg:inline-block" style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#06090f', background: '#b8974a', padding: '12px 24px', textDecoration: 'none' }}>Contact Us</Link>
+        <button
+          type="button"
+          onClick={() => setIsReservationOpen(true)}
+          className="lg:hidden"
+          style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#06090f', background: '#b8974a', padding: '12px 24px', border: 'none', cursor: 'pointer' }}
+        >
+          Request Charter
+        </button>
       </nav>
 
       <div className="h-[56vh] md:h-[70vh]" style={{ position: 'relative', overflow: 'hidden', marginTop: 64, background: '#1a1a1a' }}>
@@ -147,17 +135,15 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
             <div style={{ position: 'absolute', bottom: 20, right: 24, fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(245,238,221,0.5)' }}>{imgIndex + 1} / {images.length}</div>
           </>
         )}
-        <div style={{ position: 'absolute', bottom: 32, left: 0, right: 0 }}>
-          <div style={container}>
-            <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 300, color: '#f5eedd', lineHeight: 1.1, margin: 0 }}>{yacht.model}</h1>
-            <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#b8974a', marginTop: 8 }}>
-              {[`${yacht.length}m`, yacht.builder, hasValue(yacht.year) ? yacht.year : null].filter(hasValue).join(' · ')}
-            </div>
+        <div style={{ position: 'absolute', bottom: 32, left: 'clamp(24px, 6vw, 96px)', right: 'clamp(24px, 6vw, 96px)' }}>
+          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 300, color: '#f5eedd', lineHeight: 1.1, margin: 0 }}>{yacht.model}</h1>
+          <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#b8974a', marginTop: 8 }}>
+            {[`${yacht.length}m`, yacht.builder, hasValue(yacht.year) ? yacht.year : null].filter(hasValue).join(' · ')}
           </div>
         </div>
       </div>
 
-      <div style={{ ...container, display: 'flex', gap: 8, paddingTop: 12, paddingBottom: 12, background: '#06090f', overflowX: 'auto' }}>
+      <div style={{ display: 'flex', gap: 8, padding: '12px clamp(24px, 6vw, 96px)', background: '#06090f', overflowX: 'auto' }}>
         {images.map((img, i) => (
           <button
             key={i}
@@ -174,7 +160,7 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
 
       <div
         className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-12 lg:gap-20 pt-12 pb-16 md:pt-16 md:pb-[120px]"
-        style={{ ...container, alignItems: 'start' }}
+        style={{ paddingLeft: 'clamp(24px, 6vw, 96px)', paddingRight: 'clamp(24px, 6vw, 96px)', alignItems: 'start' }}
       >
         <div>
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', marginBottom: 48, paddingBottom: 32, borderBottom: '1px solid rgba(184,151,74,0.12)' }}>
@@ -185,7 +171,7 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
               </div>
             ))}
           </div>
-          <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 14, lineHeight: 2, color: '#8f8f7f', marginBottom: 48, maxWidth: 620 }}>
+          <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 14, lineHeight: 2, color: '#8f8f7f', marginBottom: 48 }}>
             Premium yacht available for charter. Experience luxury maritime travel with a professional crew, curated itineraries and world-class amenities, arranged end to end by our concierge team.
           </p>
         </div>
@@ -224,8 +210,7 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
       />
 
       {similarYachts.length > 0 && (
-        <div style={{ borderTop: '1px solid rgba(184,151,74,0.12)' }}>
-         <div style={{ ...container, paddingBottom: 'clamp(64px, 8vw, 120px)' }}>
+        <div style={{ padding: '0 clamp(24px, 6vw, 96px) clamp(64px, 8vw, 120px)', borderTop: '1px solid rgba(184,151,74,0.12)' }}>
           <div style={{ paddingTop: 64, marginBottom: 40 }}>
             <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#b8974a', marginBottom: 12 }}>Explore</div>
             <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(28px, 3.5vw, 40px)', fontWeight: 300, color: '#f5eedd', margin: 0, marginBottom: 12 }}>Similar Yachts</h2>
@@ -275,7 +260,6 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
               </Link>
             ))}
           </div>
-         </div>
         </div>
       )}
 

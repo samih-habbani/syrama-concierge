@@ -182,11 +182,7 @@ export default function Fleet({ showFilters = true, limit }: FleetProps) {
 
   return (
     <section style={{ background: '#06090f', minHeight: '100vh', paddingTop: 80, paddingBottom: 80 }}>
-      <style>{`
-        .fleet-header-grid { grid-template-columns: 1.1fr 0.9fr; }
-        @media (max-width: 860px) { .fleet-header-grid { grid-template-columns: 1fr; } }
-      `}</style>
-      <div style={{ maxWidth: 1400, marginLeft: 'auto', marginRight: 'auto', paddingLeft: 'clamp(24px, 6vw, 96px)', paddingRight: 'clamp(24px, 6vw, 96px)' }}>
+      <div style={{ paddingLeft: 'clamp(32px, 6vw, 96px)', paddingRight: 'clamp(32px, 6vw, 96px)' }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -200,7 +196,7 @@ export default function Fleet({ showFilters = true, limit }: FleetProps) {
             <span style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#b8974a' }}>Charter Fleet</span>
           </div>
 
-          <div className="fleet-header-grid" style={{ display: 'grid', gap: 40, alignItems: 'end', marginBottom: 40 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'end', marginBottom: 40 }} className="fleet-header-grid">
             <div>
               <h1 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(48px, 6vw, 88px)', lineHeight: 1.0, color: '#f5eedd', margin: 0 }}>Our vessels.</h1>
               {filters.region && (

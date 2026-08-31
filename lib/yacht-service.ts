@@ -1,13 +1,6 @@
 import { prisma } from './prisma'
 import type { Prisma } from '@prisma/client'
 
-// Some imported rows store "no builder" as a literal "-" (or "N/A") instead
-// of null — normalise those to null so the UI never renders "by -".
-function cleanBuilder<T extends { builder: string | null }>(row: T): T {
-  const b = (row.builder || '').trim()
-  return b === '' || b === '-' || b.toLowerCase() === 'n/a' ? { ...row, builder: null } : row
-}
-
 export type YachtSortBy = 'default' | 'price-asc' | 'price-desc' | 'length-asc' | 'length-desc'
 
 export async function getYachts(options: {
@@ -85,7 +78,7 @@ export async function getYachts(options: {
     sortBy === 'length-desc' ? { length: 'desc' } :
     { id: 'asc' }
 
-  const rows = await prisma.yacht.findMany({
+  return prisma.yacht.findMany({
     where,
     orderBy,
     take: limit,
@@ -107,7 +100,6 @@ export async function getYachts(options: {
       }
     }
   })
-  return rows.map(cleanBuilder)
 }
 
 export interface YachtDetail {
@@ -170,10 +162,10 @@ export async function getYachtById(id: number): Promise<YachtDetail | null> {
 
   if (!rows || rows.length === 0) return null
 
-  return cleanBuilder({
+  return {
     ...rows[0],
     media: rows[0].media || []
-  })
+  }
 }
 
 interface SimilarYachtRow {
@@ -213,5 +205,5 @@ export async function getSimilarYachts(yacht: { id: number; length: number; stat
     LIMIT ${limit}
   `
 
-  return rows.map((row) => cleanBuilder({ ...row, media: row.media || [] }))
+  return rows.map((row) => ({ ...row, media: row.media || [] }))
 }
