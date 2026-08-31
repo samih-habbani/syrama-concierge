@@ -1,12 +1,13 @@
 'use client'
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 
 export function Manifesto() {
   const sectionRef = useRef<HTMLElement>(null)
+  const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.06])
-  const contentY = useTransform(scrollYProgress, [0, 1], [30, -30])
+  const videoScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1, 1.06])
+  const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [30, -30])
 
   const words = "We don't manage requests. We create moments that redefine what you thought was possible.".split(' ')
 

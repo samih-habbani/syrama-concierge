@@ -1,6 +1,5 @@
 'use client'
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const experiences = [
   {
@@ -66,13 +65,9 @@ const marqueeItems = [
 ]
 
 export function Bespoke() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-
   return (
     <section
       id="bespoke"
-      ref={sectionRef}
       style={{ position: 'relative', background: 'var(--noir)', overflow: 'hidden' }}
     >
       {/* Header */}
@@ -109,16 +104,15 @@ export function Bespoke() {
         </div>
       </div>
 
-      {/* Marquee */}
+      {/* Marquee — CSS transform loop, stays on the compositor */}
       <div style={{
         overflow: 'hidden',
         borderTop: '1px solid rgba(184,151,74,0.1)',
         borderBottom: '1px solid rgba(184,151,74,0.1)',
         padding: '28px 0', marginBottom: 80,
       }}>
-        <motion.div
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 35, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+        <div
+          className="bespoke-marquee"
           style={{ display: 'flex', gap: 80, whiteSpace: 'nowrap', width: 'max-content' }}
         >
           {[...marqueeItems, ...marqueeItems].map((r, i) => (
@@ -131,7 +125,7 @@ export function Bespoke() {
               {r}
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Immersive experience grid */}

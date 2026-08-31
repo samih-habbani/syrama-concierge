@@ -1,16 +1,13 @@
 'use client'
-import { useRef, useEffect } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 
 export function Aviation() {
   const sectionRef = useRef<HTMLElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
+  const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-  const imageY = useTransform(scrollYProgress, [0, 1], [60, -60])
+  const imageY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [60, -60])
   const lineScale = useTransform(scrollYProgress, [0, 0.4], [0, 1])
 
   return (

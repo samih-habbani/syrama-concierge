@@ -1,12 +1,13 @@
 'use client'
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 
 export function Events() {
   const sectionRef = useRef<HTMLElement>(null)
+  const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -50])
-  const y2 = useTransform(scrollYProgress, [0, 1], [60, -30])
+  const y1 = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -50])
+  const y2 = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [60, -30])
 
   return (
     <section

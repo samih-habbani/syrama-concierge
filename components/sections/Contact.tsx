@@ -1,11 +1,12 @@
 'use client'
 import { useRef, useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
+  const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, -40])
+  const bgY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -40])
 
   const [focused, setFocused] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)

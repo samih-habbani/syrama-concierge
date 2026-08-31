@@ -28,7 +28,11 @@ body {
   background: var(--noir);
   color: var(--champagne);
   overflow-x: hidden;
-  cursor: none;
+}
+
+/* Only hide the native cursor where the custom one actually renders. */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body { cursor: none; }
 }
 
 
@@ -86,10 +90,11 @@ body {
 .cursor-dot,
 .cursor-ring {
   position: fixed;
+  top: 0;
+  left: 0;
   pointer-events: none;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
-  will-change: left, top;
+  will-change: transform;
 }
 
 .cursor-dot {
@@ -111,6 +116,19 @@ body {
   width: 48px;
   height: 48px;
   border-color: var(--or);
+}
+
+/* Bespoke marquee — CSS transform loop stays on the compositor */
+.bespoke-marquee {
+  animation: bespoke-marquee 35s linear infinite;
+  will-change: transform;
+}
+@keyframes bespoke-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bespoke-marquee { animation: none; }
 }
 
 /* Selection */

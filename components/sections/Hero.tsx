@@ -1,7 +1,7 @@
 'use client'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -20,13 +20,14 @@ export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const wordRef = useRef<HTMLSpanElement>(null)
 
+  const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   })
-  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
+  const videoScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1, 1.08])
   const videoOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 60])
+  const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 60])
 
   // Rotating words
   useEffect(() => {

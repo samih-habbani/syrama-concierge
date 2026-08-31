@@ -1,6 +1,6 @@
 'use client'
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 
 const villas = [
   {
@@ -25,8 +25,9 @@ const villas = [
 
 export function Villas() {
   const sectionRef = useRef<HTMLElement>(null)
+  const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, -80])
+  const bgY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -80])
 
   return (
     <section
