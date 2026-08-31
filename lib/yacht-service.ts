@@ -194,22 +194,37 @@ interface SimilarYachtRow {
 // given yacht — used for the "Similar Yachts" section on a yacht's page.
 // Sorted and limited in the database so only the `limit` winning rows (and
 // their thumbnail) are ever fetched, instead of pulling the whole fleet.
-export async function getSimilarYachts(yacht: { id: number; length: number; status: string | null }, limit = 3) {
+export async function getSimilarYachts(
+  yacht: { id: number; length: number; status: string | null; model?: string | null },
+  limit = 3,
+) {
   const isCharter = (yacht.status || '').toLowerCase() === 'location'
   const [statusA, statusB] = isCharter ? ['Location', 'location'] : ['Vente', 'vente']
+  const currentModel = (yacht.model || '').toLowerCase()
 
+  // The DB holds many near-identical listings of the same popular model
+  // (e.g. ~10 rows of "SUNSEEKER 67"). DISTINCT ON (lower(model)) keeps one
+  // row per model so "Similar Yachts" shows three *different* boats, then
+  // the outer query re-sorts those by closeness in length.
   const rows = await prisma.$queryRaw<SimilarYachtRow[]>`
-    SELECT
-      y.id, y.builder, y.model, y.length, y.max_guests as "maxGuests",
-      y.cabins, y.price_day as "priceDay", y.price_sale as "priceSale", y.status, y.region,
-      (SELECT json_agg(t) FROM (
-        SELECT m.id, m.url, m.alt FROM media m WHERE m.yacht_id = y.id ORDER BY m.id ASC LIMIT 1
-      ) t) as media
-    FROM yacht y
-    WHERE y.available = true
-      AND y.id != ${yacht.id}
-      AND (y.status = ${statusA} OR y.status = ${statusB})
-    ORDER BY ABS(y.length - ${yacht.length})
+    SELECT id, builder, model, length, "maxGuests", cabins, "priceDay", "priceSale", status, region, media
+    FROM (
+      SELECT DISTINCT ON (lower(y.model))
+        y.id, y.builder, y.model, y.length, y.max_guests as "maxGuests",
+        y.cabins, y.price_day as "priceDay", y.price_sale as "priceSale", y.status, y.region,
+        abs(y.length - ${yacht.length}) as dist,
+        (SELECT json_agg(t) FROM (
+          SELECT m.id, m.url, m.alt FROM media m WHERE m.yacht_id = y.id ORDER BY m.id ASC LIMIT 1
+        ) t) as media
+      FROM yacht y
+      WHERE y.available = true
+        AND y.id != ${yacht.id}
+        AND y.model IS NOT NULL
+        AND lower(y.model) != ${currentModel}
+        AND (y.status = ${statusA} OR y.status = ${statusB})
+      ORDER BY lower(y.model), abs(y.length - ${yacht.length})
+    ) sub
+    ORDER BY dist
     LIMIT ${limit}
   `
 
