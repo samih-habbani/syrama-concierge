@@ -14,7 +14,7 @@ const DESTINATIONS: { id: string; sub: string; image?: string }[] = [
   { id: 'Italy', sub: 'Amalfi · Tuscany · Como', image: '/images/regions/Italy.webp' },
   { id: 'Greece', sub: 'Mykonos · Santorini · Corfu', image: '/images/regions/Greece.webp' },
   { id: 'Caribbean', sub: 'St. Barts · Bahamas', image: '/images/regions/Caribbean.webp' },
-  { id: 'Brazil', sub: 'Rio · Trancoso' },
+  { id: 'Brazil', sub: 'Rio · Trancoso', image: '/images/regions/Brazil.webp' },
   { id: 'Morroco', sub: 'Marrakech', image: '/images/regions/Morroco.webp' },
 ]
 
