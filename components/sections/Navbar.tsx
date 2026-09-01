@@ -32,11 +32,14 @@ export function Navbar() {
       >
         <div style={{ maxWidth: 1300, margin: '0 auto', padding: '28px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Logo */}
-        <div style={{ cursor: 'none' }}>
-          <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, letterSpacing: '0.3em', color: 'var(--champagne)', textTransform: 'uppercase' }}>
+        <Link href="/" data-cursor style={{ textDecoration: 'none', display: 'block' }}>
+          <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, letterSpacing: '0.3em', color: 'var(--champagne)', textTransform: 'uppercase' }}>
             SYRAMA
-          </span>
-        </div>
+          </div>
+          <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#8f8f7f', marginTop: 2 }}>
+            Dubai · Concierge
+          </div>
+        </Link>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-10">
