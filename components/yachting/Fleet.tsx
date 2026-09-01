@@ -406,7 +406,7 @@ export default function Fleet({ showFilters = true, limit }: FleetProps) {
           <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, lineHeight: 1.8, color: '#8f8f7f', maxWidth: 480, margin: '0 auto 32px' }}>
             Contact our concierge team to arrange your bespoke voyage.
           </p>
-          <a
+          <Link
             href="/#contact"
             style={{
               display: 'inline-flex',
@@ -426,7 +426,7 @@ export default function Fleet({ showFilters = true, limit }: FleetProps) {
             onMouseLeave={(e) => (e.currentTarget.style.background = '#b8974a')}
           >
             Get in touch
-          </a>
+          </Link>
         </div>
       </div>
     </section>

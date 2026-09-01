@@ -1,6 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import Link from 'next/link'
 
 const villas = [
   {
@@ -144,7 +145,7 @@ export function Villas() {
           viewport={{ once: true }}
           style={{ textAlign: 'center', marginTop: 64 }}
         >
-          <a
+          <Link
             href="/villas"
             data-cursor
             style={{
@@ -159,7 +160,7 @@ export function Villas() {
               <line x1="0" y1="4" x2="20" y2="4" stroke="currentColor"/>
               <polyline points="16,1 22,4 16,7" stroke="currentColor" strokeWidth="0.8" fill="none"/>
             </svg>
-          </a>
+          </Link>
         </motion.div>
       </div>
 

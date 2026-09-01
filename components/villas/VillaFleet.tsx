@@ -354,7 +354,7 @@ export default function VillaFleet({ showFilters = true, limit }: VillaFleetProp
           <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, lineHeight: 1.8, color: '#8f8f7f', maxWidth: 480, margin: '0 auto 32px' }}>
             Tell us your destination, dates and party size — our team will source a tailored selection.
           </p>
-          <a
+          <Link
             href="/#contact"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 14, fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase',
@@ -364,7 +364,7 @@ export default function VillaFleet({ showFilters = true, limit }: VillaFleetProp
             onMouseLeave={(e) => (e.currentTarget.style.background = '#b8974a')}
           >
             Get in touch
-          </a>
+          </Link>
         </div>
       </div>
     </section>

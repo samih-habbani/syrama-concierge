@@ -1,6 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import Link from 'next/link'
 
 export function Aviation() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -116,7 +117,7 @@ export function Aviation() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
-          <a
+          <Link
             href="/jet"
             data-cursor
             style={{
@@ -135,7 +136,7 @@ export function Aviation() {
               <line x1="0" y1="3" x2="14" y2="3" stroke="currentColor"/>
               <polyline points="11,1 16,3 11,5" stroke="currentColor" strokeWidth="0.8" fill="none"/>
             </svg>
-          </a>
+          </Link>
           <a
             href="#contact"
             data-cursor

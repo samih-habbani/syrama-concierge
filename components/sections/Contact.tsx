@@ -319,8 +319,11 @@ export function Contact() {
           © 2026 · Syrama · All rights reserved
         </div>
         <div style={{ display: 'flex', gap: 32 }}>
-          {['Instagram', 'WhatsApp', 'Privacy'].map(l => (
-            <a key={l} href="#" style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', textDecoration: 'none', transition: 'color 0.3s' }}
+          {[
+            { l: 'Instagram', href: 'https://www.instagram.com/syrama_services/' },
+            { l: 'WhatsApp', href: 'https://wa.me/971505548034' },
+          ].map(({ l, href }) => (
+            <a key={l} href={href} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', textDecoration: 'none', transition: 'color 0.3s' }}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--or)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}>
               {l}

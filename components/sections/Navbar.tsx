@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 const links = ['Aviation', 'Villas', 'Yachting', 'Events', 'Bespoke']
 
@@ -40,9 +41,9 @@ export function Navbar() {
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-10">
           {links.map((l) => {
-            const href = l === 'Villas' ? '/villas' : l === 'Yachting' ? '/yachting' : l === 'Aviation' ? '/jet' : l === 'Events' ? '/events' : `#${l.toLowerCase()}`
+            const href = l === 'Villas' ? '/villas' : l === 'Yachting' ? '/yachting' : l === 'Aviation' ? '/jet' : l === 'Events' ? '/events' : `/#${l.toLowerCase()}`
             return (
-            <a
+            <Link
               key={l}
               href={href}
               className="navbar-link"
@@ -61,14 +62,14 @@ export function Navbar() {
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--gris)')}
             >
               {l}
-            </a>
+            </Link>
             )
           })}
         </div>
 
         {/* CTA */}
-        <a
-          href="#contact"
+        <Link
+          href="/#contact"
           data-cursor
           style={{
             fontFamily: 'var(--font-tenor)',
@@ -95,7 +96,7 @@ export function Navbar() {
           }}
         >
           Contact Us
-        </a>
+        </Link>
         </div>
       </motion.nav>
 
@@ -111,26 +112,30 @@ export function Navbar() {
             style={{ background: 'var(--noir)' }}
           >
             {links.map((l, i) => {
-              const mhref = l === 'Villas' ? '/villas' : l === 'Yachting' ? '/yachting' : l === 'Aviation' ? '/jet' : l === 'Events' ? '/events' : `#${l.toLowerCase()}`
+              const mhref = l === 'Villas' ? '/villas' : l === 'Yachting' ? '/yachting' : l === 'Aviation' ? '/jet' : l === 'Events' ? '/events' : `/#${l.toLowerCase()}`
               return (
-              <motion.a
+              <motion.div
                 key={l}
-                href={mhref}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  fontFamily: 'var(--font-cormorant)',
-                  fontSize: 42,
-                  fontWeight: 300,
-                  color: 'var(--champagne)',
-                  textDecoration: 'none',
-                  padding: '12px 0',
-                }}
               >
-                {l}
-              </motion.a>
+                <Link
+                  href={mhref}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    fontFamily: 'var(--font-cormorant)',
+                    fontSize: 42,
+                    fontWeight: 300,
+                    color: 'var(--champagne)',
+                    textDecoration: 'none',
+                    padding: '12px 0',
+                    display: 'block',
+                  }}
+                >
+                  {l}
+                </Link>
+              </motion.div>
               )
             })}
           </motion.div>
