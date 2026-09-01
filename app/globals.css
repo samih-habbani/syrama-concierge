@@ -74,7 +74,8 @@ html[data-lux-cursor] * {
   background: linear-gradient(to right, var(--or), transparent);
   transition: width 0.3s ease;
 }
-.navbar-link:hover::after {
+.navbar-link:hover::after,
+.navbar-link[data-active="true"]::after {
   width: 100%;
 }
 

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import YachtingNav from '@/components/yachting/YachtingNav'
+import { Navbar } from '@/components/sections/Navbar'
 import VillaDestinationCards from '@/components/villas/VillaDestinationCards'
 
 export const metadata: Metadata = {
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default function VillasPage() {
   return (
     <main style={{ background: '#06090f', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <YachtingNav />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingTop: 80 }}>
+      <Navbar />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingTop: 96 }}>
         <VillaDestinationCards />
       </div>
     </main>
