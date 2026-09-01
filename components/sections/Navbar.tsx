@@ -62,8 +62,8 @@ export function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-10">
+          {/* Desktop links — visible from tablet up; phones use the burger */}
+          <div className="hidden sm:flex items-center gap-6 lg:gap-10">
             {links.map(({ label, href, match }) => {
               const active = isActive(match)
               return (
@@ -98,7 +98,7 @@ export function Navbar() {
             <Link
               href="/#contact"
               data-cursor
-              className="hidden sm:inline-block"
+              className="hidden sm:inline-block whitespace-nowrap"
               style={{
                 fontFamily: 'var(--font-tenor)',
                 fontSize: 10,
@@ -125,17 +125,17 @@ export function Navbar() {
               Contact Us
             </Link>
 
-            {/* Hamburger — mobile only */}
+            {/* Hamburger — smartphones only (sm:hidden must win, so no inline display) */}
             <button
               type="button"
               onClick={() => setMenuOpen(o => !o)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
-              className="md:hidden"
+              className="sm:hidden flex flex-col justify-between shrink-0"
               style={{
                 position: 'relative', zIndex: 60,
-                width: 26, height: 18, display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                background: 'none', border: 'none', padding: 0, cursor: 'pointer', flexShrink: 0,
+                width: 26, height: 18,
+                background: 'none', border: 'none', padding: 0, cursor: 'pointer',
               }}
             >
               <motion.span animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 8 : 0 }} transition={{ duration: 0.3 }} style={{ display: 'block', height: 1, width: '100%', background: 'var(--champagne)' }} />
@@ -146,7 +146,7 @@ export function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — smartphones only */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -154,53 +154,66 @@ export function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.5, ease: [0.25, 0.1, 0, 1] }}
-            className="md:hidden fixed inset-0 z-40 flex flex-col items-center justify-center"
-            style={{ background: 'var(--noir)' }}
+            className="sm:hidden fixed inset-0 z-40 flex flex-col"
+            style={{ background: 'var(--noir)', paddingTop: 100, paddingBottom: 40 }}
           >
-            {links.map(({ label, href, match }, i) => {
-              const active = isActive(match)
-              return (
-                <motion.div
-                  key={label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                >
-                  <Link
-                    href={href}
-                    onClick={() => setMenuOpen(false)}
-                    style={{
-                      fontFamily: 'var(--font-cormorant)',
-                      fontSize: 42,
-                      fontWeight: 300,
-                      color: active ? 'var(--or-clair)' : 'var(--champagne)',
-                      textDecoration: 'none',
-                      padding: '12px 0',
-                      display: 'block',
-                    }}
+            {/* Links */}
+            <nav className="flex-1 flex flex-col justify-center px-8">
+              {links.map(({ label, href, match }, i) => {
+                const active = isActive(match)
+                return (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + i * 0.07 }}
                   >
-                    {label}
-                  </Link>
-                </motion.div>
-              )
-            })}
+                    <Link
+                      href={href}
+                      onClick={() => setMenuOpen(false)}
+                      style={{
+                        fontFamily: 'var(--font-cormorant)',
+                        fontSize: 'clamp(30px, 9vw, 44px)',
+                        fontWeight: 300,
+                        color: active ? 'var(--or-clair)' : 'var(--champagne)',
+                        textDecoration: 'none',
+                        padding: '10px 0',
+                        display: 'block',
+                      }}
+                    >
+                      {label}
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </nav>
+
+            {/* Contact */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: links.length * 0.08 }}
-              style={{ marginTop: 24 }}
+              transition={{ delay: 0.1 + links.length * 0.07 }}
+              className="px-8"
+              style={{ borderTop: '1px solid rgba(184,151,74,0.2)', paddingTop: 28 }}
             >
-              <Link
-                href="/#contact"
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  fontFamily: 'var(--font-tenor)', fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase',
-                  color: 'var(--noir)', background: 'linear-gradient(135deg, var(--or), var(--or-clair))',
-                  padding: '14px 32px', textDecoration: 'none', display: 'inline-block',
-                }}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 24 }}>
+                <a href="tel:+971505548034" style={contactRow}>
+                  <span style={contactLabel}>WhatsApp / Phone</span>
+                  <span style={contactValue}>+971 50 554 8034</span>
+                </a>
+                <a href="mailto:contact@syrama.ae" style={contactRow}>
+                  <span style={contactLabel}>Email</span>
+                  <span style={contactValue}>contact@syrama.ae</span>
+                </a>
+              </div>
+              <a
+                href="https://www.instagram.com/syrama_services/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(245,238,221,0.6)', textDecoration: 'none', borderBottom: '1px solid rgba(184,151,74,0.3)', paddingBottom: 3 }}
               >
-                Contact Us
-              </Link>
+                Instagram
+              </a>
             </motion.div>
           </motion.div>
         )}
@@ -208,3 +221,7 @@ export function Navbar() {
     </>
   )
 }
+
+const contactRow: React.CSSProperties = { display: 'flex', flexDirection: 'column', gap: 4, textDecoration: 'none' }
+const contactLabel: React.CSSProperties = { fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(245,238,221,0.45)' }
+const contactValue: React.CSSProperties = { fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, color: 'var(--or-clair)' }
