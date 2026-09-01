@@ -40,3 +40,14 @@ export function yachtTypeSegment(status: string | null | undefined): YachtTypeSe
 export function yachtHref(yacht: { id: number; model: string; builder?: string | null; status?: string | null }): string {
   return `/yachting/fleet/${yachtTypeSegment(yacht.status)}/${yachtSlug(yacht)}`
 }
+
+// Same convention for rental villas (the `property` table), e.g.
+// /villas/rentals/villa-les-pins-42
+export function propertySlug(property: { id: number; title?: string | null }): string {
+  const base = slugify(property.title || '')
+  return base ? `${base}-${property.id}` : String(property.id)
+}
+
+export function propertyHref(property: { id: number; title?: string | null }): string {
+  return `/villas/rentals/${propertySlug(property)}`
+}

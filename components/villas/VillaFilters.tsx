@@ -2,62 +2,60 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CustomSelect, DualRangeSlider, rangeInputStyles } from '@/components/shared/FilterControls'
+import { regionLabel } from '@/lib/property-format'
 
-export interface FilterState {
+export interface VillaFilterState {
   region: string | null
-  builder: string | null
-  minLength: number
-  maxLength: number
+  type: string | null
+  minBedrooms: number
+  maxBedrooms: number
   minGuests: number
   maxGuests: number
   minPrice: number
   maxPrice: number
-  sortBy: 'default' | 'price-asc' | 'price-desc' | 'length-asc' | 'length-desc'
+  sortBy: 'default' | 'price-asc' | 'price-desc' | 'surface-asc' | 'surface-desc'
 }
 
-export interface FilterBounds {
-  minLength: number
-  maxLength: number
+export interface VillaFilterBounds {
+  minBedrooms: number
+  maxBedrooms: number
   minGuests: number
   maxGuests: number
   minPrice: number
   maxPrice: number
 }
 
-interface FleetFiltersProps {
-  filters: FilterState
-  bounds: FilterBounds
+interface VillaFiltersProps {
+  filters: VillaFilterState
+  bounds: VillaFilterBounds
   regions: string[]
-  builders: string[]
+  types: string[]
   resultCount: number
-  onFiltersChange: (filters: FilterState) => void
+  onFiltersChange: (filters: VillaFilterState) => void
   onReset: () => void
 }
 
-const SORT_OPTIONS: { value: FilterState['sortBy']; label: string }[] = [
+const SORT_OPTIONS: { value: VillaFilterState['sortBy']; label: string }[] = [
   { value: 'default', label: 'Featured' },
   { value: 'price-asc', label: 'Price: Low to High' },
   { value: 'price-desc', label: 'Price: High to Low' },
-  { value: 'length-asc', label: 'Length: Shortest First' },
-  { value: 'length-desc', label: 'Length: Longest First' },
+  { value: 'surface-asc', label: 'Surface: Smallest First' },
+  { value: 'surface-desc', label: 'Surface: Largest First' },
 ]
 
-// Composant purement contrôlé : toutes les données (yachts, bornes, régions,
-// builders) sont chargées UNE SEULE FOIS par le parent (Fleet.tsx). Ici, on ne
-// fait que lire/écrire l'état des filtres — aucun appel réseau, filtrage 100% côté DOM.
-export default function FleetFilters({ filters, bounds, regions, builders, resultCount, onFiltersChange, onReset }: FleetFiltersProps) {
+export default function VillaFilters({ filters, bounds, regions, types, resultCount, onFiltersChange, onReset }: VillaFiltersProps) {
   const [isExpanded, setIsExpanded] = useState(true)
 
-  const handleFilterChange = (newFilters: Partial<FilterState>) => {
+  const handleFilterChange = (newFilters: Partial<VillaFilterState>) => {
     onFiltersChange({ ...filters, ...newFilters })
   }
 
   const hasActiveFilters =
     filters.region !== null ||
-    filters.builder !== null ||
+    filters.type !== null ||
     filters.sortBy !== 'default' ||
-    filters.minLength > bounds.minLength ||
-    filters.maxLength < bounds.maxLength ||
+    filters.minBedrooms > bounds.minBedrooms ||
+    filters.maxBedrooms < bounds.maxBedrooms ||
     filters.minGuests > bounds.minGuests ||
     filters.maxGuests < bounds.maxGuests ||
     filters.minPrice > bounds.minPrice ||
@@ -76,7 +74,6 @@ export default function FleetFilters({ filters, bounds, regions, builders, resul
       }}
     >
       <style>{rangeInputStyles}</style>
-      {/* Header */}
       <div
         style={{
           padding: '24px 32px',
@@ -91,21 +88,14 @@ export default function FleetFilters({ filters, bounds, regions, builders, resul
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}
           aria-expanded={isExpanded}
-          aria-controls="fleet-filters-panel"
-          style={{
-            flex: 1,
-            textAlign: 'left',
-            background: 'none',
-            border: 'none',
-            padding: 0,
-            cursor: 'pointer',
-          }}
+          aria-controls="villa-filters-panel"
+          style={{ flex: 1, textAlign: 'left', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
         >
           <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#b8974a', marginBottom: 4 }}>
             REFINE YOUR SEARCH
           </div>
           <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, color: '#8f8f7f' }}>
-            {resultCount} vessel{resultCount !== 1 ? 's' : ''} found
+            {resultCount} {resultCount === 1 ? 'villa' : 'villas'} found
             {hasActiveFilters && <span style={{ color: '#b8974a' }}> • Filtered</span>}
           </div>
         </button>
@@ -115,16 +105,9 @@ export default function FleetFilters({ filters, bounds, regions, builders, resul
               type="button"
               onClick={onReset}
               style={{
-                fontFamily: 'var(--font-tenor)',
-                fontSize: 9,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                background: 'transparent',
-                border: '1px solid rgba(184,151,74,0.4)',
-                color: '#b8974a',
-                padding: '6px 12px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
+                fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
+                background: 'transparent', border: '1px solid rgba(184,151,74,0.4)', color: '#b8974a',
+                padding: '6px 12px', cursor: 'pointer', transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(184,151,74,0.1)' }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
@@ -137,14 +120,10 @@ export default function FleetFilters({ filters, bounds, regions, builders, resul
             onClick={() => setIsExpanded(!isExpanded)}
             aria-label={isExpanded ? 'Collapse filters' : 'Expand filters'}
             aria-expanded={isExpanded}
-            aria-controls="fleet-filters-panel"
+            aria-controls="villa-filters-panel"
             style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}
           >
-            <motion.div
-              animate={{ rotate: isExpanded ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ color: '#b8974a', display: 'flex' }}
-            >
+            <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.3 }} style={{ color: '#b8974a', display: 'flex' }}>
               <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
                 <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -153,52 +132,49 @@ export default function FleetFilters({ filters, bounds, regions, builders, resul
         </div>
       </div>
 
-      {/* Filter Content */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
-            id="fleet-filters-panel"
+            id="villa-filters-panel"
             initial={{ opacity: 0, height: 0, overflow: 'hidden' }}
             animate={{ opacity: 1, height: 'auto', transitionEnd: { overflow: 'visible' } }}
             exit={{ opacity: 0, height: 0, overflow: 'hidden' }}
             transition={{ duration: 0.3 }}
           >
             <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: 36 }}>
-              {/* Row 1 — selects */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <CustomSelect
                   label="Destination"
                   placeholder="All Destinations"
                   value={filters.region}
-                  options={regions.map(r => ({ value: r, label: r }))}
+                  options={regions.map(r => ({ value: r, label: regionLabel(r) }))}
                   onChange={(v) => handleFilterChange({ region: v })}
                 />
                 <CustomSelect
-                  label="Builder"
-                  placeholder="All Builders"
-                  value={filters.builder}
-                  options={builders.map(b => ({ value: b, label: b }))}
-                  onChange={(v) => handleFilterChange({ builder: v })}
+                  label="Type"
+                  placeholder="All Types"
+                  value={filters.type}
+                  options={types.map(t => ({ value: t, label: t }))}
+                  onChange={(v) => handleFilterChange({ type: v })}
                 />
                 <CustomSelect
                   label="Sort By"
                   placeholder="Featured"
                   value={filters.sortBy === 'default' ? null : filters.sortBy}
                   options={SORT_OPTIONS.filter(o => o.value !== 'default')}
-                  onChange={(v) => handleFilterChange({ sortBy: (v || 'default') as FilterState['sortBy'] })}
+                  onChange={(v) => handleFilterChange({ sortBy: (v || 'default') as VillaFilterState['sortBy'] })}
                 />
               </div>
 
-              {/* Row 2 — ranges */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <DualRangeSlider
-                  label="Length"
-                  min={bounds.minLength}
-                  max={bounds.maxLength}
-                  valueMin={filters.minLength}
-                  valueMax={filters.maxLength}
-                  format={(v) => `${v}m`}
-                  onChange={(minLength, maxLength) => handleFilterChange({ minLength, maxLength })}
+                  label="Bedrooms"
+                  min={bounds.minBedrooms}
+                  max={bounds.maxBedrooms}
+                  valueMin={filters.minBedrooms}
+                  valueMax={filters.maxBedrooms}
+                  format={(v) => `${v}`}
+                  onChange={(minBedrooms, maxBedrooms) => handleFilterChange({ minBedrooms, maxBedrooms })}
                 />
                 <DualRangeSlider
                   label="Guests"
@@ -210,12 +186,12 @@ export default function FleetFilters({ filters, bounds, regions, builders, resul
                   onChange={(minGuests, maxGuests) => handleFilterChange({ minGuests, maxGuests })}
                 />
                 <DualRangeSlider
-                  label="Budget"
+                  label="Budget / week"
                   min={bounds.minPrice}
                   max={bounds.maxPrice}
                   valueMin={filters.minPrice}
                   valueMax={filters.maxPrice}
-                  format={(v) => `€${v.toLocaleString('en-US')}`}
+                  format={(v) => `€${Math.round(v).toLocaleString('en-US')}`}
                   onChange={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })}
                 />
               </div>
