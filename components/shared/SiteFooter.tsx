@@ -105,13 +105,13 @@ export function SiteFooter() {
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--or-clair)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--champagne)')}>
               syrama-services.com
-              <span lang="fr" style={footerGroupSubStyle}>Notre présence en Europe</span>
+              <span style={footerGroupSubStyle}>Our European presence</span>
             </a>
             <a href="https://syrama-yachting.com" target="_blank" rel="noopener noreferrer" data-cursor style={footerGroupLinkStyle}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--or-clair)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--champagne)')}>
               syrama-yachting.com
-              <span lang="fr" style={footerGroupSubStyle}>La division Charter de Syrama</span>
+              <span style={footerGroupSubStyle}>Syrama’s charter division</span>
             </a>
           </div>
         </div>
