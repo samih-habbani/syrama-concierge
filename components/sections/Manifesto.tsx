@@ -14,6 +14,7 @@ export function Manifesto() {
 
   return (
     <section
+      id="philosophy"
       ref={sectionRef}
       style={{
         position: 'relative',

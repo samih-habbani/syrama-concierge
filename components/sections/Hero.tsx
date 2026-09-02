@@ -263,10 +263,10 @@ export function Hero() {
                 display: 'inline-block',
               }}
             >
-              Begin
+              Make a request
             </a>
             <a
-              href="#aviation"
+              href="#philosophy"
               style={{
                 fontFamily: 'var(--font-tenor)',
                 fontSize: 11,
