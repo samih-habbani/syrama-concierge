@@ -1,7 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
-import Link from 'next/link'
+import { PrimaryCta, GhostCta } from '@/components/shared/Cta'
 
 export function Yachting() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -102,32 +102,16 @@ export function Yachting() {
               ))}
             </motion.div>
 
-            <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.5 }}
               viewport={{ once: true }}
+              style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center' }}
             >
-              <Link
-                href="/yachting"
-                data-cursor
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 16,
-                  fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em',
-                  textTransform: 'uppercase', color: 'var(--or-clair)',
-                  textDecoration: 'none', paddingBottom: 6,
-                  borderBottom: '1px solid rgba(212,180,114,0.3)',
-                }}
-              >
-                View our fleet
-                <svg width="24" height="8" viewBox="0 0 24 8" fill="none">
-                  <line x1="0" y1="4" x2="20" y2="4" stroke="currentColor"/>
-                  <polyline points="16,1 22,4 16,7" stroke="currentColor" strokeWidth="0.8" fill="none"/>
-                </svg>
-              </Link>
+              <PrimaryCta href="/yachting" label="Explore the fleet" />
+              <GhostCta href="/#contact" label="Charter enquiry" />
             </motion.div>
-            </div>
           </div>
         </div>
       </motion.div>

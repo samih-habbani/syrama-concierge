@@ -1,5 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
+import { PrimaryCta } from '@/components/shared/Cta'
 
 const experiences = [
   {
@@ -142,6 +143,20 @@ export function Bespoke() {
             <ExperienceCard key={exp.title} exp={exp} height={420} delay={i * 0.08} />
           ))}
         </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9 }}
+          viewport={{ once: true }}
+          style={{ textAlign: 'center', marginTop: 72 }}
+        >
+          <div style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(24px, 3vw, 36px)', color: 'var(--champagne)', lineHeight: 1.25, margin: '0 auto 32px', maxWidth: 560 }}>
+            Have something in mind that isn&rsquo;t on any list?
+          </div>
+          <PrimaryCta href="/#contact" label="Make a bespoke request" />
+        </motion.div>
       </div>
 
       {/* Section number bg */}

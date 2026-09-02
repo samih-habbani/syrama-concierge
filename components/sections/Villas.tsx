@@ -2,25 +2,36 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
+import { propertyHref } from '@/lib/slug'
+import { GhostCta } from '@/components/shared/Cta'
 
+// Three signature Mediterranean addresses from the rental portfolio — one
+// each for Saint-Tropez, Ibiza and Mykonos. `title` is the full DB title
+// (used to build the detail-page slug); `name` is what the card shows.
 const villas = [
   {
-    name: 'Palm Signature',
-    location: 'Palm Jumeirah, Dubai',
-    detail: '8 bedrooms · Private pool · 360° sea view',
-    img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80&auto=format',
+    id: 35,
+    title: 'Villa Maestra – Iconic Sea View Villa on the Saint-Tropez Peninsula',
+    name: 'Villa Maestra',
+    location: 'Saint-Tropez, France',
+    detail: '7 bedrooms · 18 guests · Sea view peninsula',
+    img: '/uploads/yachts/Villa-Maestra-Iconic-Sea-View-Villa-on-the-Saint-Tropez-Peninsula-600m2-Saint-Tropez-image-1.webp',
   },
   {
-    name: 'Sky Penthouse',
-    location: 'DIFC, Dubai',
-    detail: '4 bedrooms · Panoramic terrace · Private chef',
-    img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80&auto=format',
+    id: 43,
+    title: 'Villa Liromi – Iconic Sea View Estate Overlooking Es Vedrà, Ibiza',
+    name: 'Villa Liromi',
+    location: 'Ibiza, Spain',
+    detail: '6 bedrooms · 12 guests · Overlooking Es Vedrà',
+    img: '/uploads/yachts/Villa-Liromi-Iconic-Sea-View-Estate-Overlooking-Es-Vedra-Ibiza-1000m2-Ibiza-image-1.webp',
   },
   {
-    name: 'Desert Estate',
-    location: 'Al Barari, Dubai',
-    detail: '12 bedrooms · Spa · 3-hectare estate',
-    img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80&auto=format',
+    id: 16,
+    title: 'Villa Kenzie – Iconic Seaside Villa in Mykonos',
+    name: 'Villa Kenzie',
+    location: 'Mykonos, Greece',
+    detail: '9 bedrooms · 18 guests · Iconic seaside estate',
+    img: '/uploads/yachts/Villa-Kenzie-Iconic-Seaside-Villa-in-Mykonos-910m2-Mykonos-image-1.webp',
   },
 ]
 
@@ -95,9 +106,12 @@ export function Villas() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: i * 0.15, ease: [0.25, 0.1, 0, 1] }}
               viewport={{ once: true, margin: '-60px' }}
-              data-cursor
-              style={{ cursor: 'none', overflow: 'hidden', position: 'relative' }}
             >
+             <Link
+              href={propertyHref({ id: villa.id, title: villa.title })}
+              data-cursor
+              style={{ display: 'block', cursor: 'none', overflow: 'hidden', position: 'relative', textDecoration: 'none' }}
+             >
               {/* Image */}
               <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/4' }}>
                 <img
@@ -133,6 +147,7 @@ export function Villas() {
               }}>
                 {villa.detail}
               </div>
+             </Link>
             </motion.div>
           ))}
         </div>
@@ -143,24 +158,9 @@ export function Villas() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.9, delay: 0.5 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginTop: 64 }}
+          style={{ textAlign: 'center', marginTop: 72 }}
         >
-          <Link
-            href="/villas"
-            data-cursor
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 16,
-              fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.3em',
-              textTransform: 'uppercase', color: 'var(--or-clair)', textDecoration: 'none',
-              paddingBottom: 6, borderBottom: '1px solid rgba(212,180,114,0.3)',
-            }}
-          >
-            View the full portfolio
-            <svg width="24" height="8" viewBox="0 0 24 8" fill="none">
-              <line x1="0" y1="4" x2="20" y2="4" stroke="currentColor"/>
-              <polyline points="16,1 22,4 16,7" stroke="currentColor" strokeWidth="0.8" fill="none"/>
-            </svg>
-          </Link>
+          <GhostCta href="/villas" label="View the full portfolio" />
         </motion.div>
       </div>
 

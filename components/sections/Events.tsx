@@ -1,6 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { PrimaryCta, GhostCta } from '@/components/shared/Cta'
 
 export function Events() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -49,23 +50,9 @@ export function Events() {
             <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 14, lineHeight: 1.9, color: 'var(--gris)' }}>
               We don't offer a catalogue. We create the event you've never experienced — in a place no one else knows.
             </p>
-            <a
-              href="#contact"
-              data-cursor
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 16,
-                fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em',
-                textTransform: 'uppercase', color: 'var(--or-clair)', textDecoration: 'none',
-                paddingBottom: 6, borderBottom: '1px solid rgba(212,180,114,0.3)',
-                alignSelf: 'flex-start',
-              }}
-            >
-              Plan an event
-              <svg width="24" height="8" viewBox="0 0 24 8" fill="none">
-                <line x1="0" y1="4" x2="20" y2="4" stroke="currentColor"/>
-                <polyline points="16,1 22,4 16,7" stroke="currentColor" strokeWidth="0.8" fill="none"/>
-              </svg>
-            </a>
+            <div style={{ alignSelf: 'flex-start' }}>
+              <GhostCta href="/#contact" label="Plan an event" />
+            </div>
           </motion.div>
         </div>
 
@@ -219,6 +206,24 @@ export function Events() {
               <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, lineHeight: 1.7, color: 'var(--gris)' }}>{ev.desc}</div>
             </div>
           ))}
+        </motion.div>
+
+        {/* CTA band */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.2 }}
+          viewport={{ once: true }}
+          style={{
+            marginTop: 72, padding: '56px 40px',
+            border: '1px solid rgba(184,151,74,0.18)',
+            display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 28,
+          }}
+        >
+          <div style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(24px, 3vw, 34px)', color: 'var(--champagne)', lineHeight: 1.2, maxWidth: 520 }}>
+            Tell us the moment you have in mind — we design the rest.
+          </div>
+          <PrimaryCta href="/#contact" label="Start planning" />
         </motion.div>
       </div>
 
