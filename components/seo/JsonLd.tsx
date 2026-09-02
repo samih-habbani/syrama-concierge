@@ -87,6 +87,76 @@ export function BreadcrumbJsonLd({ items }: { items: { name: string; path: strin
   )
 }
 
+/** A blog article — BlogPosting with Sam Habbani as the author. */
+export function ArticleJsonLd({
+  slug,
+  title,
+  description,
+  image,
+  datePublished,
+  dateModified,
+}: {
+  slug: string
+  title: string
+  description: string
+  image: string
+  datePublished: string
+  dateModified?: string | null
+}) {
+  const url = `${SITE_URL}/blog/${slug}`
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        '@id': `${url}#article`,
+        headline: title,
+        description,
+        image: image.startsWith('http') ? image : `${SITE_URL}${image}`,
+        datePublished,
+        dateModified: dateModified || datePublished,
+        url,
+        mainEntityOfPage: url,
+        inLanguage: 'en',
+        author: {
+          '@type': 'Person',
+          name: 'Sam Habbani',
+          jobTitle: 'Founder, Syrama',
+          sameAs: [
+            'https://www.instagram.com/syrama_services/',
+            'https://www.linkedin.com/in/samih-habbani/',
+          ],
+        },
+        publisher: { '@id': `${SITE_URL}/#organization` },
+      }}
+    />
+  )
+}
+
+/** The blog itself — rendered on /blog. */
+export function BlogJsonLd({ posts }: { posts: { slug: string; title: string; date: string }[] }) {
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'Blog',
+        '@id': `${SITE_URL}/blog#blog`,
+        name: 'The Syrama Journal',
+        description:
+          'Event coverage, destination notes and concierge insight from Syrama, the Dubai private concierge.',
+        url: `${SITE_URL}/blog`,
+        publisher: { '@id': `${SITE_URL}/#organization` },
+        blogPost: posts.map((p) => ({
+          '@type': 'BlogPosting',
+          headline: p.title,
+          url: `${SITE_URL}/blog/${p.slug}`,
+          datePublished: p.date,
+        })),
+      }}
+    />
+  )
+}
+
 /** A single concierge service (used on the homepage service sections). */
 export function ServiceJsonLd({
   name,

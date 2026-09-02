@@ -8,6 +8,7 @@ const EXPLORE = [
   { label: 'Villas & Residences', href: '/villas' },
   { label: 'Yachting', href: '/yachting' },
   { label: 'Private Events', href: '/events' },
+  { label: 'The Journal', href: '/blog' },
   { label: 'Bespoke Requests', href: '/#bespoke' },
   { label: 'Contact', href: '/#contact' },
 ]

@@ -10,6 +10,7 @@ const links = [
   { label: 'Villas', href: '/villas', match: ['/villas'] },
   { label: 'Yachting', href: '/yachting', match: ['/yachting'] },
   { label: 'Events', href: '/events', match: ['/events'] },
+  { label: 'Journal', href: '/blog', match: ['/blog'] },
   { label: 'Bespoke', href: '/#bespoke', match: [] },
 ]
 

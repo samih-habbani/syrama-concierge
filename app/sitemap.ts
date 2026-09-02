@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getYachts } from '@/lib/yacht-service'
 import { getProperties } from '@/lib/property-service'
 import { yachtHref, propertyHref } from '@/lib/slug'
+import { getAllPosts, getAllCategoriesInUse, getAllTagsInUse } from '@/lib/blog'
 
 const SITE_URL = 'https://www.syrama.ae'
 
@@ -18,6 +19,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: Entry['ch
   { path: '/yachting', priority: 0.9, changeFrequency: 'weekly' },
   { path: '/yachting/fleet', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/events', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/blog', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/legal-notice', priority: 0.2, changeFrequency: 'yearly' },
   { path: '/privacy-policy', priority: 0.2, changeFrequency: 'yearly' },
   { path: '/terms', priority: 0.2, changeFrequency: 'yearly' },
@@ -47,6 +49,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   } catch (err) {
     console.error('[sitemap] could not load yachts:', err)
+  }
+
+  // Blog articles + category / tag archives.
+  try {
+    for (const post of getAllPosts()) {
+      entries.push({
+        url: `${SITE_URL}/blog/${post.slug}`,
+        lastModified: new Date(post.updated || post.date),
+        changeFrequency: 'monthly',
+        priority: 0.7,
+      })
+    }
+    for (const c of getAllCategoriesInUse()) {
+      entries.push({ url: `${SITE_URL}/blog/category/${c.slug}`, lastModified: now, changeFrequency: 'weekly', priority: 0.4 })
+    }
+    for (const t of getAllTagsInUse()) {
+      entries.push({ url: `${SITE_URL}/blog/tag/${t.slug}`, lastModified: now, changeFrequency: 'weekly', priority: 0.3 })
+    }
+  } catch (err) {
+    console.error('[sitemap] could not load blog:', err)
   }
 
   // Rental villa detail pages.

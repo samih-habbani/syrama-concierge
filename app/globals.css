@@ -365,6 +365,79 @@ html[data-lux-cursor] * {
   .hp-yacht-specs > div > div:first-child { font-size: 24px !important; }
 }
 
+/* ── Blog cards ──────────────────────────────────────────────── */
+a:hover .article-card-img { transform: scale(1.05); }
+
+/* ── Blog article body (markdown output) ─────────────────────── */
+.article-body {
+  font-family: var(--font-tenor), Georgia, serif;
+  font-size: 16px;
+  line-height: 1.95;
+  color: rgba(245, 238, 221, 0.82);
+}
+.article-body > * { max-width: 68ch; }
+.article-body p { margin: 0 0 1.5em; }
+.article-body h2 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 34px);
+  line-height: 1.25;
+  color: var(--champagne);
+  margin: 2.4em 0 0.7em;
+}
+.article-body h3 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--or-clair);
+  margin: 2em 0 0.6em;
+}
+.article-body a {
+  color: var(--or-clair);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(184, 151, 74, 0.4);
+  transition: border-color 0.3s ease;
+}
+.article-body a:hover { border-color: var(--or-clair); }
+.article-body strong { color: var(--champagne); font-weight: 600; }
+.article-body em { font-style: italic; color: rgba(245, 238, 221, 0.92); }
+.article-body ul,
+.article-body ol { margin: 0 0 1.5em; padding-left: 1.4em; }
+.article-body li { margin: 0 0 0.6em; padding-left: 0.3em; }
+.article-body li::marker { color: var(--or); }
+.article-body blockquote {
+  margin: 2em 0;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid var(--or);
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(20px, 2.6vw, 26px);
+  line-height: 1.5;
+  color: var(--champagne);
+}
+.article-body img {
+  width: 100%;
+  height: auto;
+  margin: 2.4em 0;
+  border: 1px solid rgba(184, 151, 74, 0.15);
+}
+.article-body hr {
+  border: 0;
+  height: 1px;
+  background: rgba(184, 151, 74, 0.2);
+  margin: 3em 0;
+}
+.article-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+  background: rgba(184, 151, 74, 0.1);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .article-body { font-size: 15px; line-height: 1.85; }
+}
+
 /* Selection */
 ::selection {
   background: rgba(184, 151, 74, 0.2);
