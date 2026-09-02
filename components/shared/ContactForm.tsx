@@ -57,7 +57,6 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
     outline: 'none',
     letterSpacing: '0.05em',
     transition: 'border-color 0.3s ease',
-    cursor: 'none',
   })
 
   if (submitted) {
@@ -75,6 +74,7 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
   }
 
   const labelStyle: React.CSSProperties = {
+    display: 'block',
     fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.3em',
     textTransform: 'uppercase', color: 'var(--gris)',
   }
@@ -83,9 +83,9 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <div className="hp-form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
         <div>
-          <label style={labelStyle}>First Name</label>
+          <label htmlFor="cf-first" style={labelStyle}>First Name</label>
           <input
-            type="text" required
+            id="cf-first" name="firstName" type="text" required aria-required="true" autoComplete="given-name"
             value={form.firstName} onChange={setField('firstName')}
             placeholder="Alexander"
             onFocus={() => setFocused('prenom')} onBlur={() => setFocused(null)}
@@ -93,9 +93,9 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
           />
         </div>
         <div>
-          <label style={labelStyle}>Last Name</label>
+          <label htmlFor="cf-last" style={labelStyle}>Last Name</label>
           <input
-            type="text" required
+            id="cf-last" name="lastName" type="text" required aria-required="true" autoComplete="family-name"
             value={form.lastName} onChange={setField('lastName')}
             onFocus={() => setFocused('nom')} onBlur={() => setFocused(null)}
             style={{ ...inputStyle('nom'), display: 'block', marginTop: 8 }}
@@ -105,9 +105,9 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
 
       <div className="hp-form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
         <div>
-          <label style={labelStyle}>Email</label>
+          <label htmlFor="cf-email" style={labelStyle}>Email</label>
           <input
-            type="email" required
+            id="cf-email" name="email" type="email" required aria-required="true" autoComplete="email"
             value={form.email} onChange={setField('email')}
             placeholder="you@example.com"
             onFocus={() => setFocused('email')} onBlur={() => setFocused(null)}
@@ -115,9 +115,9 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
           />
         </div>
         <div>
-          <label style={labelStyle}>Phone</label>
+          <label htmlFor="cf-phone" style={labelStyle}>Phone</label>
           <input
-            type="tel"
+            id="cf-phone" name="phone" type="tel" autoComplete="tel"
             value={form.phone} onChange={setField('phone')}
             placeholder="+971 …"
             onFocus={() => setFocused('phone')} onBlur={() => setFocused(null)}
@@ -127,8 +127,9 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
       </div>
 
       <div>
-        <label style={labelStyle}>Type of request</label>
+        <label htmlFor="cf-type" style={labelStyle}>Type of request</label>
         <select
+          id="cf-type" name="requestType"
           value={form.requestType} onChange={setField('requestType')}
           onFocus={() => setFocused('type')} onBlur={() => setFocused(null)}
           style={{ ...inputStyle('type'), display: 'block', marginTop: 8, appearance: 'none' }}
@@ -141,9 +142,10 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
       </div>
 
       <div>
-        <label style={labelStyle}>Your request</label>
+        <label htmlFor="cf-message" style={labelStyle}>Your request</label>
         <textarea
-          rows={4} required
+          id="cf-message" name="message"
+          rows={4} required aria-required="true"
           value={form.message} onChange={setField('message')}
           placeholder="Describe your project..."
           onFocus={() => setFocused('msg')} onBlur={() => setFocused(null)}
@@ -152,7 +154,7 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
       </div>
 
       {error && (
-        <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, color: '#e5a3a3', letterSpacing: '0.03em' }}>
+        <div role="alert" style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, color: '#e5a3a3', letterSpacing: '0.03em' }}>
           {error}
         </div>
       )}
@@ -166,7 +168,7 @@ export function ContactForm({ defaultRequestType = '' }: Props) {
           color: 'var(--noir)',
           fontFamily: 'var(--font-tenor)', fontSize: 11, letterSpacing: '0.3em',
           textTransform: 'uppercase', padding: '18px 40px', border: 'none',
-          cursor: 'none', alignSelf: 'flex-start',
+          alignSelf: 'flex-start',
           opacity: loading ? 0.6 : 1,
           transition: 'opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease',
           boxShadow: '0 4px 20px rgba(184,151,74,0.4)',

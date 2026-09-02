@@ -5,7 +5,9 @@
   --or: #b8974a;
   --or-clair: #d4b472;
   --champagne: #f5eedd;
-  --gris: #6a6a5e;
+  /* Muted grey for secondary copy. Lifted from #6a6a5e to clear WCAG AA
+     (≈5.4:1 on --noir) for body text while keeping the understated tone. */
+  --gris: #8a8a7c;
   --bleu-nuit: #080c16;
   --background: #06090f;
   --foreground: #f5eedd;
@@ -37,6 +39,67 @@ body {
 html[data-lux-cursor],
 html[data-lux-cursor] * {
   cursor: none !important;
+}
+
+/* ── Accessibility ───────────────────────────────────────────── */
+
+/* Visible keyboard focus everywhere (the custom cursor hides the mouse
+   pointer but keyboard users still need a clear focus ring). */
+:focus-visible {
+  outline: 2px solid var(--or-clair);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+/* Don't show the ring for mouse clicks, only keyboard. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Screen-reader-only utility. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip-to-content link — hidden until focused. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  transform: translateY(-120%);
+  background: var(--or);
+  color: var(--noir);
+  font-family: var(--font-tenor), sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Respect reduced-motion: neutralise animations / transitions site-wide. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 

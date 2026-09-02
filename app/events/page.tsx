@@ -22,12 +22,13 @@ export default function EventsPage() {
   const filtered = active === 'All' ? events : events.filter(e => e.category === active)
 
   return (
-    <main style={{ background: '#06090f', minHeight: '100vh' }}>
+    <div style={{ background: '#06090f', minHeight: '100vh' }}>
       <Navbar />
+      <main id="main-content">
 
       {/* Hero */}
       <div style={{ position: 'relative', height: '80vh', overflow: 'hidden' }}>
-        <img src="/assets/iconic-events.webp" alt="Prestigious events" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.28)' }} />
+        <img src="/assets/iconic-events.webp" alt="" aria-hidden="true" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.28)' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(6,9,15,0.2) 0%, rgba(6,9,15,0.85) 100%)' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 'clamp(32px,6vw,96px)', paddingBottom: 'clamp(48px,7vw,100px)', paddingTop: 120 }}>
           <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }}>
@@ -38,7 +39,7 @@ export default function EventsPage() {
             <h1 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(52px,8vw,110px)', lineHeight: 0.95, color: '#f5eedd', margin: '0 0 28px', maxWidth: 800 }}>
               The world's<br /><em style={{ fontStyle: 'italic', color: '#d4b472' }}>greatest stages.</em>
             </h1>
-            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 2, color: 'rgba(106,106,94,0.9)', maxWidth: 520 }}>
+            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 2, color: 'rgba(154,154,140,1)', maxWidth: 520 }}>
               Monaco. Cannes. Wimbledon. Art Basel. We secure access,<br />arrange everything, and accompany you every step.
             </p>
           </motion.div>
@@ -49,7 +50,7 @@ export default function EventsPage() {
       <div style={{ padding: '0 clamp(32px,6vw,96px)', borderBottom: '1px solid rgba(184,151,74,0.1)' }}>
         <div style={{ display: 'flex', gap: 0, overflowX: 'auto' }}>
           {CATEGORIES.map(cat => (
-            <button key={cat} onClick={() => setActive(cat)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '22px 28px 20px', fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: active === cat ? '#f5eedd' : 'rgba(106,106,94,0.5)', borderBottom: active === cat ? '2px solid #b8974a' : '2px solid transparent', whiteSpace: 'nowrap', transition: 'all 0.25s ease' }}>
+            <button key={cat} onClick={() => setActive(cat)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '22px 28px 20px', fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: active === cat ? '#f5eedd' : '#9a9a8c', borderBottom: active === cat ? '2px solid #b8974a' : '2px solid transparent', whiteSpace: 'nowrap', transition: 'all 0.25s ease' }}>
               {cat}
             </button>
           ))}
@@ -69,11 +70,11 @@ export default function EventsPage() {
               <div style={{ position: 'absolute', top: 24, left: 24, fontFamily: 'var(--font-tenor)', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#b8974a', background: 'rgba(6,9,15,0.7)', padding: '6px 12px', backdropFilter: 'blur(8px)' }}>{event.category}</div>
               <div style={{ position: 'absolute', top: 24, right: 24, fontFamily: 'var(--font-tenor)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(245,238,221,0.5)', background: 'rgba(6,9,15,0.6)', padding: '6px 12px', backdropFilter: 'blur(8px)' }}>{event.month}</div>
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '32px 28px' }}>
-                <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(106,106,94,0.7)', marginBottom: 8 }}>{event.location} · {event.country}</div>
+                <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(154,154,140,0.9)', marginBottom: 8 }}>{event.location} · {event.country}</div>
                 <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(22px,2.5vw,30px)', fontWeight: 300, color: '#f5eedd', lineHeight: 1.15, marginBottom: 4 }}>{event.name}</div>
                 <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.15em', color: '#b8974a', textTransform: 'uppercase', marginBottom: 14 }}>{event.subtitle}</div>
                 <div className="event-desc" style={{ overflow: 'hidden', maxHeight: 0, opacity: 0, transition: 'max-height 0.5s ease, opacity 0.4s ease' }}>
-                  <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 11, lineHeight: 1.8, color: 'rgba(106,106,94,0.8)', margin: '0 0 14px' }}>{event.desc}</p>
+                  <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 11, lineHeight: 1.8, color: 'rgba(154,154,140,0.96)', margin: '0 0 14px' }}>{event.desc}</p>
                   <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(184,151,74,0.7)', marginBottom: 16 }}>{event.highlight}</div>
                 </div>
                 <a
@@ -105,7 +106,7 @@ export default function EventsPage() {
             <h2 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(38px,5vw,68px)', lineHeight: 1.0, color: '#f5eedd', margin: 0 }}>We handle<br /><em style={{ color: '#d4b472' }}>every detail.</em></h2>
           </div>
           <div style={{ paddingTop: 16 }}>
-            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 2, color: '#6a6a5e', margin: '0 0 24px' }}>An iconic event is only as extraordinary as the experience surrounding it. We go beyond the ticket — building an entire journey that places you exactly where you want to be, without a single logistical thought.</p>
+            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 2, color: '#8a8a7c', margin: '0 0 24px' }}>An iconic event is only as extraordinary as the experience surrounding it. We go beyond the ticket — building an entire journey that places you exactly where you want to be, without a single logistical thought.</p>
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0 }}>
@@ -115,7 +116,7 @@ export default function EventsPage() {
                 <div style={{ width: 4, height: 4, background: '#b8974a', borderRadius: '50%', flexShrink: 0 }} />
                 <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#f5eedd' }}>{s.label}</div>
               </div>
-              <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, lineHeight: 1.8, color: 'rgba(106,106,94,0.7)', margin: 0 }}>{s.desc}</p>
+              <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, lineHeight: 1.8, color: 'rgba(154,154,140,0.9)', margin: 0 }}>{s.desc}</p>
             </div>
           ))}
         </div>
@@ -132,17 +133,18 @@ export default function EventsPage() {
             <h2 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(34px,4.5vw,58px)', lineHeight: 1.05, color: '#f5eedd', margin: '0 0 24px' }}>
               Tell us where you<br /><em style={{ fontStyle: 'italic', color: '#d4b472' }}>want to be.</em>
             </h2>
-            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 2, color: '#6a6a5e', maxWidth: 420 }}>
+            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 2, color: '#8a8a7c', maxWidth: 420 }}>
               A dedicated advisor replies within 2 hours with access, logistics and a full plan — no intermediaries.
             </p>
           </div>
           <ContactForm defaultRequestType="Private Event" />
         </div>
       </div>
+      </main>
 
       <SiteFooter />
 
       <style>{`.event-card:hover .event-desc { max-height: 200px; opacity: 1; }`}</style>
-    </main>
+    </div>
   )
 }

@@ -27,6 +27,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description,
     alternates: { canonical: canonicalPath },
     openGraph: {
+      type: 'website',
+      siteName: 'Syrama · Dubai Private Concierge',
+      locale: 'en_US',
       title,
       description,
       url: `${SITE_URL}${canonicalPath}`,

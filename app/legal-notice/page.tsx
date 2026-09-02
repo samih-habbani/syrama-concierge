@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { LegalPage } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
-  title: 'Legal Notice · Syrama',
+  title: 'Legal Notice',
   description: 'Legal notice for syrama.ae — publisher, hosting and intellectual property information.',
+  alternates: { canonical: '/legal-notice' },
 }
 
 export default function LegalNoticePage() {

@@ -40,6 +40,7 @@ export function Navbar() {
   return (
     <>
       <motion.nav
+        aria-label="Primary"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: [0.25, 0.1, 0, 1] }}
@@ -152,6 +153,7 @@ export function Navbar() {
               onClick={() => setMenuOpen(o => !o)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
               className="sm:hidden flex flex-col justify-between shrink-0"
               style={{
                 position: 'relative', zIndex: 60,
@@ -171,6 +173,7 @@ export function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
@@ -179,7 +182,7 @@ export function Navbar() {
             style={{ background: 'var(--noir)', paddingTop: 100, paddingBottom: 40 }}
           >
             {/* Links */}
-            <nav className="flex-1 flex flex-col justify-center px-8">
+            <nav aria-label="Mobile" className="flex-1 flex flex-col justify-center px-8">
               {links.map(({ label, href, match }, i) => {
                 const active = isActive(match)
                 return (

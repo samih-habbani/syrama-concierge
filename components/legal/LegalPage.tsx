@@ -18,10 +18,10 @@ export function LegalPage({
   sections: Section[]
 }) {
   return (
-    <main style={{ background: 'var(--noir)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: 'var(--noir)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
 
-      <div style={{ flex: 1, maxWidth: 820, width: '100%', margin: '0 auto', padding: '160px 24px 120px' }}>
+      <main id="main-content" style={{ flex: 1, maxWidth: 820, width: '100%', margin: '0 auto', padding: '160px 24px 120px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
           <div style={{ width: 40, height: 1, background: 'var(--or)' }} />
           <span style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--or)' }}>
@@ -71,10 +71,10 @@ export function LegalPage({
           Questions? Write to{' '}
           <a href="mailto:contact@syrama.ae" style={{ color: 'var(--or-clair)', textDecoration: 'none' }}>contact@syrama.ae</a>.
         </div>
-      </div>
+      </main>
 
       <SiteFooter />
-    </main>
+    </div>
   )
 }
 

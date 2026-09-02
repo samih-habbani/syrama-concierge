@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { LegalPage, LegalList } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy · Syrama',
+  title: 'Cookie Policy',
   description: 'How syrama.ae uses cookies and how to manage them.',
+  alternates: { canonical: '/cookie-policy' },
 }
 
 export default function CookiePolicyPage() {

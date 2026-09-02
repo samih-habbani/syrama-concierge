@@ -2,7 +2,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { ContactForm } from '@/components/shared/ContactForm'
-import { SiteFooter } from '@/components/shared/SiteFooter'
 
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -189,8 +188,6 @@ export function Contact() {
           </motion.div>
         </div>
       </div>
-
-      <SiteFooter />
     </section>
   )
 }

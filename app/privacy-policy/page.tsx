@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { LegalPage, LegalList } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy · Syrama',
+  title: 'Privacy Policy',
   description: 'How Syrama collects, uses and protects your personal data.',
+  alternates: { canonical: '/privacy-policy' },
 }
 
 export default function PrivacyPolicyPage() {

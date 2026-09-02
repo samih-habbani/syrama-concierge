@@ -104,13 +104,13 @@ export function SiteFooter() {
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--or-clair)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--champagne)')}>
               syrama-services.com
-              <span style={footerGroupSubStyle}>Notre présence en Europe</span>
+              <span lang="fr" style={footerGroupSubStyle}>Notre présence en Europe</span>
             </a>
             <a href="https://syrama-yachting.com" target="_blank" rel="noopener noreferrer" data-cursor style={footerGroupLinkStyle}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--or-clair)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--champagne)')}>
               syrama-yachting.com
-              <span style={footerGroupSubStyle}>La division Charter de Syrama</span>
+              <span lang="fr" style={footerGroupSubStyle}>La division Charter de Syrama</span>
             </a>
           </div>
         </div>
@@ -137,7 +137,7 @@ export function SiteFooter() {
                 style={{
                   flex: 1, background: 'transparent', border: 'none', outline: 'none',
                   padding: '12px 0', fontFamily: 'var(--font-tenor)', fontSize: 13,
-                  color: 'var(--champagne)', letterSpacing: '0.05em', cursor: 'none',
+                  color: 'var(--champagne)', letterSpacing: '0.05em'
                 }}
               />
               <button
@@ -146,7 +146,7 @@ export function SiteFooter() {
                 aria-label="Subscribe"
                 disabled={newsletterState === 'loading'}
                 style={{
-                  background: 'none', border: 'none', cursor: 'none', padding: '8px 0 8px 12px',
+                  background: 'none', border: 'none', padding: '8px 0 8px 12px',
                   color: 'var(--or-clair)', display: 'inline-flex', alignItems: 'center',
                 }}
               >

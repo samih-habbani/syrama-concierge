@@ -64,12 +64,13 @@ export default function JetFinderPage() {
   }
 
   return (
-    <main style={{ background: '#06090f', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: '#06090f', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
+      <main id="main-content" style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
 
       {/* Hero */}
       <div style={{ position: 'relative', height: '45vh', overflow: 'hidden', flexShrink: 0 }}>
-        <img src="/assets/Jet.webp" alt="Private jet" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)', objectPosition: 'center 60%' }} />
+        <img src="/assets/Jet.webp" alt="" aria-hidden="true" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)', objectPosition: 'center 60%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(6,9,15,0.4) 0%, rgba(6,9,15,0.8) 100%)' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: 80, textAlign: 'center' }}>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1 }}>
@@ -79,7 +80,7 @@ export default function JetFinderPage() {
               <div style={{ width: 40, height: 1, background: '#b8974a' }} />
             </div>
             <h1 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(42px, 6vw, 80px)', lineHeight: 1.0, color: '#f5eedd', margin: '0 0 16px' }}>Jet Finder</h1>
-            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, letterSpacing: '0.08em', color: 'rgba(106,106,94,0.8)', maxWidth: 460 }}>Tell us where you're going. We source the right aircraft within the hour.</p>
+            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, letterSpacing: '0.08em', color: 'rgba(154,154,140,0.96)', maxWidth: 460 }}>Tell us where you're going. We source the right aircraft within the hour.</p>
           </motion.div>
         </div>
       </div>
@@ -94,7 +95,7 @@ export default function JetFinderPage() {
               <div key={s} style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                   <div onClick={() => step > s && setStep(s)} style={{ width: 32, height: 32, borderRadius: '50%', border: `1px solid ${step >= s ? '#b8974a' : 'rgba(184,151,74,0.2)'}`, background: step === s ? '#b8974a' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-tenor)', fontSize: 10, color: step === s ? '#06090f' : step > s ? '#b8974a' : 'rgba(184,151,74,0.4)', transition: 'all 0.4s ease', cursor: step > s ? 'pointer' : 'default' }}>{step > s ? '✓' : s}</div>
-                  <span style={{ fontFamily: 'var(--font-tenor)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: step >= s ? '#b8974a' : 'rgba(106,106,94,0.4)', whiteSpace: 'nowrap' }}>{s === 1 ? 'Flight' : s === 2 ? 'Aircraft' : 'Contact'}</span>
+                  <span style={{ fontFamily: 'var(--font-tenor)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: step >= s ? '#b8974a' : 'rgba(154,154,140,0.7)', whiteSpace: 'nowrap' }}>{s === 1 ? 'Flight' : s === 2 ? 'Aircraft' : 'Contact'}</span>
                 </div>
                 {i < 2 && <div style={{ width: 80, height: 1, background: step > s ? '#b8974a' : 'rgba(184,151,74,0.15)', margin: '0 16px', marginBottom: 24, transition: 'background 0.4s ease' }} />}
               </div>
@@ -109,7 +110,7 @@ export default function JetFinderPage() {
                   <div style={labelStyle}>Type of flight</div>
                   <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(184,151,74,0.15)' }}>
                     {([{ id: 'oneway', label: 'One Way' }, { id: 'roundtrip', label: 'Round Trip' }, { id: 'multileg', label: 'Multi-Leg' }] as { id: TripType; label: string }[]).map(t => (
-                      <button key={t.id} onClick={() => setTripType(t.id)} style={{ flex: 1, background: 'none', border: 'none', cursor: 'pointer', padding: '16px 0', fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: tripType === t.id ? '#f5eedd' : 'rgba(106,106,94,0.6)', borderBottom: tripType === t.id ? '2px solid #b8974a' : '2px solid transparent', marginBottom: -1, transition: 'all 0.25s ease' }}>{t.label}</button>
+                      <button key={t.id} onClick={() => setTripType(t.id)} style={{ flex: 1, background: 'none', border: 'none', cursor: 'pointer', padding: '16px 0', fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: tripType === t.id ? '#f5eedd' : 'rgba(154,154,140,0.82)', borderBottom: tripType === t.id ? '2px solid #b8974a' : '2px solid transparent', marginBottom: -1, transition: 'all 0.25s ease' }}>{t.label}</button>
                     ))}
                   </div>
                 </div>
@@ -145,7 +146,7 @@ export default function JetFinderPage() {
                       <label style={labelStyle}>Passengers</label>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 0, borderBottom: '1px solid rgba(184,151,74,0.25)', paddingBottom: 14 }}>
                         <button onClick={() => setPassengers(p => Math.max(1, p - 1))} style={{ background: 'none', border: '1px solid rgba(184,151,74,0.25)', color: '#b8974a', width: 36, height: 36, cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>−</button>
-                        <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, fontWeight: 300, color: '#f5eedd', flex: 1, textAlign: 'center' }}>{passengers} <span style={{ fontSize: 14, color: '#6a6a5e' }}>pax</span></span>
+                        <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, fontWeight: 300, color: '#f5eedd', flex: 1, textAlign: 'center' }}>{passengers} <span style={{ fontSize: 14, color: '#8a8a7c' }}>pax</span></span>
                         <button onClick={() => setPassengers(p => Math.min(50, p + 1))} style={{ background: 'none', border: '1px solid rgba(184,151,74,0.25)', color: '#b8974a', width: 36, height: 36, cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>+</button>
                       </div>
                     </div>
@@ -153,7 +154,7 @@ export default function JetFinderPage() {
                       <label style={labelStyle}>Animals</label>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 0, borderBottom: '1px solid rgba(184,151,74,0.25)', paddingBottom: 14 }}>
                         <button onClick={() => setAnimals(a => Math.max(0, a - 1))} style={{ background: 'none', border: '1px solid rgba(184,151,74,0.25)', color: '#b8974a', width: 36, height: 36, cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>−</button>
-                        <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, fontWeight: 300, color: animals > 0 ? '#f5eedd' : 'rgba(245,238,221,0.25)', flex: 1, textAlign: 'center' }}>{animals} <span style={{ fontSize: 14, color: '#6a6a5e' }}>{animals === 1 ? 'pet' : 'pets'}</span></span>
+                        <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, fontWeight: 300, color: animals > 0 ? '#f5eedd' : 'rgba(245,238,221,0.25)', flex: 1, textAlign: 'center' }}>{animals} <span style={{ fontSize: 14, color: '#8a8a7c' }}>{animals === 1 ? 'pet' : 'pets'}</span></span>
                         <button onClick={() => setAnimals(a => Math.min(10, a + 1))} style={{ background: 'none', border: '1px solid rgba(184,151,74,0.25)', color: '#b8974a', width: 36, height: 36, cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>+</button>
                       </div>
                     </div>
@@ -171,7 +172,7 @@ export default function JetFinderPage() {
                     <button key={a.id} onClick={() => setAircraft(a.id)} style={{ background: aircraft === a.id ? 'rgba(184,151,74,0.08)' : 'transparent', border: `1px solid ${aircraft === a.id ? '#b8974a' : 'rgba(184,151,74,0.15)'}`, cursor: 'pointer', padding: '20px 24px', textAlign: 'left', transition: 'all 0.25s ease' }}>
                       <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 19, fontWeight: 300, color: aircraft === a.id ? '#f5eedd' : 'rgba(245,238,221,0.6)', marginBottom: 6 }}>{a.label}</div>
                       <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.15em', color: '#b8974a', textTransform: 'uppercase', marginBottom: 4 }}>{a.sub}</div>
-                      <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(106,106,94,0.7)' }}>{a.example}</div>
+                      <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(154,154,140,0.9)' }}>{a.example}</div>
                     </button>
                   ))}
                 </div>
@@ -179,7 +180,7 @@ export default function JetFinderPage() {
                   <div style={labelStyle}>Date flexibility</div>
                   <div style={{ display: 'flex', gap: 12 }}>
                     {[{ id: 'exact', label: 'Exact dates' }, { id: '1day', label: '± 1 day' }, { id: '3days', label: '± 3 days' }].map(f => (
-                      <button key={f.id} onClick={() => setFlexibility(f.id)} style={{ flex: 1, padding: '12px', background: 'transparent', border: `1px solid ${flexibility === f.id ? '#b8974a' : 'rgba(184,151,74,0.15)'}`, cursor: 'pointer', fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: flexibility === f.id ? '#b8974a' : 'rgba(106,106,94,0.6)', transition: 'all 0.25s ease' }}>{f.label}</button>
+                      <button key={f.id} onClick={() => setFlexibility(f.id)} style={{ flex: 1, padding: '12px', background: 'transparent', border: `1px solid ${flexibility === f.id ? '#b8974a' : 'rgba(184,151,74,0.15)'}`, cursor: 'pointer', fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: flexibility === f.id ? '#b8974a' : 'rgba(154,154,140,0.82)', transition: 'all 0.25s ease' }}>{f.label}</button>
                     ))}
                   </div>
                 </div>
@@ -202,7 +203,7 @@ export default function JetFinderPage() {
                     <span style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#b8974a' }}>Your request summary</span>
                   </div>
                   <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, color: '#f5eedd', marginBottom: 8 }}>{from} <span style={{ color: '#b8974a', fontSize: 16 }}>→</span> {to}</div>
-                  <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.12em', color: '#6a6a5e' }}>{date}{returnDate ? ` · Return ${returnDate}` : ''} &nbsp;·&nbsp; {passengers} pax &nbsp;·&nbsp; {AIRCRAFT_TYPES.find(a => a.id === aircraft)?.label}</div>
+                  <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.12em', color: '#8a8a7c' }}>{date}{returnDate ? ` · Return ${returnDate}` : ''} &nbsp;·&nbsp; {passengers} pax &nbsp;·&nbsp; {AIRCRAFT_TYPES.find(a => a.id === aircraft)?.label}</div>
                 </div>
                 <div style={{ marginBottom: 40 }}>
                   <label style={labelStyle}>Your name</label>
@@ -218,10 +219,10 @@ export default function JetFinderPage() {
                     <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+971 50 000 0000" style={inputStyle} onFocus={e => (e.currentTarget.style.borderBottomColor = '#b8974a')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'rgba(184,151,74,0.25)')} />
                   </div>
                 </div>
-                <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, lineHeight: 1.8, color: 'rgba(106,106,94,0.5)', textAlign: 'center', margin: '0 0 24px' }}>Our aviation team responds within 1 hour, 24/7.</p>
+                <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, lineHeight: 1.8, color: '#9a9a8c', textAlign: 'center', margin: '0 0 24px' }}>Our aviation team responds within 1 hour, 24/7.</p>
                 {status === 'error' && <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, color: '#c0614a', textAlign: 'center', marginBottom: 16 }}>Something went wrong. Please try again.</div>}
                 <button onClick={handleSubmit} disabled={!canProceed3 || status === 'sending'} style={{ width: '100%', padding: '22px', background: canProceed3 ? '#b8974a' : 'rgba(184,151,74,0.15)', border: 'none', cursor: canProceed3 ? 'pointer' : 'not-allowed', fontFamily: 'var(--font-tenor)', fontSize: 11, letterSpacing: '0.35em', textTransform: 'uppercase', color: canProceed3 ? '#06090f' : 'rgba(184,151,74,0.3)', transition: 'background 0.3s ease' }}>{status === 'sending' ? 'Sending…' : 'Send request →'}</button>
-                <button onClick={() => setStep(2)} style={{ width: '100%', padding: '14px', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(106,106,94,0.4)', marginTop: 12 }}>← Back</button>
+                <button onClick={() => setStep(2)} style={{ width: '100%', padding: '14px', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(154,154,140,0.7)', marginTop: 12 }}>← Back</button>
               </motion.div>
             )}
 
@@ -229,7 +230,7 @@ export default function JetFinderPage() {
               <motion.div key="success" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} style={{ textAlign: 'center', padding: '48px 0' }}>
                 <div style={{ width: 64, height: 64, border: '1px solid #b8974a', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 32px', fontSize: 24, color: '#b8974a' }}>✓</div>
                 <h2 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 40, color: '#f5eedd', margin: '0 0 16px' }}>Request received.</h2>
-                <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, lineHeight: 1.9, color: '#6a6a5e', maxWidth: 420, margin: '0 auto 40px' }}>Our aviation team will reach out within the hour with aircraft options, pricing and availability.</p>
+                <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, lineHeight: 1.9, color: '#8a8a7c', maxWidth: 420, margin: '0 auto 40px' }}>Our aviation team will reach out within the hour with aircraft options, pricing and availability.</p>
                 <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
                   <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#06090f', background: '#b8974a', padding: '14px 28px', textDecoration: 'none' }}>Back to home</Link>
                   <a href={`https://wa.me/971505548034`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8974a', border: '1px solid rgba(184,151,74,0.3)', padding: '14px 28px', textDecoration: 'none' }}>WhatsApp us</a>
@@ -239,7 +240,8 @@ export default function JetFinderPage() {
           </AnimatePresence>
         </div>
       </div>
+      </main>
       <SiteFooter />
-    </main>
+    </div>
   )
 }
