@@ -79,6 +79,32 @@ html[data-lux-cursor] * {
   width: 100%;
 }
 
+/* Site footer */
+.site-footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.4fr;
+  gap: 56px;
+}
+.site-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .site-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+@media (max-width: 540px) {
+  .site-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
 /* Gold gradient button */
 .btn-gold {
   background: linear-gradient(135deg, var(--or), var(--or-clair));

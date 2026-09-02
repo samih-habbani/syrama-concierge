@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { InstagramGlyph, WhatsAppGlyph, LinkedInGlyph } from '@/components/shared/SocialGlyphs'
 
 const links = [
   { label: 'Aviation', href: '/jet', match: ['/jet'] },
@@ -95,6 +96,26 @@ export function Navbar() {
 
           {/* Right: CTA + hamburger */}
           <div className="flex items-center gap-5">
+            <a
+              href="https://www.instagram.com/syrama_services/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor
+              aria-label="Syrama on Instagram"
+              className="hidden sm:inline-flex"
+              style={{
+                alignItems: 'center', justifyContent: 'center',
+                width: 34, height: 34, borderRadius: '50%',
+                border: '1px solid rgba(184,151,74,0.35)',
+                color: 'var(--or-clair)',
+                transition: 'color 0.3s ease, border-color 0.3s ease, background 0.3s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'var(--noir)'; e.currentTarget.style.borderColor = 'var(--or-clair)'; e.currentTarget.style.background = 'linear-gradient(135deg, var(--or), var(--or-clair))' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--or-clair)'; e.currentTarget.style.borderColor = 'rgba(184,151,74,0.35)'; e.currentTarget.style.background = 'transparent' }}
+            >
+              <InstagramGlyph />
+            </a>
+
             <Link
               href="/#contact"
               data-cursor
@@ -206,14 +227,35 @@ export function Navbar() {
                   <span style={contactValue}>contact@syrama.ae</span>
                 </a>
               </div>
-              <a
-                href="https://www.instagram.com/syrama_services/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(245,238,221,0.6)', textDecoration: 'none', borderBottom: '1px solid rgba(184,151,74,0.3)', paddingBottom: 3 }}
-              >
-                Instagram
-              </a>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <a
+                  href="https://www.instagram.com/syrama_services/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Syrama on Instagram"
+                  style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: '50%', border: '1px solid rgba(184,151,74,0.35)', color: 'var(--or-clair)' }}
+                >
+                  <InstagramGlyph />
+                </a>
+                <a
+                  href="https://wa.me/971505548034"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Syrama on WhatsApp"
+                  style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: '50%', border: '1px solid rgba(184,151,74,0.35)', color: 'var(--or-clair)' }}
+                >
+                  <WhatsAppGlyph />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/samih-habbani/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Founder on LinkedIn"
+                  style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: '50%', border: '1px solid rgba(184,151,74,0.35)', color: 'var(--or-clair)' }}
+                >
+                  <LinkedInGlyph />
+                </a>
+              </div>
             </motion.div>
           </motion.div>
         )}
