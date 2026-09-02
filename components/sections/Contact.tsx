@@ -10,6 +10,35 @@ export function Contact() {
 
   const [focused, setFocused] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', requestType: '', message: '' })
+
+  const setField = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm(prev => ({ ...prev, [k]: e.target.value }))
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error || 'Something went wrong. Please try again.')
+        return
+      }
+      setSubmitted(true)
+    } catch {
+      setError('Network error. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const inputStyle = (name: string) => ({
     width: '100%',
@@ -216,7 +245,7 @@ export function Contact() {
               </motion.div>
             ) : (
               <form
-                onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
+                onSubmit={handleSubmit}
                 style={{ display: 'flex', flexDirection: 'column', gap: 32 }}
               >
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
@@ -227,6 +256,8 @@ export function Contact() {
                     <input
                       type="text"
                       required
+                      value={form.firstName}
+                      onChange={setField('firstName')}
                       placeholder="Alexander"
                       onFocus={() => setFocused('prenom')}
                       onBlur={() => setFocused(null)}
@@ -240,9 +271,43 @@ export function Contact() {
                     <input
                       type="text"
                       required
+                      value={form.lastName}
+                      onChange={setField('lastName')}
                       onFocus={() => setFocused('nom')}
                       onBlur={() => setFocused(null)}
                       style={{ ...inputStyle('nom'), display: 'block', marginTop: 8 }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+                  <div>
+                    <label style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gris)' }}>
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={form.email}
+                      onChange={setField('email')}
+                      placeholder="you@example.com"
+                      onFocus={() => setFocused('email')}
+                      onBlur={() => setFocused(null)}
+                      style={{ ...inputStyle('email'), display: 'block', marginTop: 8 }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gris)' }}>
+                      Phone
+                    </label>
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={setField('phone')}
+                      placeholder="+971 …"
+                      onFocus={() => setFocused('phone')}
+                      onBlur={() => setFocused(null)}
+                      style={{ ...inputStyle('phone'), display: 'block', marginTop: 8 }}
                     />
                   </div>
                 </div>
@@ -252,6 +317,8 @@ export function Contact() {
                     Type of request
                   </label>
                   <select
+                    value={form.requestType}
+                    onChange={setField('requestType')}
                     onFocus={() => setFocused('type')}
                     onBlur={() => setFocused(null)}
                     style={{ ...inputStyle('type'), display: 'block', marginTop: 8, appearance: 'none' }}
@@ -269,6 +336,9 @@ export function Contact() {
                   </label>
                   <textarea
                     rows={4}
+                    required
+                    value={form.message}
+                    onChange={setField('message')}
                     placeholder="Describe your project..."
                     onFocus={() => setFocused('msg')}
                     onBlur={() => setFocused(null)}
@@ -280,9 +350,16 @@ export function Contact() {
                   />
                 </div>
 
+                {error && (
+                  <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, color: '#e5a3a3', letterSpacing: '0.03em' }}>
+                    {error}
+                  </div>
+                )}
+
                 <button
                   type="submit"
                   data-cursor
+                  disabled={loading}
                   style={{
                     background: 'linear-gradient(135deg, var(--or), var(--or-clair))',
                     color: 'var(--noir)',
@@ -294,13 +371,14 @@ export function Contact() {
                     border: 'none',
                     cursor: 'none',
                     alignSelf: 'flex-start',
+                    opacity: loading ? 0.6 : 1,
                     transition: 'opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease',
                     boxShadow: '0 4px 20px rgba(184,151,74,0.4)',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(184,151,74,0.6)' }}
-                  onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(184,151,74,0.4)' }}
+                  onMouseEnter={e => { if (loading) return; e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(184,151,74,0.6)' }}
+                  onMouseLeave={e => { if (loading) return; e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(184,151,74,0.4)' }}
                 >
-                  Send request
+                  {loading ? 'Sending…' : 'Send request'}
                 </button>
               </form>
             )}
