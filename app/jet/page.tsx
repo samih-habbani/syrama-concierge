@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { Navbar } from '@/components/sections/Navbar'
+import { SiteFooter } from '@/components/shared/SiteFooter'
 
 type TripType = 'oneway' | 'roundtrip' | 'multileg'
 type Step = 1 | 2 | 3
@@ -238,6 +239,7 @@ export default function JetFinderPage() {
           </AnimatePresence>
         </div>
       </div>
+      <SiteFooter />
     </main>
   )
 }

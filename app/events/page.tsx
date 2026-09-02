@@ -1,8 +1,9 @@
 'use client'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { Navbar } from '@/components/sections/Navbar'
+import { ContactForm } from '@/components/shared/ContactForm'
+import { SiteFooter } from '@/components/shared/SiteFooter'
 import { events, EventCategory } from '@/lib/events-data'
 
 const CATEGORIES: (EventCategory | 'All')[] = ['All', 'Motorsport', 'Arts & Culture', 'Sport & Society', 'Fashion']
@@ -73,9 +74,20 @@ export default function EventsPage() {
                 <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.15em', color: '#b8974a', textTransform: 'uppercase', marginBottom: 14 }}>{event.subtitle}</div>
                 <div className="event-desc" style={{ overflow: 'hidden', maxHeight: 0, opacity: 0, transition: 'max-height 0.5s ease, opacity 0.4s ease' }}>
                   <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 11, lineHeight: 1.8, color: 'rgba(106,106,94,0.8)', margin: '0 0 14px' }}>{event.desc}</p>
-                  <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(184,151,74,0.7)' }}>{event.highlight}</div>
+                  <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(184,151,74,0.7)', marginBottom: 16 }}>{event.highlight}</div>
                 </div>
-                <div style={{ width: 32, height: 1, background: 'rgba(184,151,74,0.4)', marginTop: 12 }} />
+                <a
+                  href="#enquiry"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: '#d4b472', textDecoration: 'none', borderBottom: '1px solid rgba(212,180,114,0.35)', paddingBottom: 4, marginTop: 12, transition: 'border-color 0.3s ease' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = '#d4b472')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(212,180,114,0.35)')}
+                >
+                  Request access
+                  <svg width="20" height="7" viewBox="0 0 24 8" fill="none">
+                    <line x1="0" y1="4" x2="19" y2="4" stroke="currentColor" />
+                    <polyline points="15,1 21,4 15,7" stroke="currentColor" strokeWidth="0.8" fill="none" />
+                  </svg>
+                </a>
               </div>
             </motion.div>
           ))}
@@ -109,18 +121,26 @@ export default function EventsPage() {
         </div>
       </div>
 
-      {/* CTA */}
-      <div style={{ padding: '100px clamp(32px,6vw,96px)', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(32px,4vw,56px)', fontWeight: 300, color: '#f5eedd', marginBottom: 20 }}>Your next event is waiting.</div>
-        <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, lineHeight: 1.9, color: '#6a6a5e', maxWidth: 480, margin: '0 auto 40px' }}>Tell us where you want to be — and when. We'll handle everything from there.</p>
-        <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
-          <Link href="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 14, fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#06090f', background: '#b8974a', padding: '16px 36px', textDecoration: 'none' }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#d4b472')}
-            onMouseLeave={e => (e.currentTarget.style.background = '#b8974a')}
-          >Plan my event</Link>
-          <a href="https://wa.me/971505548034" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8974a', border: '1px solid rgba(184,151,74,0.3)', padding: '16px 28px', textDecoration: 'none' }}>WhatsApp us</a>
+      {/* Enquiry form — same form as the homepage */}
+      <div id="enquiry" style={{ padding: '110px clamp(32px,6vw,96px)', scrollMarginTop: 90 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(40px, 6vw, 96px)', alignItems: 'start' }} className="hp-2col">
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
+              <div style={{ width: 40, height: 1, background: '#b8974a' }} />
+              <span style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#b8974a' }}>Plan your event</span>
+            </div>
+            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(34px,4.5vw,58px)', lineHeight: 1.05, color: '#f5eedd', margin: '0 0 24px' }}>
+              Tell us where you<br /><em style={{ fontStyle: 'italic', color: '#d4b472' }}>want to be.</em>
+            </h2>
+            <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 2, color: '#6a6a5e', maxWidth: 420 }}>
+              A dedicated advisor replies within 2 hours with access, logistics and a full plan — no intermediaries.
+            </p>
+          </div>
+          <ContactForm defaultRequestType="Private Event" />
         </div>
       </div>
+
+      <SiteFooter />
 
       <style>{`.event-card:hover .event-desc { max-height: 200px; opacity: 1; }`}</style>
     </main>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Navbar } from '@/components/sections/Navbar'
+import { SiteFooter } from '@/components/shared/SiteFooter'
 import DestinationCards from '@/components/yachting/DestinationCards'
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function YachtingPage() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingTop: 96 }}>
         <DestinationCards />
       </div>
+      <SiteFooter />
     </main>
   )
 }
