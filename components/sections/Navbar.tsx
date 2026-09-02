@@ -9,9 +9,9 @@ const links = [
   { label: 'Aviation', href: '/jet', match: ['/jet'] },
   { label: 'Villas', href: '/villas', match: ['/villas'] },
   { label: 'Yachting', href: '/yachting', match: ['/yachting'] },
+  { label: 'Bespoke', href: '/#bespoke', match: [] },
   { label: 'Events', href: '/events', match: ['/events'] },
   { label: 'Journal', href: '/blog', match: ['/blog'] },
-  { label: 'Bespoke', href: '/#bespoke', match: [] },
 ]
 
 export function Navbar() {
