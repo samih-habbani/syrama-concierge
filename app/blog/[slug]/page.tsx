@@ -13,15 +13,15 @@ import { getAllSlugs, getPost, getRelatedPosts } from '@/lib/blog'
 const SITE_URL = 'https://www.syrama.ae'
 
 export const revalidate = 3600
-export const dynamicParams = false
+export const dynamicParams = true
 
-export function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }))
+export async function generateStaticParams() {
+  return (await getAllSlugs()).map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = getPost(slug)
+  const post = await getPost(slug)
   if (!post) return { title: 'Article not found', robots: { index: false, follow: true } }
 
   const image = post.heroImage.startsWith('http') ? post.heroImage : `${SITE_URL}${post.heroImage}`
@@ -59,10 +59,10 @@ function formatDate(iso: string): string {
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = getPost(slug)
+  const post = await getPost(slug)
   if (!post) notFound()
 
-  const related = getRelatedPosts(post)
+  const related = await getRelatedPosts(post)
 
   return (
     <div style={{ background: 'var(--noir)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>

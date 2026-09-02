@@ -21,10 +21,12 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600
 
-export default function BlogIndexPage() {
-  const posts = getAllPostSummaries()
-  const categories = getAllCategoriesInUse()
-  const tags = getAllTagsInUse()
+export default async function BlogIndexPage() {
+  const [posts, categories, tags] = await Promise.all([
+    getAllPostSummaries(),
+    getAllCategoriesInUse(),
+    getAllTagsInUse(),
+  ])
   const [featured, ...rest] = posts
 
   return (

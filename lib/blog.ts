@@ -1,20 +1,17 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import matter from 'gray-matter'
+import { prisma } from './prisma'
 import { Marked } from 'marked'
 import { categoryLabel, tagSlug } from './blog-taxonomy'
-
-const BLOG_DIR = path.join(process.cwd(), 'content', 'blog')
+import type { BlogPost as DbBlogPost } from '@prisma/client'
 
 export interface BlogPost {
   slug: string
   title: string
   excerpt: string
-  date: string // ISO
+  date: string // ISO (publishedAt)
   updated: string | null // ISO
   category: string
   categoryLabel: string
-  tags: string[] // canonical cased hashtags, no #
+  tags: string[]
   heroImage: string
   heroAlt: string
   readingMinutes: number
@@ -22,104 +19,107 @@ export interface BlogPost {
   contentText: string
 }
 
-export interface BlogPostSummary extends Omit<BlogPost, 'contentHtml' | 'contentText'> {}
+export type BlogPostSummary = Omit<BlogPost, 'contentHtml' | 'contentText'>
 
-// A dedicated Marked instance so we can style output and keep internal
-// links as real <a> (Next intercepts same-origin <a> for soft nav anyway).
 const md = new Marked({ gfm: true, breaks: false })
 
-function readRaw(slug: string): { data: Record<string, unknown>; content: string } | null {
-  const file = path.join(BLOG_DIR, `${slug}.md`)
-  if (!fs.existsSync(file)) return null
-  return matter(fs.readFileSync(file, 'utf8'))
-}
-
-function toPost(slug: string, data: Record<string, unknown>, content: string): BlogPost {
-  const contentHtml = md.parse(content, { async: false }) as string
-  const contentText = content.replace(/[#>*_`\-!\[\]()]/g, ' ').replace(/\s+/g, ' ').trim()
+function shape(row: DbBlogPost): BlogPost {
+  const contentHtml = md.parse(row.body, { async: false }) as string
+  const contentText = row.body.replace(/[#>*_`\-!\[\]()]/g, ' ').replace(/\s+/g, ' ').trim()
   const words = contentText.split(' ').filter(Boolean).length
-  const rawTags = Array.isArray(data.tags) ? (data.tags as string[]) : []
-
   return {
-    slug,
-    title: String(data.title ?? slug),
-    excerpt: String(data.excerpt ?? ''),
-    date: new Date(String(data.date ?? Date.now())).toISOString(),
-    updated: data.updated ? new Date(String(data.updated)).toISOString() : null,
-    category: String(data.category ?? 'concierge'),
-    categoryLabel: categoryLabel(String(data.category ?? 'concierge')),
-    tags: rawTags.map((t) => t.replace(/^#/, '')),
-    heroImage: String(data.heroImage ?? '/assets/iconic-events.webp'),
-    heroAlt: String(data.heroAlt ?? data.title ?? ''),
+    slug: row.slug,
+    title: row.title,
+    excerpt: row.excerpt,
+    date: row.publishedAt.toISOString(),
+    updated: row.updatedAt ? row.updatedAt.toISOString() : null,
+    category: row.category,
+    categoryLabel: categoryLabel(row.category),
+    tags: row.tags,
+    heroImage: row.heroImage,
+    heroAlt: row.heroAlt,
     readingMinutes: Math.max(1, Math.round(words / 200)),
     contentHtml,
     contentText,
   }
 }
 
-export function getAllSlugs(): string[] {
-  if (!fs.existsSync(BLOG_DIR)) return []
-  return fs
-    .readdirSync(BLOG_DIR)
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => f.replace(/\.md$/, ''))
+const publishedWhere = process.env.NODE_ENV === 'production' ? { published: true } : {}
+
+export async function getAllPosts(): Promise<BlogPost[]> {
+  try {
+    const rows = await prisma.blogPost.findMany({
+      where: publishedWhere,
+      orderBy: { publishedAt: 'desc' },
+    })
+    return rows.map(shape)
+  } catch (err) {
+    // A DB blip during build/ISR should degrade gracefully, not crash the page.
+    console.error('[blog] getAllPosts failed:', err)
+    return []
+  }
 }
 
-export function getPost(slug: string): BlogPost | null {
-  const raw = readRaw(slug)
-  if (!raw) return null
-  if (raw.data.draft === true && process.env.NODE_ENV === 'production') return null
-  return toPost(slug, raw.data, raw.content)
+export async function getAllSlugs(): Promise<string[]> {
+  try {
+    const rows = await prisma.blogPost.findMany({ where: publishedWhere, select: { slug: true } })
+    return rows.map((r) => r.slug)
+  } catch (err) {
+    console.error('[blog] getAllSlugs failed:', err)
+    return []
+  }
 }
 
-export function getAllPosts(): BlogPost[] {
-  return getAllSlugs()
-    .map((s) => getPost(s))
-    .filter((p): p is BlogPost => p !== null)
-    .sort((a, b) => (a.date < b.date ? 1 : -1))
+export async function getPost(slug: string): Promise<BlogPost | null> {
+  const row = await prisma.blogPost.findUnique({ where: { slug } })
+  if (!row) return null
+  if (!row.published && process.env.NODE_ENV === 'production') return null
+  return shape(row)
 }
 
-export function summarise(p: BlogPost): BlogPostSummary {
+function summarise(p: BlogPost): BlogPostSummary {
   const { contentHtml: _h, contentText: _t, ...rest } = p
   return rest
 }
 
-export function getAllPostSummaries(): BlogPostSummary[] {
-  return getAllPosts().map(summarise)
+export async function getAllPostSummaries(): Promise<BlogPostSummary[]> {
+  return (await getAllPosts()).map(summarise)
 }
 
-export function getPostsByCategory(category: string): BlogPostSummary[] {
-  return getAllPostSummaries().filter((p) => p.category === category)
+export async function getPostsByCategory(category: string): Promise<BlogPostSummary[]> {
+  return (await getAllPostSummaries()).filter((p) => p.category === category)
 }
 
-export function getPostsByTag(tag: string): BlogPostSummary[] {
+export async function getPostsByTag(tag: string): Promise<BlogPostSummary[]> {
   const wanted = tagSlug(tag)
-  return getAllPostSummaries().filter((p) => p.tags.some((t) => tagSlug(t) === wanted))
+  return (await getAllPostSummaries()).filter((p) => p.tags.some((t) => tagSlug(t) === wanted))
 }
 
-export function getAllCategoriesInUse(): { slug: string; label: string; count: number }[] {
+export async function getAllCategoriesInUse(): Promise<{ slug: string; label: string; count: number }[]> {
+  const posts = await getAllPosts()
   const counts = new Map<string, number>()
-  for (const p of getAllPosts()) counts.set(p.category, (counts.get(p.category) ?? 0) + 1)
+  for (const p of posts) counts.set(p.category, (counts.get(p.category) ?? 0) + 1)
   return [...counts.entries()]
     .map(([slug, count]) => ({ slug, label: categoryLabel(slug), count }))
     .sort((a, b) => b.count - a.count)
 }
 
-export function getAllTagsInUse(): { tag: string; slug: string; count: number }[] {
+export async function getAllTagsInUse(): Promise<{ tag: string; slug: string; count: number }[]> {
+  const posts = await getAllPosts()
   const counts = new Map<string, number>()
-  for (const p of getAllPosts()) for (const t of p.tags) counts.set(t, (counts.get(t) ?? 0) + 1)
+  for (const p of posts) for (const t of p.tags) counts.set(t, (counts.get(t) ?? 0) + 1)
   return [...counts.entries()]
     .map(([tag, count]) => ({ tag, slug: tagSlug(tag), count }))
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
 }
 
 /**
- * Related posts for internal linking: score other posts by shared hashtags
- * (weight 3) and same category (weight 2), newest first as a tie-break.
+ * Related posts: score other posts by shared hashtags (×3) and same
+ * category (×2), newest first as a tie-break.
  */
-export function getRelatedPosts(current: BlogPost, limit = 3): BlogPostSummary[] {
+export async function getRelatedPosts(current: BlogPost, limit = 3): Promise<BlogPostSummary[]> {
   const currentTags = new Set(current.tags.map(tagSlug))
-  return getAllPostSummaries()
+  return (await getAllPostSummaries())
     .filter((p) => p.slug !== current.slug)
     .map((p) => {
       const shared = p.tags.filter((t) => currentTags.has(tagSlug(t))).length

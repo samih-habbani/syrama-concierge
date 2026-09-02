@@ -53,7 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Blog articles + category / tag archives.
   try {
-    for (const post of getAllPosts()) {
+    for (const post of await getAllPosts()) {
       entries.push({
         url: `${SITE_URL}/blog/${post.slug}`,
         lastModified: new Date(post.updated || post.date),
@@ -61,10 +61,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       })
     }
-    for (const c of getAllCategoriesInUse()) {
+    for (const c of await getAllCategoriesInUse()) {
       entries.push({ url: `${SITE_URL}/blog/category/${c.slug}`, lastModified: now, changeFrequency: 'weekly', priority: 0.4 })
     }
-    for (const t of getAllTagsInUse()) {
+    for (const t of await getAllTagsInUse()) {
       entries.push({ url: `${SITE_URL}/blog/tag/${t.slug}`, lastModified: now, changeFrequency: 'weekly', priority: 0.3 })
     }
   } catch (err) {

@@ -409,6 +409,10 @@ html[data-lux-cursor] * {
 /* ── Blog cards ──────────────────────────────────────────────── */
 a:hover .article-card-img { transform: scale(1.05); }
 
+/* ── Events cards ────────────────────────────────────────────── */
+.event-card:hover .event-desc { max-height: 220px; opacity: 1; }
+.event-card:hover .event-card-img { transform: scale(1.06); filter: brightness(0.45); }
+
 /* ── Blog article body (markdown output) ─────────────────────── */
 .article-body {
   font-family: var(--font-tenor), Georgia, serif;

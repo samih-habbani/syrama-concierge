@@ -224,3 +224,45 @@ model Message {
   @@index([status])
   @@map("message")
 }
+
+// Blog articles ("The Journal"). Managed from the concierge back-office.
+// syrama-yachting shares this database but ignores this table.
+model BlogPost {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  title       String
+  excerpt     String
+  category    String
+  tags        String[]
+  heroImage   String    @map("hero_image")
+  heroAlt     String    @map("hero_alt")
+  body        String    // markdown
+  published   Boolean   @default(true)
+  publishedAt DateTime  @default(now()) @map("published_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  @@index([published, publishedAt])
+  @@map("blog_post")
+}
+
+// Prestigious events shown on /events. Managed from the concierge back-office.
+model Event {
+  id          Int      @id @default(autoincrement())
+  name        String
+  subtitle    String?
+  location    String?
+  country     String?
+  month       String?
+  category    String
+  description String?
+  highlight   String?
+  image       String
+  sortOrder   Int      @default(0) @map("sort_order")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([published, sortOrder])
+  @@map("event")
+}

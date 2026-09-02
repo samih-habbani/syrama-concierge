@@ -7,10 +7,10 @@ import { getPostsByCategory, getAllCategoriesInUse, getAllTagsInUse } from '@/li
 import { categoryLabel, categoryBlurb, isCategory } from '@/lib/blog-taxonomy'
 
 export const revalidate = 3600
-export const dynamicParams = false
+export const dynamicParams = true
 
-export function generateStaticParams() {
-  return getAllCategoriesInUse().map((c) => ({ category: c.slug }))
+export async function generateStaticParams() {
+  return (await getAllCategoriesInUse()).map((c) => ({ category: c.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
@@ -29,11 +29,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const { category } = await params
   if (!isCategory(category)) notFound()
 
-  const posts = getPostsByCategory(category)
+  const posts = await getPostsByCategory(category)
   if (posts.length === 0) notFound()
 
-  const otherCategories = getAllCategoriesInUse().filter((c) => c.slug !== category)
-  const tags = getAllTagsInUse().slice(0, 14)
+  const otherCategories = (await getAllCategoriesInUse()).filter((c) => c.slug !== category)
+  const tags = (await getAllTagsInUse()).slice(0, 14)
 
   return (
     <>

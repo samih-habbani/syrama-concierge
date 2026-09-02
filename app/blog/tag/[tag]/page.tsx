@@ -7,10 +7,10 @@ import { getPostsByTag, getAllTagsInUse } from '@/lib/blog'
 import { hashtagBlurb, tagFromSlug, tagSlug } from '@/lib/blog-taxonomy'
 
 export const revalidate = 3600
-export const dynamicParams = false
+export const dynamicParams = true
 
-export function generateStaticParams() {
-  return getAllTagsInUse().map((t) => ({ tag: t.slug }))
+export async function generateStaticParams() {
+  return (await getAllTagsInUse()).map((t) => ({ tag: t.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ tag: string }> }): Promise<Metadata> {
@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: { params: Promise<{ tag: stri
 export default async function TagPage({ params }: { params: Promise<{ tag: string }> }) {
   const { tag } = await params
   const canonical = tagFromSlug(tag)
-  const posts = getPostsByTag(canonical)
+  const posts = await getPostsByTag(canonical)
   if (posts.length === 0) notFound()
 
-  const otherTags = getAllTagsInUse().filter((t) => t.slug !== tagSlug(canonical))
+  const otherTags = (await getAllTagsInUse()).filter((t) => t.slug !== tagSlug(canonical))
 
   return (
     <>
