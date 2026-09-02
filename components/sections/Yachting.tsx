@@ -41,7 +41,7 @@ export function Yachting() {
       <motion.div
         style={{ y: textY, position: 'relative', zIndex: 2, height: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center' }}
       >
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '160px 48px', width: '100%' }}>
+        <div className="hp-pad" style={{ maxWidth: 1200, margin: '0 auto', padding: '160px 48px', width: '100%' }}>
           <div style={{ maxWidth: 620 }}>
 
             <motion.div
@@ -74,6 +74,7 @@ export function Yachting() {
 
             {/* Yacht specs grid */}
             <motion.div
+              className="hp-yacht-specs"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.3 }}

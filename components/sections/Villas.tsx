@@ -45,6 +45,7 @@ export function Villas() {
     <section
       id="villas"
       ref={sectionRef}
+      className="hp-sec"
       style={{ position: 'relative', padding: '160px 48px', background: 'var(--noir)', overflow: 'hidden' }}
     >
       {/* Subtle background texture */}
@@ -62,7 +63,7 @@ export function Villas() {
       <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative' }}>
 
         {/* Header */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, marginBottom: 100, alignItems: 'end' }}>
+        <div className="hp-2col hp-2col--mb" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, marginBottom: 100, alignItems: 'end' }}>
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -98,7 +99,7 @@ export function Villas() {
         </div>
 
         {/* Villa cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        <div className="hp-villa-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
           {villas.map((villa, i) => (
             <motion.div
               key={villa.name}

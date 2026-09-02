@@ -52,7 +52,7 @@ export function Navbar() {
           transition: 'background 0.6s ease, backdrop-filter 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease',
         }}
       >
-        <div style={{ maxWidth: 1300, margin: '0 auto', padding: '24px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="hp-nav-inner" style={{ maxWidth: 1300, margin: '0 auto', padding: '24px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {/* Logo */}
           <Link href="/" data-cursor style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 300, letterSpacing: '0.3em', color: 'var(--champagne)', textTransform: 'uppercase' }}>

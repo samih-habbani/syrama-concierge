@@ -14,12 +14,13 @@ export function Events() {
     <section
       id="events"
       ref={sectionRef}
+      className="hp-sec"
       style={{ position: 'relative', padding: '160px 48px', background: 'var(--noir)', overflow: 'hidden' }}
     >
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Header */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, marginBottom: 100 }}>
+        <div className="hp-2col hp-2col--mb" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, marginBottom: 100 }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -57,7 +58,7 @@ export function Events() {
         </div>
 
         {/* Asymmetric image layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, alignItems: 'start' }}>
+        <div className="hp-events-gallery" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, alignItems: 'start' }}>
 
           {/* Col 1 — tall image */}
           <motion.div
@@ -181,6 +182,7 @@ export function Events() {
 
         {/* Bottom categories strip */}
         <motion.div
+          className="hp-events-cats"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.4 }}
@@ -210,6 +212,7 @@ export function Events() {
 
         {/* CTA band */}
         <motion.div
+          className="hp-cta-band"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2 }}

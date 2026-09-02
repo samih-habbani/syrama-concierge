@@ -26,6 +26,7 @@ export function Manifesto() {
     >
       {/* VIDEO PANEL — left 42% — portrait, not cropped */}
       <motion.div
+        className="hp-manifesto-video"
         style={{
           position: 'absolute',
           top: 0, left: 0,
@@ -95,6 +96,7 @@ export function Manifesto() {
 
       {/* RIGHT CONTENT — 58% */}
       <motion.div
+        className="hp-pad"
         style={{
           position: 'relative', zIndex: 5,
           width: '100%',
@@ -104,7 +106,7 @@ export function Manifesto() {
           y: contentY,
         }}
       >
-        <div style={{ width: '50%', marginLeft: '46%', paddingRight: 64 }}>
+        <div className="hp-manifesto-copy" style={{ width: '50%', marginLeft: '46%', paddingRight: 64 }}>
 
           {/* Label */}
           <motion.div

@@ -72,8 +72,8 @@ export function Bespoke() {
       style={{ position: 'relative', background: 'var(--noir)', overflow: 'hidden' }}
     >
       {/* Header */}
-      <div style={{ padding: '160px 48px 80px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'end' }}>
+      <div className="hp-bespoke-head" style={{ padding: '160px 48px 80px', maxWidth: 1200, margin: '0 auto' }}>
+        <div className="hp-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'end' }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -130,15 +130,15 @@ export function Bespoke() {
       </div>
 
       {/* Immersive experience grid */}
-      <div style={{ padding: '0 48px 160px', maxWidth: 1400, margin: '0 auto' }}>
+      <div className="hp-bespoke-grid-wrap" style={{ padding: '0 48px 160px', maxWidth: 1400, margin: '0 auto' }}>
         {/* Row 1: large left + one tall right */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 12, marginBottom: 12 }}>
+        <div className="hp-bespoke-row1" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 12, marginBottom: 12 }}>
           <ExperienceCard exp={experiences[0]} height={580} delay={0} />
           <ExperienceCard exp={experiences[1]} height={580} delay={0.1} />
         </div>
 
         {/* Row 2: 4 equal cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 12 }}>
+        <div className="hp-bespoke-row2" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 12 }}>
           {[experiences[3], experiences[2], experiences[4], experiences[5], experiences[6]].slice(0, 4).map((exp, i) => (
             <ExperienceCard key={exp.title} exp={exp} height={420} delay={i * 0.08} />
           ))}
@@ -172,6 +172,7 @@ export function Bespoke() {
 function ExperienceCard({ exp, height, delay }: { exp: typeof experiences[0], height: number, delay: number }) {
   return (
     <motion.div
+      className="hp-bespoke-card"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9, delay, ease: [0.25, 0.1, 0, 1] }}

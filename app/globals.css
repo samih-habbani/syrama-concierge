@@ -162,6 +162,146 @@ html[data-lux-cursor] * {
   .bespoke-marquee { animation: none; }
 }
 
+/* ============================================================
+   HOMEPAGE — RESPONSIVE
+   The sections carry their desktop layout in inline styles; these
+   media queries override only the layout-critical properties for
+   tablet / phone (hence the !important — inline styles win otherwise).
+   Breakpoints: 1024 (tablet landscape), 768 (tablet portrait),
+   560 / 480 (phones).
+   ============================================================ */
+
+/* ---- generic helpers ---- */
+@media (max-width: 1024px) {
+  .hp-sec { padding-left: 40px !important; padding-right: 40px !important; }
+  .hp-pad { padding-left: 40px !important; padding-right: 40px !important; }
+}
+@media (max-width: 768px) {
+  .hp-sec { padding-top: 104px !important; padding-bottom: 104px !important; padding-left: 22px !important; padding-right: 22px !important; }
+  .hp-pad { padding-left: 22px !important; padding-right: 22px !important; padding-top: 104px !important; padding-bottom: 104px !important; }
+  .hp-2col { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .hp-2col.hp-2col--mb { margin-bottom: 56px !important; }
+  .hp-corner-num { display: none !important; }
+}
+@media (max-width: 480px) {
+  .hp-sec { padding-top: 84px !important; padding-bottom: 84px !important; padding-left: 18px !important; padding-right: 18px !important; }
+  .hp-pad { padding-left: 18px !important; padding-right: 18px !important; }
+}
+
+/* ---- Navbar ---- */
+@media (max-width: 768px) {
+  .hp-nav-inner { padding: 18px 22px !important; }
+}
+
+/* ---- Hero ---- */
+@media (max-width: 900px) {
+  .hp-hero-video { width: 100% !important; }
+  .hp-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(6,9,15,0.94) 0%, rgba(6,9,15,0.82) 40%, rgba(6,9,15,0.6) 100%);
+  }
+  .hp-hero-copy { max-width: 100% !important; }
+}
+@media (max-width: 768px) {
+  .hp-hero-pad { padding-left: 22px !important; padding-right: 22px !important; }
+}
+@media (max-width: 560px) {
+  .hp-hero-pad { padding-left: 18px !important; padding-right: 18px !important; }
+  .hp-hero-copy h1 span { font-size: clamp(38px, 12.5vw, 60px) !important; }
+  .hp-cta-row { flex-wrap: wrap !important; gap: 16px !important; margin-top: 40px !important; align-items: stretch !important; }
+  .hp-cta-row > a:first-child { text-align: center; }
+}
+
+/* ---- Manifesto ---- */
+@media (max-width: 900px) {
+  .hp-manifesto-video { display: none !important; }
+  .hp-manifesto-copy { width: 100% !important; margin-left: 0 !important; padding-right: 0 !important; }
+}
+
+/* ---- Aviation ---- */
+@media (max-width: 1024px) {
+  .hp-aviation { grid-template-columns: 1fr !important; }
+  .hp-aviation-img { min-height: 46vh !important; }
+  .hp-aviation-copy { padding: 90px 40px !important; }
+  .hp-aviation-num { font-size: 110px !important; top: 40px !important; right: 24px !important; }
+}
+@media (max-width: 768px) {
+  .hp-aviation-img { min-height: 40vh !important; }
+  .hp-aviation-copy { padding: 76px 22px !important; }
+  .hp-aviation-num { display: none !important; }
+}
+@media (max-width: 480px) {
+  .hp-aviation-copy { padding: 68px 18px !important; }
+}
+
+/* ---- Villas ---- */
+@media (max-width: 900px) {
+  .hp-villa-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 18px !important; }
+}
+@media (max-width: 560px) {
+  .hp-villa-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ---- Events ---- */
+@media (max-width: 900px) {
+  .hp-events-gallery { grid-template-columns: 1fr 1fr !important; align-items: start !important; }
+  .hp-events-gallery > div { padding-top: 0 !important; }
+  .hp-events-cats { grid-template-columns: repeat(2, 1fr) !important; }
+  .hp-events-cats > div { border-right: none !important; border-bottom: 1px solid rgba(184,151,74,0.12); padding: 32px 22px !important; }
+}
+@media (max-width: 560px) {
+  .hp-events-gallery { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .hp-events-cats { grid-template-columns: 1fr !important; }
+  .hp-cta-band { padding: 34px 22px !important; gap: 22px !important; }
+}
+
+/* ---- Bespoke ---- */
+@media (max-width: 1024px) {
+  .hp-bespoke-head { padding-left: 40px !important; padding-right: 40px !important; }
+  .hp-bespoke-grid-wrap { padding-left: 40px !important; padding-right: 40px !important; }
+}
+@media (max-width: 900px) {
+  .hp-bespoke-row1 { grid-template-columns: 1fr !important; }
+  .hp-bespoke-row2 { grid-template-columns: repeat(2, 1fr) !important; }
+  .hp-bespoke-card { height: auto !important; aspect-ratio: 4 / 5; }
+  .bespoke-marquee span { font-size: 20px !important; }
+}
+@media (max-width: 768px) {
+  .hp-bespoke-head { padding: 104px 22px 60px !important; }
+  .hp-bespoke-grid-wrap { padding: 0 22px 104px !important; }
+}
+@media (max-width: 560px) {
+  .hp-bespoke-row2 { grid-template-columns: 1fr !important; }
+  .hp-bespoke-head { padding: 84px 18px 52px !important; }
+  .hp-bespoke-grid-wrap { padding: 0 18px 84px !important; }
+}
+
+/* ---- Contact ---- */
+@media (max-width: 1024px) {
+  .hp-contact-inner { padding: 120px 40px 96px !important; }
+  .hp-contact-bottom { grid-template-columns: 1fr !important; gap: 44px !important; }
+  .hp-founder-card, .hp-founder-card img { min-height: 440px !important; }
+}
+@media (max-width: 768px) {
+  .hp-contact-inner { padding: 92px 22px 80px !important; }
+  .site-footer-bottom { justify-content: center !important; text-align: center; }
+}
+@media (max-width: 560px) {
+  .hp-contact-inner { padding: 84px 18px 72px !important; }
+  .hp-form-2col { grid-template-columns: 1fr !important; gap: 22px !important; }
+  .hp-founder-card, .hp-founder-card img { min-height: 380px !important; }
+}
+
+/* ---- Yachting ---- */
+@media (max-width: 560px) {
+  .hp-yacht-specs > div { padding: 20px 16px !important; }
+  .hp-yacht-specs > div > div:first-child { font-size: 24px !important; }
+}
+
 /* Selection */
 ::selection {
   background: rgba(184, 151, 74, 0.2);

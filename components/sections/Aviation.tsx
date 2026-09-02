@@ -15,6 +15,7 @@ export function Aviation() {
     <section
       id="aviation"
       ref={sectionRef}
+      className="hp-aviation"
       style={{
         position: 'relative',
         minHeight: '100vh',
@@ -25,7 +26,7 @@ export function Aviation() {
       }}
     >
       {/* Left — image */}
-      <div style={{ position: 'relative', overflow: 'hidden', minHeight: 700 }}>
+      <div className="hp-aviation-img" style={{ position: 'relative', overflow: 'hidden', minHeight: 700 }}>
         <motion.div
           ref={imageRef}
           style={{ y: imageY, position: 'absolute', inset: '-10%', overflow: 'hidden' }}
@@ -53,13 +54,13 @@ export function Aviation() {
       </div>
 
       {/* Right — content */}
-      <div style={{
+      <div className="hp-aviation-copy" style={{
         display: 'flex', flexDirection: 'column', justifyContent: 'center',
         padding: '120px 80px 120px 80px',
         position: 'relative',
       }}>
         {/* Section number */}
-        <div aria-hidden style={{
+        <div aria-hidden className="hp-aviation-num" style={{
           position: 'absolute', top: 60, right: 48,
           fontFamily: 'var(--font-cormorant)', fontSize: 160, fontWeight: 300,
           color: 'rgba(184,151,74,0.12)', lineHeight: 1, userSelect: 'none',

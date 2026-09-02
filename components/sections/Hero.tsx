@@ -58,6 +58,7 @@ export function Hero() {
     <section
       id="hero"
       ref={sectionRef}
+      className="hp-hero"
       style={{
         position: 'relative',
         height: '100vh',
@@ -84,6 +85,7 @@ export function Hero() {
 
       {/* ── VIDEO panel — right 55%, gradient eats left 40% ── */}
       <motion.div
+        className="hp-hero-video"
         style={{
           position: 'absolute',
           top: 60, right: 0,
@@ -169,6 +171,7 @@ export function Hero() {
       {/* ── LEFT content ── */}
       <motion.div
         ref={containerRef}
+        className="hp-hero-pad"
         style={{
           position: 'relative', zIndex: 5,
           width: '100%',
@@ -181,7 +184,7 @@ export function Hero() {
           y: contentY,
         }}
       >
-        <div style={{ maxWidth: 580 }}>
+        <div className="hp-hero-copy" style={{ maxWidth: 580 }}>
 
           {/* Label */}
           <motion.div
@@ -243,6 +246,7 @@ export function Hero() {
 
           {/* CTAs */}
           <motion.div
+            className="hp-cta-row"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, delay: 1.85, ease: [0.25, 0.1, 0, 1] }}
