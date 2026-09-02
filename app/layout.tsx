@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Tenor_Sans } from 'next/font/google'
 import './globals.css'
 import { OrganizationJsonLd } from '@/components/seo/JsonLd'
+import { WhatsAppButton } from '@/components/shared/WhatsAppButton'
 
 const cormorant = Cormorant_Garamond({
   variable: '--font-cormorant',
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="skip-link">Skip to content</a>
         <OrganizationJsonLd />
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   )
