@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Tenor_Sans } from 'next/font/google'
 import './globals.css'
 import { OrganizationJsonLd } from '@/components/seo/JsonLd'
-import { WhatsAppButton } from '@/components/shared/WhatsAppButton'
+import { SiteChrome } from '@/components/shared/SiteChrome'
 
 const cormorant = Cormorant_Garamond({
   variable: '--font-cormorant',
@@ -101,10 +101,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${cormorant.variable} ${tenor.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <a href="#main-content" className="skip-link">Skip to content</a>
         <OrganizationJsonLd />
         {children}
-        <WhatsAppButton />
+        <SiteChrome />
       </body>
     </html>
   )
