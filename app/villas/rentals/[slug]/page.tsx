@@ -2,11 +2,25 @@ import type { Metadata } from 'next'
 import { notFound, permanentRedirect } from 'next/navigation'
 import { getPropertyById, getSimilarProperties } from '@/lib/property-service'
 import VillaDetailClient from '@/components/villas/VillaDetailClient'
-import { idFromSlug, propertyHref } from '@/lib/slug'
+import { idFromSlug, propertyHref, propertySlug } from '@/lib/slug'
 import { sanitizeDescription, displayRate, regionLabel } from '@/lib/property-format'
 
 export const revalidate = 86400
 export const dynamicParams = true
+
+// Pre-render the villas linked from the homepage so those clicks are
+// instant. The full portfolio (~110 more) renders on demand and is then
+// cached by ISR — pre-rendering all of them would make the build brittle
+// against a single DB hiccup.
+const FEATURED_VILLAS = [
+  { id: 35, title: 'Villa Maestra – Iconic Sea View Villa on the Saint-Tropez Peninsula' },
+  { id: 43, title: 'Villa Liromi – Iconic Sea View Estate Overlooking Es Vedrà, Ibiza' },
+  { id: 16, title: 'Villa Kenzie – Iconic Seaside Villa in Mykonos' },
+]
+
+export function generateStaticParams() {
+  return FEATURED_VILLAS.map((v) => ({ slug: propertySlug(v) }))
+}
 
 const SITE_URL = 'https://www.syrama.ae'
 
@@ -51,7 +65,7 @@ export default async function VillaDetailPage({ params }: { params: Promise<{ sl
     permanentRedirect(canonicalPath)
   }
 
-  const similar = await getSimilarProperties(villa)
+  const similar = await getSimilarProperties(villa).catch(() => [])
   const rate = displayRate(villa)
 
   const jsonLd = {

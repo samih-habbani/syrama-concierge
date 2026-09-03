@@ -413,6 +413,23 @@ a:hover .article-card-img { transform: scale(1.05); }
 .event-card:hover .event-desc { max-height: 220px; opacity: 1; }
 .event-card:hover .event-card-img { transform: scale(1.06); filter: brightness(0.45); }
 
+/* ── Homepage villa cards ────────────────────────────────────────
+   The card's resting state is ALWAYS visible & clickable. The entrance
+   is a pure @starting-style transition — browsers without support just
+   render the resting state, so a card can never get stuck invisible. */
+.hp-villa-card {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.25, 0.1, 0, 1);
+}
+@starting-style {
+  .hp-villa-card { opacity: 0; transform: translateY(24px); }
+}
+.hp-villa-card:hover .hp-villa-card__img { transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) {
+  .hp-villa-card { transition: none; }
+}
+
 /* ── Blog article body (markdown output) ─────────────────────── */
 .article-body {
   font-family: var(--font-tenor), Georgia, serif;

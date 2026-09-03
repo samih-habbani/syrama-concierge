@@ -101,36 +101,35 @@ export function Villas() {
         {/* Villa cards */}
         <div className="hp-villa-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
           {villas.map((villa, i) => (
-            <motion.div
+            <Link
               key={villa.name}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: i * 0.15, ease: [0.25, 0.1, 0, 1] }}
-              viewport={{ once: true, margin: '-60px' }}
-            >
-             <Link
               href={propertyHref({ id: villa.id, title: villa.title })}
+              prefetch
               data-cursor
-              style={{ display: 'block', cursor: 'none', overflow: 'hidden', position: 'relative', textDecoration: 'none' }}
-             >
+              className="hp-villa-card"
+              style={{
+                display: 'block', overflow: 'hidden', position: 'relative', textDecoration: 'none',
+                transitionDelay: `${i * 0.09}s`,
+              }}
+            >
               {/* Image */}
-              <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/4' }}>
+              <div className="hp-villa-card__media" style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/4' }}>
                 <img
                   src={villa.img}
                   alt={villa.name}
+                  loading="lazy"
+                  className="hp-villa-card__img"
                   style={{
                     width: '100%', height: '100%', objectFit: 'cover',
                     transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)',
                     filter: 'brightness(0.75)',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.06)')}
-                  onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
                 />
                 <div style={{
-                  position: 'absolute', inset: 0,
+                  position: 'absolute', inset: 0, pointerEvents: 'none',
                   background: 'linear-gradient(to top, rgba(6,9,15,0.9) 0%, rgba(6,9,15,0.2) 50%, transparent 100%)',
                 }} />
-                <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
+                <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24, pointerEvents: 'none' }}>
                   <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 26, fontWeight: 300, color: 'var(--champagne)', lineHeight: 1.2 }}>
                     {villa.name}
                   </div>
@@ -148,8 +147,7 @@ export function Villas() {
               }}>
                 {villa.detail}
               </div>
-             </Link>
-            </motion.div>
+            </Link>
           ))}
         </div>
 
