@@ -3,8 +3,20 @@ import { LegalPage, LegalList } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'How Syrama collects, uses and protects your personal data.',
+  description: 'How Syrama collects, uses, stores and protects your personal data when you contact us or request our services, and your rights over that data under GDPR.',
   alternates: { canonical: '/privacy-policy' },
+  openGraph: {
+    title: 'Privacy Policy · Syrama',
+    description: 'How Syrama collects, uses and protects your personal data, and your rights under GDPR.',
+    url: 'https://www.syrama.ae/privacy-policy',
+    images: ['/opengraph-image'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy · Syrama',
+    description: 'How Syrama collects, uses and protects your personal data, and your rights under GDPR.',
+    images: ['/opengraph-image'],
+  },
 }
 
 export default function PrivacyPolicyPage() {

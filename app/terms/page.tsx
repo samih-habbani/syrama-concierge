@@ -3,8 +3,20 @@ import { LegalPage } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
   title: 'Terms of Use',
-  description: 'Terms governing access to and use of syrama.ae.',
+  description: 'The terms governing access to and use of syrama.ae — acceptable use, intellectual property, liability, changes to these terms and the applicable governing law.',
   alternates: { canonical: '/terms' },
+  openGraph: {
+    title: 'Terms of Use · Syrama',
+    description: 'The terms governing access to and use of syrama.ae.',
+    url: 'https://www.syrama.ae/terms',
+    images: ['/opengraph-image'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Terms of Use · Syrama',
+    description: 'The terms governing access to and use of syrama.ae.',
+    images: ['/opengraph-image'],
+  },
 }
 
 export default function TermsPage() {

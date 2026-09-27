@@ -1,5 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { PrimaryCta } from '@/components/shared/Cta'
 
 const experiences = [
@@ -180,12 +181,13 @@ function ExperienceCard({ exp, height, delay }: { exp: typeof experiences[0], he
       data-cursor
       style={{ position: 'relative', overflow: 'hidden', height, cursor: 'none' }}
     >
-      <img
+      <Image
         src={exp.img}
         alt={exp.title}
-        loading="lazy"
+        fill
+        sizes="(max-width: 760px) 100vw, (max-width: 1200px) 40vw, 25vw"
         style={{
-          width: '100%', height: '100%', objectFit: 'cover',
+          objectFit: 'cover',
           objectPosition: exp.position,
           transition: 'transform 1.2s cubic-bezier(0.25, 0.1, 0, 1)',
           filter: 'brightness(0.55) contrast(1.1)',

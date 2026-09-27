@@ -20,7 +20,7 @@ export default function YachtingNav({ back }: { back?: { href: string; label: st
           <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#8f8f7f', marginTop: 2 }}>Dubai · Concierge</div>
         </Link>
         {back && (
-          <Link href={back.href} style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8f8f7f', textDecoration: 'none' }}>
+          <Link href={back.href} className="yn-back" style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8f8f7f', textDecoration: 'none' }}>
             ← {back.label}
           </Link>
         )}

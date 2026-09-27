@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, cubicBezier } from 'framer-motion'
 
 const destinations = [
@@ -64,13 +65,12 @@ export default function DestinationCards() {
                   if (img) img.style.transform = 'scale(1)'
                 }}
               >
-                <img
+                <Image
                   src={dest.image}
                   alt={dest.label}
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   style={{
-                    width: '100%',
-                    height: '100%',
                     objectFit: 'cover',
                     filter: 'brightness(0.6)',
                     transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)',

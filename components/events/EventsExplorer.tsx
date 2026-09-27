@@ -1,6 +1,7 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import type { PrestigiousEvent } from '@/lib/event-service'
 
 const FILTERS = ['All', 'Motorsport', 'Arts & Culture', 'Sport & Society', 'Fashion', 'Music & Lifestyle']
@@ -41,7 +42,7 @@ export function EventsExplorer({ events }: { events: PrestigiousEvent[] }) {
       </div>
 
       <div style={{ padding: '80px clamp(32px,6vw,96px)' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px, 100%), 1fr))', gap: 2 }}>
           {filtered.map((event, i) => (
             <motion.div
               key={event.id}
@@ -52,12 +53,13 @@ export function EventsExplorer({ events }: { events: PrestigiousEvent[] }) {
               className="event-card"
               style={{ position: 'relative', overflow: 'hidden', aspectRatio: i % 5 === 0 ? '16/10' : '4/3' }}
             >
-              <img
+              <Image
                 src={event.image}
                 alt={event.name}
                 className="event-card-img"
-                loading="lazy"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)', transition: 'transform 1s cubic-bezier(0.25,0.1,0,1)' }}
+                fill
+                sizes="(max-width: 680px) 100vw, (max-width: 1020px) 50vw, 34vw"
+                style={{ objectFit: 'cover', filter: 'brightness(0.35)', transition: 'transform 1s cubic-bezier(0.25,0.1,0,1)' }}
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(6,9,15,0.97) 0%, rgba(6,9,15,0.5) 50%, transparent 100%)', pointerEvents: 'none' }} />
               <div style={{ position: 'absolute', top: 24, left: 24, fontFamily: 'var(--font-tenor)', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#b8974a', background: 'rgba(6,9,15,0.7)', padding: '6px 12px', backdropFilter: 'blur(8px)' }}>{event.category}</div>

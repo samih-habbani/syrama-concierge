@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Navbar } from '@/components/sections/Navbar'
 import { SiteFooter } from '@/components/shared/SiteFooter'
 
@@ -70,7 +71,7 @@ export default function JetFinderPage() {
 
       {/* Hero */}
       <div style={{ position: 'relative', height: '45vh', overflow: 'hidden', flexShrink: 0 }}>
-        <img src="/assets/Jet.webp" alt="" aria-hidden="true" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)', objectPosition: 'center 60%' }} />
+        <Image src="/assets/Jet.webp" alt="" aria-hidden="true" fill priority sizes="100vw" style={{ objectFit: 'cover', filter: 'brightness(0.35)', objectPosition: 'center 60%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(6,9,15,0.4) 0%, rgba(6,9,15,0.8) 100%)' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: 80, textAlign: 'center' }}>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1 }}>

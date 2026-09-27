@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import VillaInquiryModal from './VillaInquiryModal'
 import VillaAvailabilityModal from './VillaAvailabilityModal'
 import ShareButtons from '@/components/yachting/ShareButtons'
@@ -75,7 +76,14 @@ export default function VillaDetailClient({ villa, descriptionHtml, similar = []
 
       <div className="h-[56vh] md:h-[70vh]" style={{ position: 'relative', overflow: 'hidden', marginTop: 64, background: '#1a1a1a' }}>
         {images.length > 0 && (
-          <img src={`/uploads/yachts/${images[imgIndex].url}`} alt={images[imgIndex].alt || villa.title || 'Villa'} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.65)' }} loading="eager" />
+          <Image
+            src={`/uploads/yachts/${images[imgIndex].url}`}
+            alt={images[imgIndex].alt || villa.title || 'Villa'}
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: 'cover', filter: 'brightness(0.65)' }}
+          />
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(6,9,15,0.9) 100%)' }} />
         {images.length > 1 && (
@@ -96,8 +104,8 @@ export default function VillaDetailClient({ villa, descriptionHtml, similar = []
       <div style={{ display: 'flex', gap: 8, padding: '12px clamp(24px, 6vw, 96px)', background: '#06090f', overflowX: 'auto' }}>
         {images.map((img, i) => (
           <button key={i} type="button" onClick={() => setImgIndex(i)} aria-label={`View photo ${i + 1} of ${images.length}`} aria-current={imgIndex === i}
-            style={{ width: 80, height: 56, overflow: 'hidden', cursor: 'pointer', padding: 0, border: 'none', background: 'none', outline: imgIndex === i ? '2px solid #b8974a' : '2px solid transparent', outlineOffset: 2, transition: 'outline-color 0.2s ease', flexShrink: 0 }}>
-            <img src={`/uploads/yachts/${img.url}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: imgIndex === i ? 'brightness(1)' : 'brightness(0.5)', transition: 'filter 0.3s ease' }} loading="lazy" />
+            style={{ position: 'relative', width: 80, height: 56, overflow: 'hidden', cursor: 'pointer', padding: 0, border: 'none', background: 'none', outline: imgIndex === i ? '2px solid #b8974a' : '2px solid transparent', outlineOffset: 2, transition: 'outline-color 0.2s ease', flexShrink: 0 }}>
+            <Image src={`/uploads/yachts/${img.url}`} alt="" fill sizes="80px" style={{ objectFit: 'cover', filter: imgIndex === i ? 'brightness(1)' : 'brightness(0.5)', transition: 'filter 0.3s ease' }} />
           </button>
         ))}
       </div>
@@ -140,7 +148,7 @@ export default function VillaDetailClient({ villa, descriptionHtml, similar = []
           {amenities.length > 0 && (
             <div style={{ marginBottom: 56 }}>
               <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#b8974a', marginBottom: 20 }}>Amenities</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px 24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(200px, 100%), 1fr))', gap: '10px 24px' }}>
                 {amenities.map((a) => (
                   <div key={a} style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-tenor)', fontSize: 12, color: '#a0a090' }}>
                     <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#b8974a', flexShrink: 0 }} />
@@ -154,7 +162,7 @@ export default function VillaDetailClient({ villa, descriptionHtml, similar = []
           {beds.length > 0 && (
             <div style={{ marginBottom: 56 }}>
               <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#b8974a', marginBottom: 20 }}>Sleeping arrangements</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(220px, 100%), 1fr))', gap: 12 }}>
                 {beds.map((b, i) => (
                   <div key={i} style={{ border: '1px solid rgba(184,151,74,0.15)', padding: '14px 16px' }}>
                     <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 16, color: '#f5eedd' }}>{b.room}</div>
@@ -170,7 +178,7 @@ export default function VillaDetailClient({ villa, descriptionHtml, similar = []
           {/* Every stay includes */}
           <div style={{ borderTop: '1px solid rgba(184,151,74,0.12)', paddingTop: 40 }}>
             <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#b8974a', marginBottom: 24 }}>Every stay includes</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: 24 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(230px, 100%), 1fr))', gap: 24 }}>
               {STAY_INCLUDES.map((s) => (
                 <div key={s.title}>
                   <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: 19, fontWeight: 300, color: '#f5eedd', marginBottom: 6 }}>{s.title}</div>
@@ -238,7 +246,7 @@ export default function VillaDetailClient({ villa, descriptionHtml, similar = []
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 32 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))', gap: 32 }}>
             {similar.map((sim) => {
               const simRate = displayRate(sim)
               return (
@@ -249,8 +257,9 @@ export default function VillaDetailClient({ villa, descriptionHtml, similar = []
                     onMouseLeave={(e) => { const img = e.currentTarget.querySelector('img'); if (img) img.style.transform = 'scale(1)' }}
                   >
                     {sim.media?.[0]?.url && (
-                      <img src={`/uploads/yachts/${sim.media[0].url}`} alt={sim.media[0].alt || sim.title || 'Villa'} loading="lazy"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.75)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)' }} />
+                      <Image src={`/uploads/yachts/${sim.media[0].url}`} alt={sim.media[0].alt || sim.title || 'Villa'} fill
+                        sizes="(max-width: 760px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        style={{ objectFit: 'cover', filter: 'brightness(0.75)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)' }} />
                     )}
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(6,9,15,0.85) 0%, transparent 60%)', pointerEvents: 'none' }} />
                     <div style={{ position: 'absolute', bottom: 20, left: 24, right: 24 }}>

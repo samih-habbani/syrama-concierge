@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import ReservationModal from './ReservationModal'
 import AvailabilityModal from './AvailabilityModal'
 import ShareButtons from './ShareButtons'
@@ -120,11 +121,13 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
 
       <div className="h-[56vh] md:h-[70vh]" style={{ position: 'relative', overflow: 'hidden', marginTop: 64, background: '#1a1a1a' }}>
         {images.length > 0 && (
-          <img
+          <Image
             src={`/uploads/yachts/${images[imgIndex].url}`}
             alt={images[imgIndex].alt || yacht.model}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.65)' }}
-            loading="eager"
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: 'cover', filter: 'brightness(0.65)' }}
           />
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(6,9,15,0.9) 100%)' }} />
@@ -151,9 +154,9 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
             onClick={() => setImgIndex(i)}
             aria-label={`View photo ${i + 1} of ${images.length}`}
             aria-current={imgIndex === i}
-            style={{ width: 80, height: 56, overflow: 'hidden', cursor: 'pointer', padding: 0, border: 'none', background: 'none', outline: imgIndex === i ? '2px solid #b8974a' : '2px solid transparent', outlineOffset: 2, transition: 'outline-color 0.2s ease', flexShrink: 0 }}
+            style={{ position: 'relative', width: 80, height: 56, overflow: 'hidden', cursor: 'pointer', padding: 0, border: 'none', background: 'none', outline: imgIndex === i ? '2px solid #b8974a' : '2px solid transparent', outlineOffset: 2, transition: 'outline-color 0.2s ease', flexShrink: 0 }}
           >
-            <img src={`/uploads/yachts/${img.url}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: imgIndex === i ? 'brightness(1)' : 'brightness(0.5)', transition: 'filter 0.3s ease' }} loading="lazy" />
+            <Image src={`/uploads/yachts/${img.url}`} alt="" fill sizes="80px" style={{ objectFit: 'cover', filter: imgIndex === i ? 'brightness(1)' : 'brightness(0.5)', transition: 'filter 0.3s ease' }} />
           </button>
         ))}
       </div>
@@ -219,7 +222,7 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 32 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))', gap: 32 }}>
             {similarYachts.map((sim) => (
               <Link key={sim.id} href={yachtHref(sim)} style={{ textDecoration: 'none', display: 'block' }}>
                 <div
@@ -234,11 +237,12 @@ export default function YachtDetailClient({ yacht, similarYachts = [] }: YachtDe
                   }}
                 >
                   {sim.media?.[0]?.url && (
-                    <img
+                    <Image
                       src={`/uploads/yachts/${sim.media[0].url}`}
                       alt={sim.media[0].alt || sim.model}
-                      loading="lazy"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.75)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)' }}
+                      fill
+                      sizes="(max-width: 760px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      style={{ objectFit: 'cover', filter: 'brightness(0.75)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)' }}
                     />
                   )}
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(6,9,15,0.85) 0%, transparent 60%)', pointerEvents: 'none' }} />

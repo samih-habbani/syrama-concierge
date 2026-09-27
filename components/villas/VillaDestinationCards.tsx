@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, cubicBezier } from 'framer-motion'
 import { regionLabel } from '@/lib/property-format'
 
@@ -62,11 +63,12 @@ export default function VillaDestinationCards() {
                   onMouseLeave={(e) => { const img = e.currentTarget.querySelector('img'); if (img) img.style.transform = 'scale(1)' }}
                 >
                   {dest.image ? (
-                    <img
+                    <Image
                       src={dest.image}
                       alt={label}
-                      loading="lazy"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.6)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)' }}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      style={{ objectFit: 'cover', filter: 'brightness(0.6)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)' }}
                     />
                   ) : (
                     <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(120% 100% at 30% 15%, rgba(184,151,74,0.18), transparent 60%), linear-gradient(150deg, #10151d, #0a0d12 70%)' }} />

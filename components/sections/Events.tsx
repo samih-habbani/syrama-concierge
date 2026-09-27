@@ -1,6 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import Image from 'next/image'
 import { PrimaryCta, GhostCta } from '@/components/shared/Cta'
 
 export function Events() {
@@ -69,12 +70,13 @@ export function Events() {
             viewport={{ once: true }}
           >
             <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/5' }}>
-              <img
+              <Image
                 src="/assets/iconic-events.webp"
                 alt="Grand Prix Monaco — Iconic Events"
-                loading="lazy"
+                fill
+                sizes="(max-width: 900px) 100vw, 33vw"
                 style={{
-                  width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center',
+                  objectFit: 'cover', objectPosition: 'center',
                   filter: 'brightness(0.7) contrast(1.1)',
                   transition: 'transform 1.2s cubic-bezier(0.25,0.1,0,1)',
                 }}
@@ -101,12 +103,13 @@ export function Events() {
               viewport={{ once: true }}
               style={{ position: 'relative', overflow: 'hidden', aspectRatio: '1/1' }}
             >
-              <img
+              <Image
                 src="/assets/champion-access.webp"
                 alt="Private tennis champion access"
-                loading="lazy"
+                fill
+                sizes="(max-width: 900px) 100vw, 33vw"
                 style={{
-                  width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top',
+                  objectFit: 'cover', objectPosition: 'center top',
                   filter: 'brightness(0.6) contrast(1.1)',
                   transition: 'transform 1.2s cubic-bezier(0.25,0.1,0,1)',
                 }}
@@ -127,12 +130,13 @@ export function Events() {
               viewport={{ once: true }}
               style={{ position: 'relative', overflow: 'hidden', aspectRatio: '1/1' }}
             >
-              <img
+              <Image
                 src="/assets/private-sport-takeover.webp"
                 alt="Private night skiing with helicopter"
-                loading="lazy"
+                fill
+                sizes="(max-width: 900px) 100vw, 33vw"
                 style={{
-                  width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center',
+                  objectFit: 'cover', objectPosition: 'center',
                   filter: 'brightness(0.65) contrast(1.1)',
                   transition: 'transform 1.2s cubic-bezier(0.25,0.1,0,1)',
                 }}
@@ -156,12 +160,13 @@ export function Events() {
             viewport={{ once: true }}
           >
             <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/5' }}>
-              <img
+              <Image
                 src="/assets/unique-experience.webp"
                 alt="Skydiving over the pyramids"
-                loading="lazy"
+                fill
+                sizes="(max-width: 900px) 100vw, 33vw"
                 style={{
-                  width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center',
+                  objectFit: 'cover', objectPosition: 'center',
                   filter: 'brightness(0.65) contrast(1.1)',
                   transition: 'transform 1.2s cubic-bezier(0.25,0.1,0,1)',
                 }}

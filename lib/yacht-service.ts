@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { prisma } from './prisma'
 import type { Prisma } from '@prisma/client'
 
@@ -148,7 +149,7 @@ export interface YachtDetail {
 // to build the full "all info we have" spec sheet on a sale yacht's page),
 // and its full media gallery (unlike getYachts()/getSimilarYachts(), which
 // only take a thumbnail for card display).
-export async function getYachtById(id: number): Promise<YachtDetail | null> {
+export const getYachtById = cache(async (id: number): Promise<YachtDetail | null> => {
   const rows = await prisma.$queryRaw<(Omit<YachtDetail, 'media'> & { media: YachtDetail['media'] | null })[]>`
     SELECT
       y.id, y.model, y.builder, y.length, y.max_guests as "maxGuests",
@@ -174,7 +175,7 @@ export async function getYachtById(id: number): Promise<YachtDetail | null> {
     ...rows[0],
     media: rows[0].media || []
   })
-}
+})
 
 interface SimilarYachtRow {
   id: number

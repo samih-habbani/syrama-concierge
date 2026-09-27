@@ -2,6 +2,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function Aviation() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -31,9 +32,12 @@ export function Aviation() {
           ref={imageRef}
           style={{ y: imageY, position: 'absolute', inset: '-10%', overflow: 'hidden' }}
         >
-          <img
+          <Image
             src="/assets/Jet.webp"
             alt="Intérieur jet privé ultra-luxe"
+            width={2000}
+            height={1333}
+            sizes="(max-width: 900px) 100vw, 50vw"
             style={{ width: '100%', height: '120%', objectFit: 'cover', objectPosition: 'center top', filter: 'brightness(0.75) contrast(1.05)' }}
           />
           {/* Gold overlay */}

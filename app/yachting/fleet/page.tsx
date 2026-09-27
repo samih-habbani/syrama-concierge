@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import YachtingNav from '@/components/yachting/YachtingNav'
 import FleetWrapper from '@/components/yachting/FleetWrapper'
+import { FleetHeader } from '@/components/yachting/FleetHeader'
 import { SiteFooter } from '@/components/shared/SiteFooter'
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd'
 
@@ -8,9 +9,26 @@ export const metadata: Metadata = {
   title: 'Our Charter Fleet',
   description: 'Browse our curated fleet of luxury yachts for charter. Filter by destination, budget, guests and length to find the right vessel. Curated by Syrama Dubai.',
   alternates: { canonical: '/yachting/fleet' },
+  openGraph: {
+    title: 'Our Charter Fleet · Syrama',
+    description: 'Browse our curated fleet of luxury yachts for charter, filterable by destination, budget, guests and length.',
+    url: 'https://www.syrama.ae/yachting/fleet',
+    images: ['/opengraph-image'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Our Charter Fleet · Syrama',
+    description: 'Browse our curated fleet of luxury yachts for charter, filterable by destination, budget, guests and length.',
+    images: ['/opengraph-image'],
+  },
 }
 
-export default function FleetPage() {
+export default async function FleetPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ region?: string }>
+}) {
+  const { region } = await searchParams
   return (
     <div style={{ background: '#06090f', minHeight: '100vh' }}>
       <BreadcrumbJsonLd items={[
@@ -20,6 +38,7 @@ export default function FleetPage() {
       ]} />
       <YachtingNav back={{ href: '/yachting', label: 'Destinations' }} />
       <main id="main-content" style={{ paddingTop: 64 }}>
+        <FleetHeader region={region} />
         <FleetWrapper />
       </main>
       <SiteFooter />

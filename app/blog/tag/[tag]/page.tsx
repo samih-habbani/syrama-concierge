@@ -16,11 +16,22 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ tag: string }> }): Promise<Metadata> {
   const { tag } = await params
   const canonical = tagFromSlug(tag)
+  const title = `#${canonical} — Journal`
+  const description = hashtagBlurb(canonical) ?? `Articles tagged #${canonical} in the Syrama Journal.`
   return {
-    title: `#${canonical} — Journal`,
-    description: hashtagBlurb(canonical) ?? `Articles tagged #${canonical} in the Syrama Journal.`,
+    title,
+    description,
     alternates: { canonical: `/blog/tag/${tagSlug(canonical)}` },
-    openGraph: { url: `https://www.syrama.ae/blog/tag/${tagSlug(canonical)}` },
+    openGraph: {
+      url: `https://www.syrama.ae/blog/tag/${tagSlug(canonical)}`,
+      images: ['/opengraph-image'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/opengraph-image'],
+    },
   }
 }
 

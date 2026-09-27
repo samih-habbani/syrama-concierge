@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { prisma } from './prisma'
 
 // Rental villas live in the `property` table (for_sale = false). Media links
@@ -66,7 +67,7 @@ export interface PropertyDetail extends PropertyCard {
   mapIframeSrc: string | null
 }
 
-export async function getPropertyById(id: number): Promise<PropertyDetail | null> {
+export const getPropertyById = cache(async (id: number): Promise<PropertyDetail | null> => {
   const rows = await prisma.$queryRaw<RawCard<PropertyDetail>[]>`
     SELECT
       p.id, p.title, p.description, p.city, p.zip_code as "zipCode", p.region, p.type,
@@ -85,7 +86,7 @@ export async function getPropertyById(id: number): Promise<PropertyDetail | null
 
   if (!rows || rows.length === 0) return null
   return { ...rows[0], media: rows[0].media || [] }
-}
+})
 
 export async function getSimilarProperties(
   property: { id: number; region: string | null; bedrooms: number | null },

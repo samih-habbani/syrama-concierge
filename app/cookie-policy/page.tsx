@@ -3,8 +3,20 @@ import { LegalPage, LegalList } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
   title: 'Cookie Policy',
-  description: 'How syrama.ae uses cookies and how to manage them.',
+  description: 'How syrama.ae uses cookies to run the site, remember preferences and measure traffic — which types we set, and how to manage or disable them in your browser.',
   alternates: { canonical: '/cookie-policy' },
+  openGraph: {
+    title: 'Cookie Policy · Syrama',
+    description: 'How syrama.ae uses cookies, and how to manage or disable them.',
+    url: 'https://www.syrama.ae/cookie-policy',
+    images: ['/opengraph-image'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cookie Policy · Syrama',
+    description: 'How syrama.ae uses cookies, and how to manage or disable them.',
+    images: ['/opengraph-image'],
+  },
 }
 
 export default function CookiePolicyPage() {

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { useModalA11y } from '@/lib/useModalA11y'
 
 interface AvailabilityModalProps {
@@ -123,12 +124,14 @@ export default function AvailabilityModal({ isOpen, onClose, yacht }: Availabili
 
         <div className="overflow-y-auto min-h-0 p-6 sm:p-10">
           {yacht.imageUrl && (
-            <div className="w-full h-36 sm:h-44 rounded-lg overflow-hidden mb-6">
-              <img
+            <div className="relative w-full h-36 sm:h-44 rounded-lg overflow-hidden mb-6">
+              <Image
                 src={yacht.imageUrl}
                 alt={yacht.model}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
                 style={{ filter: 'brightness(0.75)' }}
+                sizes="(max-width: 640px) 100vw, 448px"
               />
             </div>
           )}

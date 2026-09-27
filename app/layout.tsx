@@ -22,7 +22,7 @@ const tenor = Tenor_Sans({
 const SITE_URL = 'https://www.syrama.ae'
 const SITE_NAME = 'Syrama · Dubai Private Concierge'
 const DESCRIPTION =
-  'Syrama is a Dubai private concierge for HNWI clients — private aviation, ultra-luxury villas, superyacht charters, iconic events and bespoke requests, arranged within hours with absolute discretion.'
+  'Syrama is a Dubai private concierge for HNWI clients — private aviation, villas, yachting, events and bespoke requests, arranged with absolute discretion.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

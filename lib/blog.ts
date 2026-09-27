@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { prisma } from './prisma'
 import { Marked } from 'marked'
 import { categoryLabel, tagSlug } from './blog-taxonomy'
@@ -70,12 +71,12 @@ export async function getAllSlugs(): Promise<string[]> {
   }
 }
 
-export async function getPost(slug: string): Promise<BlogPost | null> {
+export const getPost = cache(async (slug: string): Promise<BlogPost | null> => {
   const row = await prisma.blogPost.findUnique({ where: { slug } })
   if (!row) return null
   if (!row.published && process.env.NODE_ENV === 'production') return null
   return shape(row)
-}
+})
 
 function summarise(p: BlogPost): BlogPostSummary {
   const { contentHtml: _h, contentText: _t, ...rest } = p

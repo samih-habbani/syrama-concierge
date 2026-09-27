@@ -1,6 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import Image from 'next/image'
 import { ContactForm } from '@/components/shared/ContactForm'
 
 export function Contact() {
@@ -115,12 +116,13 @@ export function Contact() {
               </svg>
             </div>
             {/* Photo */}
-            <img
+            <Image
               src="/assets/sam-habbani.jpg"
               alt="Sam Habbani — Founder Syrama"
+              fill
+              sizes="420px"
               style={{
-                width: '100%', height: '100%', minHeight: 500, objectFit: 'cover', objectPosition: 'center top',
-                display: 'block',
+                objectFit: 'cover', objectPosition: 'center top',
                 filter: 'brightness(0.6) contrast(1.1) saturate(0.85)',
               }}
             />

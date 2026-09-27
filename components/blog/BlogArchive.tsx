@@ -44,9 +44,10 @@ export function BlogArchive({
           </p>
         )}
 
+        <h2 className="sr-only">Articles</h2>
         <div className="hp-villa-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'clamp(28px, 4vw, 44px)' }}>
-          {posts.map((p) => (
-            <ArticleCard key={p.slug} post={p} />
+          {posts.map((p, i) => (
+            <ArticleCard key={p.slug} post={p} priority={i === 0} />
           ))}
         </div>
 

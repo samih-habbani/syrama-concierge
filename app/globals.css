@@ -256,6 +256,15 @@ html[data-lux-cursor] * {
   .hp-nav-inner { padding: 18px 22px !important; }
 }
 
+/* ---- Sub-page nav (villas/rentals, yachting/fleet) ----
+   Logo + "← Destinations" + "Contact Us" no longer fit on one line under
+   ~430px and this nav never wraps, causing horizontal body scroll. The
+   back-link is redundant with the logo (already linked home), so it's the
+   one dropped. */
+@media (max-width: 480px) {
+  .yn-back { display: none; }
+}
+
 /* ---- Hero ---- */
 @media (max-width: 900px) {
   .hp-hero-video { width: 100% !important; }

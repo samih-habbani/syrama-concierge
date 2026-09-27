@@ -7,12 +7,19 @@ import VillaDestinationCards from '@/components/villas/VillaDestinationCards'
 export const metadata: Metadata = {
   title: 'Luxury Villa Rentals — Destinations',
   description:
-    'Explore luxury villa rental destinations — French Riviera, Saint-Tropez, Ibiza, Mykonos, Courchevel, Paris, Italy, Greece, the Caribbean and more. Fully staffed, inspected and prepared before arrival. Curated by Syrama Dubai.',
+    'Explore our luxury villa rental destinations — French Riviera, Ibiza, Mykonos, Courchevel, Italy and the Caribbean, each fully staffed and prepared before arrival.',
   alternates: { canonical: '/villas' },
   openGraph: {
     title: 'Luxury Villa Rentals · Syrama Dubai',
     description: 'Handpicked ultra-luxury villas and residences across the Mediterranean and beyond — fully staffed.',
     url: 'https://www.syrama.ae/villas',
+    images: ['/opengraph-image'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Luxury Villa Rentals · Syrama Dubai',
+    description: 'Handpicked ultra-luxury villas and residences across the Mediterranean and beyond — fully staffed.',
+    images: ['/opengraph-image'],
   },
 }
 

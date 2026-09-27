@@ -11,6 +11,13 @@ export const metadata: Metadata = {
     description:
       'Charter a private jet from Dubai — sourced within the hour, absolute discretion.',
     url: 'https://www.syrama.ae/jet',
+    images: ['/assets/Jet.webp'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Private Jet Charter · Syrama Jet Finder',
+    description: 'Charter a private jet from Dubai — sourced within the hour, absolute discretion.',
+    images: ['/assets/Jet.webp'],
   },
 }
 

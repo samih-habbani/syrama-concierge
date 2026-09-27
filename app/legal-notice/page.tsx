@@ -3,8 +3,20 @@ import { LegalPage } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
   title: 'Legal Notice',
-  description: 'Legal notice for syrama.ae — publisher, hosting and intellectual property information.',
+  description: 'Legal notice for syrama.ae — publisher identity, hosting provider, intellectual property terms and liability information for Syrama Concierge Services, Dubai.',
   alternates: { canonical: '/legal-notice' },
+  openGraph: {
+    title: 'Legal Notice · Syrama',
+    description: 'Publisher identity, hosting provider and intellectual property information for syrama.ae.',
+    url: 'https://www.syrama.ae/legal-notice',
+    images: ['/opengraph-image'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Legal Notice · Syrama',
+    description: 'Publisher identity, hosting provider and intellectual property information for syrama.ae.',
+    images: ['/opengraph-image'],
+  },
 }
 
 export default function LegalNoticePage() {

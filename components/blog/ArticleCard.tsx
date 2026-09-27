@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import type { BlogPostSummary } from '@/lib/blog'
 
 function formatDate(iso: string): string {
@@ -14,13 +15,15 @@ export function ArticleCard({ post, priority = false }: { post: BlogPostSummary;
         style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
       >
         <div className="article-card-frame" style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/2', marginBottom: 22 }}>
-          <img
+          <Image
             className="article-card-img"
             src={post.heroImage}
             alt={post.heroAlt}
-            loading={priority ? 'eager' : 'lazy'}
+            fill
+            priority={priority}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             style={{
-              width: '100%', height: '100%', objectFit: 'cover',
+              objectFit: 'cover',
               filter: 'brightness(0.78)',
               transition: 'transform 0.9s cubic-bezier(0.25,0.1,0,1)',
             }}

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Navbar } from '@/components/sections/Navbar'
 import { ContactForm } from '@/components/shared/ContactForm'
 import { SiteFooter } from '@/components/shared/SiteFooter'
@@ -25,7 +26,7 @@ export default async function EventsPage() {
 
         {/* Hero */}
         <div style={{ position: 'relative', height: '80vh', overflow: 'hidden' }}>
-          <img src="/assets/iconic-events.webp" alt="" aria-hidden="true" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.28)' }} />
+          <Image src="/assets/iconic-events.webp" alt="" aria-hidden="true" fill priority sizes="100vw" style={{ objectFit: 'cover', filter: 'brightness(0.28)' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(6,9,15,0.2) 0%, rgba(6,9,15,0.85) 100%)' }} />
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 'clamp(32px,6vw,96px)', paddingBottom: 'clamp(48px,7vw,100px)', paddingTop: 120 }}>
             <div>

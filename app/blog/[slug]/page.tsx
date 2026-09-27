@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Navbar } from '@/components/sections/Navbar'
 import { SiteFooter } from '@/components/shared/SiteFooter'
@@ -87,11 +88,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <main id="main-content" style={{ flex: 1 }}>
         {/* Hero photo */}
         <div style={{ position: 'relative', width: '100%', height: 'clamp(46vh, 60vw, 70vh)', overflow: 'hidden' }}>
-          <img
+          <Image
             src={post.heroImage}
             alt={post.heroAlt}
-            loading="eager"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.5)' }}
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: 'cover', filter: 'brightness(0.5)' }}
           />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(6,9,15,0.5) 0%, rgba(6,9,15,0.2) 40%, var(--noir) 100%)' }} />
         </div>

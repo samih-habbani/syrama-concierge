@@ -3,9 +3,20 @@ import { notFound, permanentRedirect } from 'next/navigation'
 import { getYachtById, getSimilarYachts } from '@/lib/yacht-service'
 import YachtDetailClient from '@/components/yachting/YachtDetailClient'
 import { idFromSlug, yachtHref } from '@/lib/slug'
+import { seoTitle } from '@/lib/seo-text'
 
 export const revalidate = 86400
 export const dynamicParams = true
+
+// Required for `revalidate` to take effect at all: without a
+// generateStaticParams export (even one returning an empty array), Next
+// treats every request as fully dynamic and never caches the rendered
+// page via ISR. The ~360 charter yachts are numerous enough (and change
+// often enough) that prerendering them at build time isn't worth it —
+// the first visit to each slug renders on demand and is then cached.
+export function generateStaticParams() {
+  return []
+}
 
 const SITE_URL = 'https://www.syrama.ae'
 
@@ -16,7 +27,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!yacht) return { title: 'Yacht Not Found' }
 
   const canonicalPath = yachtHref(yacht)
-  const title = `${yacht.model}${yacht.builder ? ` by ${yacht.builder}` : ''} — ${yacht.length}m Charter Yacht`
+  const modelName = `${yacht.model}${yacht.builder ? ` by ${yacht.builder}` : ''}`
+  const title = seoTitle(modelName, `${yacht.length}m Charter Yacht`)
   const description = `Charter the ${yacht.model}${yacht.builder ? ` by ${yacht.builder}` : ''}, a ${yacht.length}m yacht${yacht.maxGuests ? ` for up to ${yacht.maxGuests} guests` : ''}${yacht.region ? ` in ${yacht.region}` : ''}. Request availability with Syrama Dubai.`
   const imageUrl = yacht.media?.[0]?.url ? `/uploads/yachts/${yacht.media[0].url}` : undefined
 
@@ -32,6 +44,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       url: `${SITE_URL}${canonicalPath}`,
       images: imageUrl ? [{ url: imageUrl }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
     },
   }
 }

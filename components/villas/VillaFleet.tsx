@@ -2,6 +2,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import VillaFilters, { VillaFilterState } from './VillaFilters'
 import VillaAvailabilityModal from './VillaAvailabilityModal'
@@ -157,35 +158,11 @@ export default function VillaFleet({ showFilters = true, limit }: VillaFleetProp
   }
 
   return (
-    <section style={{ background: '#06090f', minHeight: '100vh', paddingTop: 80, paddingBottom: 80 }}>
+    <section style={{ background: '#06090f', minHeight: '100vh', paddingBottom: 80 }}>
       <div style={{ paddingLeft: 'clamp(32px, 6vw, 96px)', paddingRight: 'clamp(32px, 6vw, 96px)' }}>
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: 60 }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
-            <div style={{ width: 32, height: 1, background: '#b8974a' }} />
-            <span style={{ fontFamily: 'var(--font-tenor)', fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#b8974a' }}>Villa Collection</span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'end', marginBottom: 40 }}>
-            <div>
-              <h1 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(48px, 6vw, 88px)', lineHeight: 1.0, color: '#f5eedd', margin: 0 }}>Our residences.</h1>
-              {filters.region && (
-                <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#b8974a', margin: '12px 0 0 0' }}>
-                  {regionLabel(filters.region)}
-                </p>
-              )}
-            </div>
-            <div>
-              <p style={{ fontFamily: 'var(--font-tenor)', fontSize: 13, lineHeight: 1.9, color: '#8f8f7f', margin: '0 0 20px' }}>Handpicked villas, chalets and residences for rent. Every property is inspected and staffed, ready for your arrival.</p>
-            </div>
-          </div>
-        </motion.div>
+        {/* Header is server-rendered in page.tsx (VillaFleetHeader) so the
+            <h1> is present in the initial HTML regardless of this client
+            component's Suspense/hydration timing. */}
 
         {showFilters && (
           <VillaFilters
@@ -200,7 +177,7 @@ export default function VillaFleet({ showFilters = true, limit }: VillaFleetProp
         )}
 
         {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 40, marginBottom: 80 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(360px, 100%), 1fr))', gap: 40, marginBottom: 80 }}>
           {loading ? (
             <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px' }}>
               <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 14, color: '#b8974a' }}>Loading villas...</div>
@@ -236,11 +213,12 @@ export default function VillaFleet({ showFilters = true, limit }: VillaFleetProp
                       }}
                     >
                       {villa.media?.[0]?.url && (
-                        <img
+                        <Image
                           src={`/uploads/yachts/${villa.media[0].url}`}
                           alt={villa.media?.[0]?.alt || villa.title || 'Villa'}
-                          loading="lazy"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.75)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)', cursor: 'pointer' }}
+                          fill
+                          sizes="(max-width: 760px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          style={{ objectFit: 'cover', filter: 'brightness(0.75)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)', cursor: 'pointer' }}
                         />
                       )}
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(6,9,15,0.85) 0%, transparent 60%)', pointerEvents: 'none' }} />

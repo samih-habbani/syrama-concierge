@@ -4,6 +4,7 @@ import { getPropertyById, getSimilarProperties } from '@/lib/property-service'
 import VillaDetailClient from '@/components/villas/VillaDetailClient'
 import { idFromSlug, propertyHref, propertySlug } from '@/lib/slug'
 import { sanitizeDescription, displayRate, regionLabel } from '@/lib/property-format'
+import { seoTitle } from '@/lib/seo-text'
 
 export const revalidate = 86400
 export const dynamicParams = true
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const canonicalPath = propertyHref(villa)
   const where = [villa.city, villa.region ? regionLabel(villa.region) : null].filter(Boolean).join(', ')
-  const title = `${villa.title}${where ? ` — ${where}` : ''}`
+  const title = seoTitle(villa.title || 'Villa', where)
   const description = `Rent ${villa.title}${villa.bedrooms ? `, a ${villa.bedrooms}-bedroom ${(villa.type || 'villa').toLowerCase()}` : ''}${where ? ` in ${where}` : ''}${villa.maxGuests ? ` for up to ${villa.maxGuests} guests` : ''}. Request availability with Syrama Dubai.`
   const imageUrl = villa.media?.[0]?.url ? `/uploads/yachts/${villa.media[0].url}` : undefined
 
@@ -48,6 +49,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       url: `${SITE_URL}${canonicalPath}`,
       images: imageUrl ? [{ url: imageUrl }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
     },
   }
 }

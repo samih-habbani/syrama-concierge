@@ -1,11 +1,16 @@
 'use client'
 
 import { motion, cubicBezier } from 'framer-motion'
+import Image from 'next/image'
 
 // Same easing/number-treatment language already established on the site
 // (see components/Experiences.tsx and components/sections/HowItWorks.tsx) —
 // reused here so this section reads as part of the same design system.
 const EASE = cubicBezier(0.25, 0.1, 0, 1)
+
+// framer-motion needs to own the animated element directly, so next/image
+// is wrapped rather than left as a plain <motion.img src=.../>.
+const MotionImage = motion(Image)
 
 interface YachtExperienceJourneyProps {
   // Reuses the exact same modal triggers as the "Request charter" / "WhatsApp us"
@@ -36,14 +41,16 @@ function PanelVisual({ src, tone, imagePosition = 'center' }: { src?: string; to
   return (
     <div style={{ position: 'relative', overflow: 'hidden', width: '100%', height: '100%', background: '#0a0d12' }}>
       {src ? (
-        <motion.img
+        <MotionImage
           src={src}
           alt=""
+          fill
+          sizes="(max-width: 1024px) 100vw, 58vw"
           initial={{ opacity: 0, scale: 1.12 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.3, ease: EASE }}
           viewport={{ once: true, margin: '-10%' }}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: imagePosition, filter: 'brightness(0.7)' }}
+          style={{ objectFit: 'cover', objectPosition: imagePosition, filter: 'brightness(0.7)' }}
         />
       ) : (
         <motion.div
@@ -148,11 +155,12 @@ function WaterActivityCard({ name, image, delay }: { name: string; image: string
         if (img) img.style.transform = 'scale(1)'
       }}
     >
-      <img
+      <Image
         src={image}
         alt={name}
-        loading="lazy"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.62)', transition: 'transform 1s cubic-bezier(0.25, 0.1, 0, 1)' }}
+        fill
+        sizes="(max-width: 640px) 50vw, 220px"
+        style={{ objectFit: 'cover', filter: 'brightness(0.62)', transition: 'transform 1s cubic-bezier(0.25, 0.1, 0, 1)' }}
       />
       <div
         aria-hidden

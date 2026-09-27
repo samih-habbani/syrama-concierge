@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { useModalA11y } from '@/lib/useModalA11y'
 import { regionLabel } from '@/lib/property-format'
 
@@ -115,8 +116,8 @@ export default function VillaAvailabilityModal({ isOpen, onClose, villa }: Villa
 
         <div className="overflow-y-auto min-h-0 p-6 sm:p-10">
           {villa.imageUrl && (
-            <div className="w-full h-36 sm:h-44 rounded-lg overflow-hidden mb-6">
-              <img src={villa.imageUrl} alt={villa.title} className="w-full h-full object-cover" style={{ filter: 'brightness(0.75)' }} />
+            <div className="relative w-full h-36 sm:h-44 rounded-lg overflow-hidden mb-6">
+              <Image src={villa.imageUrl} alt={villa.title} fill className="object-cover" style={{ filter: 'brightness(0.75)' }} sizes="(max-width: 640px) 100vw, 448px" />
             </div>
           )}
 

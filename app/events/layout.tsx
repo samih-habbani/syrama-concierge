@@ -11,6 +11,13 @@ export const metadata: Metadata = {
     description:
       'VIP access, transfers, accommodation and on-site concierge for the world’s greatest events.',
     url: 'https://www.syrama.ae/events',
+    images: ['/assets/iconic-events.webp'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Iconic & Private Events · Syrama Dubai',
+    description: 'VIP access, transfers, accommodation and on-site concierge for the world’s greatest events.',
+    images: ['/assets/iconic-events.webp'],
   },
 }
 

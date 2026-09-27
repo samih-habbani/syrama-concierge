@@ -17,11 +17,22 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category } = await params
   if (!isCategory(category)) return { title: 'Category not found', robots: { index: false, follow: true } }
   const label = categoryLabel(category)
+  const title = `${label} — Journal`
+  const description = categoryBlurb(category) ?? `${label} articles from the Syrama Journal.`
   return {
-    title: `${label} — Journal`,
-    description: categoryBlurb(category) ?? `${label} articles from the Syrama Journal.`,
+    title,
+    description,
     alternates: { canonical: `/blog/category/${category}` },
-    openGraph: { url: `https://www.syrama.ae/blog/category/${category}` },
+    openGraph: {
+      url: `https://www.syrama.ae/blog/category/${category}`,
+      images: ['/opengraph-image'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/opengraph-image'],
+    },
   }
 }
 

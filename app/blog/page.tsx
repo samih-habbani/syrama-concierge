@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Navbar } from '@/components/sections/Navbar'
 import { SiteFooter } from '@/components/shared/SiteFooter'
 import { BreadcrumbJsonLd, BlogJsonLd } from '@/components/seo/JsonLd'
@@ -16,6 +17,13 @@ export const metadata: Metadata = {
     title: 'The Syrama Journal',
     description: 'Event coverage, destination notes and concierge insight from Syrama Dubai.',
     url: 'https://www.syrama.ae/blog',
+    images: ['/opengraph-image'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'The Syrama Journal',
+    description: 'Event coverage, destination notes and concierge insight from Syrama Dubai.',
+    images: ['/opengraph-image'],
   },
 }
 
@@ -81,7 +89,7 @@ export default async function BlogIndexPage() {
             }}
           >
             <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '16/11' }}>
-              <img src={featured.heroImage} alt={featured.heroAlt} loading="eager" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)' }} />
+              <Image src={featured.heroImage} alt={featured.heroAlt} fill priority sizes="(max-width: 1024px) 100vw, 58vw" style={{ objectFit: 'cover', filter: 'brightness(0.8)' }} />
             </div>
             <div>
               <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--or)', marginBottom: 16 }}>

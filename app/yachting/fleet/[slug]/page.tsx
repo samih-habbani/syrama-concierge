@@ -9,6 +9,12 @@ import { idFromSlug, yachtHref } from '@/lib/slug'
 export const revalidate = 86400
 export const dynamicParams = true
 
+// See the sibling charters/[slug] route for why this is required even
+// as an empty array: without it, `revalidate` above is silently ignored.
+export function generateStaticParams() {
+  return []
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const id = idFromSlug(slug)

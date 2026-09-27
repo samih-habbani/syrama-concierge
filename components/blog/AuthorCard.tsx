@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { InstagramGlyph, LinkedInGlyph } from '@/components/shared/SocialGlyphs'
 
 // Sam Habbani's by-line. Appears on every article — and every appearance
@@ -13,12 +14,12 @@ export function AuthorCard({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        <img
+        <Image
           src="/assets/sam-habbani.jpg"
           alt="Sam Habbani"
           width={44}
           height={44}
-          style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', filter: 'grayscale(0.15)' }}
+          style={{ borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', filter: 'grayscale(0.15)' }}
         />
         <div>
           <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 12, letterSpacing: '0.06em', color: 'var(--champagne)' }}>Sam Habbani</div>
@@ -38,12 +39,12 @@ export function AuthorCard({ compact = false }: { compact?: boolean }) {
         background: 'rgba(184,151,74,0.03)',
       }}
     >
-      <img
+      <Image
         src="/assets/sam-habbani.jpg"
         alt="Sam Habbani, founder of Syrama"
         width={84}
         height={84}
-        style={{ width: 84, height: 84, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', flexShrink: 0, filter: 'grayscale(0.15) contrast(1.05)' }}
+        style={{ borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', flexShrink: 0, filter: 'grayscale(0.15) contrast(1.05)' }}
       />
       <div style={{ minWidth: 0 }}>
         <div style={{ fontFamily: 'var(--font-tenor)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--or)', marginBottom: 8 }}>

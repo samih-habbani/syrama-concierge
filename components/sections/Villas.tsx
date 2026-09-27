@@ -2,6 +2,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { propertyHref } from '@/lib/slug'
 import { GhostCta } from '@/components/shared/Cta'
 
@@ -114,13 +115,14 @@ export function Villas() {
             >
               {/* Image */}
               <div className="hp-villa-card__media" style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/4' }}>
-                <img
+                <Image
                   src={villa.img}
                   alt={villa.name}
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 760px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="hp-villa-card__img"
                   style={{
-                    width: '100%', height: '100%', objectFit: 'cover',
+                    objectFit: 'cover',
                     transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)',
                     filter: 'brightness(0.75)',
                   }}
