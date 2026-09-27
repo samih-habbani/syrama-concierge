@@ -69,6 +69,7 @@ export default function DestinationCards() {
                   src={dest.image}
                   alt={dest.label}
                   fill
+                  priority={i === 0}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   style={{
                     objectFit: 'cover',

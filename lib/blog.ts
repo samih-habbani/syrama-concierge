@@ -47,7 +47,11 @@ function shape(row: DbBlogPost): BlogPost {
 
 const publishedWhere = process.env.NODE_ENV === 'production' ? { published: true } : {}
 
-export async function getAllPosts(): Promise<BlogPost[]> {
+// cache()'d because every other listing helper below (summaries, by-category,
+// by-tag, categories-in-use, tags-in-use) funnels through this — without it,
+// a single request to /blog/category/[category] ran this exact query 3
+// times over (once per helper it called).
+export const getAllPosts = cache(async (): Promise<BlogPost[]> => {
   try {
     const rows = await prisma.blogPost.findMany({
       where: publishedWhere,
@@ -59,7 +63,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
     console.error('[blog] getAllPosts failed:', err)
     return []
   }
-}
+})
 
 export async function getAllSlugs(): Promise<string[]> {
   try {

@@ -67,6 +67,7 @@ export default function VillaDestinationCards() {
                       src={dest.image}
                       alt={label}
                       fill
+                      priority={i === 0}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       style={{ objectFit: 'cover', filter: 'brightness(0.6)', transition: 'transform 0.9s cubic-bezier(0.25, 0.1, 0, 1)' }}
                     />

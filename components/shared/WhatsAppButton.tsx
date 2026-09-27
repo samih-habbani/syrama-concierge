@@ -16,7 +16,7 @@ export function WhatsAppButton() {
       className="wa-fab"
     >
       <span className="wa-fab__pulse" aria-hidden="true" />
-      <Image src="/whatsapp.png" alt="" width={56} height={56} className="wa-fab__icon" />
+      <Image src="/whatsapp.png" alt="" width={56} height={56} priority className="wa-fab__icon" />
     </a>
   )
 }

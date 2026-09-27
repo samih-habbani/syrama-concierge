@@ -40,11 +40,15 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const { category } = await params
   if (!isCategory(category)) notFound()
 
-  const posts = await getPostsByCategory(category)
+  const [posts, allCategories, allTags] = await Promise.all([
+    getPostsByCategory(category),
+    getAllCategoriesInUse(),
+    getAllTagsInUse(),
+  ])
   if (posts.length === 0) notFound()
 
-  const otherCategories = (await getAllCategoriesInUse()).filter((c) => c.slug !== category)
-  const tags = (await getAllTagsInUse()).slice(0, 14)
+  const otherCategories = allCategories.filter((c) => c.slug !== category)
+  const tags = allTags.slice(0, 14)
 
   return (
     <>

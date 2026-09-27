@@ -106,6 +106,7 @@ export function Hero() {
             alt=""
             aria-hidden="true"
             fill
+            priority
             sizes="65vw"
             style={{ objectFit: 'cover', objectPosition: 'center', filter: 'brightness(0.7) contrast(1.05) saturate(0.85)' }}
           />

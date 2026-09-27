@@ -38,10 +38,13 @@ export async function generateMetadata({ params }: { params: Promise<{ tag: stri
 export default async function TagPage({ params }: { params: Promise<{ tag: string }> }) {
   const { tag } = await params
   const canonical = tagFromSlug(tag)
-  const posts = await getPostsByTag(canonical)
+  const [posts, allTags] = await Promise.all([
+    getPostsByTag(canonical),
+    getAllTagsInUse(),
+  ])
   if (posts.length === 0) notFound()
 
-  const otherTags = (await getAllTagsInUse()).filter((t) => t.slug !== tagSlug(canonical))
+  const otherTags = allTags.filter((t) => t.slug !== tagSlug(canonical))
 
   return (
     <>
