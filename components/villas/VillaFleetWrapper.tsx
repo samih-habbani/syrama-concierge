@@ -1,9 +1,11 @@
 import { Suspense } from 'react'
 import VillaFleet from './VillaFleet'
+import type { PropertyCard } from '@/lib/property-service'
 
 interface VillaFleetWrapperProps {
   showFilters?: boolean
   limit?: number
+  initialVillas?: PropertyCard[]
 }
 
 function VillaFleetLoading() {
@@ -14,10 +16,10 @@ function VillaFleetLoading() {
   )
 }
 
-export default function VillaFleetWrapper({ showFilters = true, limit }: VillaFleetWrapperProps) {
+export default function VillaFleetWrapper({ showFilters = true, limit, initialVillas }: VillaFleetWrapperProps) {
   return (
     <Suspense fallback={<VillaFleetLoading />}>
-      <VillaFleet showFilters={showFilters} limit={limit} />
+      <VillaFleet showFilters={showFilters} limit={limit} initialVillas={initialVillas} />
     </Suspense>
   )
 }

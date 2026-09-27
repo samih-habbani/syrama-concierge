@@ -7,50 +7,37 @@ import { useSearchParams } from 'next/navigation'
 import FleetFilters, { FilterState } from './FleetFilters'
 import AvailabilityModal from './AvailabilityModal'
 import { yachtHref } from '@/lib/slug'
+import type { getYachts } from '@/lib/yacht-service'
 
-interface Media {
-  id: number
-  url: string | null
-  alt: string | null
-}
-
-interface Yacht {
-  id: number
-  builder: string
-  model: string
-  length: number
-  maxGuests: number | null
-  cabins: number
-  year: number | null
-  region: string | null
-  city: string | null
-  priceDay: number | null
-  priceSale: number | null
-  status: string | null
-  media?: Media[]
-}
+type Yacht = Awaited<ReturnType<typeof getYachts>>[number]
 
 interface FleetProps {
   showFilters?: boolean
   limit?: number
+  // Server-fetched by the page and passed down so the first render already
+  // has data — avoids a second client→server round trip (and the
+  // "Loading yachts..." wait it caused) on top of the one that already
+  // loaded the page itself. Falls back to fetching client-side if omitted.
+  initialYachts?: Yacht[]
 }
 
 const PAGE_SIZE = 12
 
-// Charter-only fleet grid for the concierge site. One network call fetches
-// the whole charter fleet, everything after that (filter / sort / paginate)
-// happens client-side without touching the DB again.
-export default function Fleet({ showFilters = true, limit }: FleetProps) {
+// Charter-only fleet grid for the concierge site. Data normally arrives via
+// `initialYachts` (fetched server-side by the page); everything after that
+// (filter / sort / paginate) is client-side.
+export default function Fleet({ showFilters = true, limit, initialYachts }: FleetProps) {
   const searchParams = useSearchParams()
   const regionParam = searchParams.get('region')
 
-  const [allYachts, setAllYachts] = useState<Yacht[]>([])
-  const [loading, setLoading] = useState(true)
+  const [allYachts, setAllYachts] = useState<Yacht[]>(initialYachts ?? [])
+  const [loading, setLoading] = useState(initialYachts === undefined)
   const [availabilityYacht, setAvailabilityYacht] = useState<Yacht | null>(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const sentinelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (initialYachts !== undefined) return
     const fetchAllYachts = async () => {
       try {
         setLoading(true)
@@ -65,7 +52,7 @@ export default function Fleet({ showFilters = true, limit }: FleetProps) {
       }
     }
     fetchAllYachts()
-  }, [])
+  }, [initialYachts])
 
   const bounds = useMemo(() => {
     const lengths = allYachts.map(y => y.length).filter((v): v is number => typeof v === 'number')

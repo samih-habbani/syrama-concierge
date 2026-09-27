@@ -1,9 +1,11 @@
 import { Suspense } from 'react'
 import Fleet from './Fleet'
+import type { getYachts } from '@/lib/yacht-service'
 
 interface FleetWrapperProps {
   showFilters?: boolean
   limit?: number
+  initialYachts?: Awaited<ReturnType<typeof getYachts>>
 }
 
 function FleetLoading() {
@@ -14,10 +16,10 @@ function FleetLoading() {
   )
 }
 
-export default function FleetWrapper({ showFilters = true, limit }: FleetWrapperProps) {
+export default function FleetWrapper({ showFilters = true, limit, initialYachts }: FleetWrapperProps) {
   return (
     <Suspense fallback={<FleetLoading />}>
-      <Fleet showFilters={showFilters} limit={limit} />
+      <Fleet showFilters={showFilters} limit={limit} initialYachts={initialYachts} />
     </Suspense>
   )
 }

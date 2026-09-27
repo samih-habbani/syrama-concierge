@@ -13,23 +13,30 @@ import type { PropertyCard } from '@/lib/property-service'
 interface VillaFleetProps {
   showFilters?: boolean
   limit?: number
+  // Server-fetched by the page and passed down so the first render already
+  // has data — avoids a second client→server round trip (and the
+  // "Loading villas..." wait it caused) on top of the one that already
+  // loaded the page itself. Falls back to fetching client-side if omitted.
+  initialVillas?: PropertyCard[]
 }
 
 const PAGE_SIZE = 12
 
-// Villa list for the concierge site. One network call fetches every rental
-// villa, everything after that (filter / sort / paginate) is client-side.
-export default function VillaFleet({ showFilters = true, limit }: VillaFleetProps) {
+// Villa list for the concierge site. Data normally arrives via
+// `initialVillas` (fetched server-side by the page); everything after that
+// (filter / sort / paginate) is client-side.
+export default function VillaFleet({ showFilters = true, limit, initialVillas }: VillaFleetProps) {
   const searchParams = useSearchParams()
   const regionParam = searchParams.get('region')
 
-  const [all, setAll] = useState<PropertyCard[]>([])
-  const [loading, setLoading] = useState(true)
+  const [all, setAll] = useState<PropertyCard[]>(initialVillas ?? [])
+  const [loading, setLoading] = useState(initialVillas === undefined)
   const [inquiryVilla, setInquiryVilla] = useState<PropertyCard | null>(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const sentinelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (initialVillas !== undefined) return
     const fetchAll = async () => {
       try {
         setLoading(true)
@@ -44,7 +51,7 @@ export default function VillaFleet({ showFilters = true, limit }: VillaFleetProp
       }
     }
     fetchAll()
-  }, [])
+  }, [initialVillas])
 
   const bounds = useMemo(() => {
     const beds = all.map(v => v.bedrooms).filter((v): v is number => typeof v === 'number')

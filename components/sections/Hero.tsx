@@ -1,9 +1,11 @@
 'use client'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useSkipHeavyVideo } from '@/lib/useSkipHeavyVideo'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -28,6 +30,7 @@ export function Hero() {
   const videoScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1, 1.08])
   const videoOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
   const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 60])
+  const skipVideo = useSkipHeavyVideo()
 
   // Rotating words
   useEffect(() => {
@@ -97,22 +100,34 @@ export function Hero() {
           opacity: videoOpacity,
         }}
       >
-        <video
-          ref={videoRef}
-          src="/assets/presentation-web.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden="true"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
-            filter: 'brightness(0.7) contrast(1.05) saturate(0.85)',
-          }}
-        />
+        {skipVideo ? (
+          <Image
+            src="/assets/hero-poster.webp"
+            alt=""
+            aria-hidden="true"
+            fill
+            sizes="65vw"
+            style={{ objectFit: 'cover', objectPosition: 'center', filter: 'brightness(0.7) contrast(1.05) saturate(0.85)' }}
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src="/assets/presentation-web.mp4"
+            poster="/assets/hero-poster.webp"
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              filter: 'brightness(0.7) contrast(1.05) saturate(0.85)',
+            }}
+          />
+        )}
 
         {/* Shadow trail — wide left-to-right blend */}
         <div

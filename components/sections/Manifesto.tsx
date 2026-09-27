@@ -1,7 +1,10 @@
 'use client'
 import { useRef } from 'react'
+import Image from 'next/image'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { GhostCta } from '@/components/shared/Cta'
+import { useSkipHeavyVideo } from '@/lib/useSkipHeavyVideo'
+import { useMinWidth } from '@/lib/useMinWidth'
 
 export function Manifesto() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -9,6 +12,11 @@ export function Manifesto() {
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
   const videoScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1, 1.06])
   const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [30, -30])
+  const skipVideo = useSkipHeavyVideo()
+  // CSS already hides this panel below 900px (.hp-manifesto-video) — this
+  // stops the browser from ever fetching the video file on mobile at all,
+  // instead of downloading and autoplaying it invisibly.
+  const isDesktop = useMinWidth(901)
 
   const words = "We don't manage requests. We create moments that redefine what you thought was possible.".split(' ')
 
@@ -37,17 +45,31 @@ export function Manifesto() {
           scale: videoScale,
         }}
       >
-        <video
-          src="/assets/networking-web.mp4"
-          autoPlay muted loop playsInline aria-hidden
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center center',
-            filter: 'brightness(0.8) contrast(1.05) saturate(0.85)',
-          }}
-        />
+        {isDesktop && (
+          skipVideo ? (
+            <Image
+              src="/assets/manifesto-poster.webp"
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="42vw"
+              style={{ objectFit: 'cover', objectPosition: 'center center', filter: 'brightness(0.8) contrast(1.05) saturate(0.85)' }}
+            />
+          ) : (
+            <video
+              src="/assets/networking-web.mp4"
+              poster="/assets/manifesto-poster.webp"
+              autoPlay muted loop playsInline aria-hidden
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center center',
+                filter: 'brightness(0.8) contrast(1.05) saturate(0.85)',
+              }}
+            />
+          )
+        )}
 
         {/* Shadow trail — right edge of video → blends into noir */}
         <div
